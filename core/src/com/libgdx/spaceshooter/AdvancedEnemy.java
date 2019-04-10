@@ -1,12 +1,8 @@
 package com.libgdx.spaceshooter;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.Arrays;
 
 
 public class AdvancedEnemy extends GameObject {
@@ -39,7 +35,7 @@ public class AdvancedEnemy extends GameObject {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(Assets.getInstance().textureRegions[0],position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+        batch.draw(Assets.getInstance().advancedETexRegions[0],position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
     }
 
     @Override
@@ -47,8 +43,7 @@ public class AdvancedEnemy extends GameObject {
         int directionX = 1;
         int directionY = 0;
 
-        position.x += directionX * speed.x * delta;
-        position.y += directionY * speed.y* delta;
+        move();
 
 
     }
@@ -78,6 +73,8 @@ public class AdvancedEnemy extends GameObject {
 
     public void move()
     {
-
+        int i=0;
+        float t=0;
+        position = position.interpolate(waypoints[i],t, Interpolation.linear);
     }
 }

@@ -9,10 +9,16 @@ public class Assets {
     private static Assets instance = null;
     public TextureAtlas player;
     public TextureRegion[] playerTexRegions;
-    
-
     public Animation<TextureRegion> bankLeft;
     public Animation<TextureRegion> bankRight;
+
+    public TextureAtlas simpleEnemy;
+    public TextureRegion[] simpleETexRegions;
+
+    public TextureAtlas advancedEnemy;
+    public TextureRegion[] advancedETexRegions;
+
+
 
     private Assets() {
         player = new TextureAtlas("Player.atlas");
