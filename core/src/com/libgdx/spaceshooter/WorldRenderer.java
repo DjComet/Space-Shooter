@@ -1,11 +1,7 @@
 package com.libgdx.spaceshooter;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 import java.util.Iterator;
 
@@ -45,7 +41,7 @@ public class WorldRenderer {
 
         for (int i=0; i<Constants.SPRITE_NUMBER; i++)
         {
-            controller.sprites[i].setRegion(Assets.getInstance().anim.getKeyFrame(elapsedTime));
+            controller.sprites[i].setRegion(Assets.getInstance().bankLeft.getKeyFrame(elapsedTime));
             controller.sprites[i].draw(batch);
         }
         batch.end();

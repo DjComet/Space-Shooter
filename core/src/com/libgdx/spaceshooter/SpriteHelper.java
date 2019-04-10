@@ -24,54 +24,7 @@ public class SpriteHelper {
 
 
 
-    public static Sprite generateSprite(){
-
-        Pixmap pm = new Pixmap(40,40,Pixmap.Format.RGBA8888);
-
-        pm.setColor(1.0f,0.0f,0.0f,1.0f);
-        pm.drawLine(0,0,9,9);
-        pm.drawLine(0,9,9,0);
-        pm.drawRectangle(0,0,10,10);
-
-        Texture t = new Texture(pm);
-
-        Sprite s = new Sprite(t);
-        s.setSize(1,1);
-        s.setPosition(MathUtils.random(-1,1),MathUtils.random(-1,1));
-        s.setOriginCenter();
-
-        return s;
-    }
-
-    public static Sprite generateSprTexture(){
-
-        Texture t = Assets.getInstance().player;
-
-        Sprite s = new Sprite(t);
-        s.setSize(1,1);
-        s.setPosition(1,1);
-        s.setOriginCenter();
-
-        return s;
-    }
-
-    public static Sprite spriteFromTextureRegion(String regionName)
-    {
-
-        TextureAtlas txAtlas = new TextureAtlas("mario/pack1.atlas");
-        TextureRegion txreg = txAtlas.findRegion("mario1");
-        Sprite spr = new Sprite(txreg);
-        spr.setSize(1, 1);
-        spr.setPosition(1, 1);
-        spr.setOriginCenter();
-        return spr;
-    }
-
-
-
-    public static TextureRegion textureFromTextureAtlas(String regionName){
-
-        TextureAtlas txAtlas = new TextureAtlas("mario/pack1.atlas");
+    public static TextureRegion textureFromTextureAtlas(String regionName, TextureAtlas txAtlas){
         TextureRegion txreg = txAtlas.findRegion(regionName);
         return txreg;
     }

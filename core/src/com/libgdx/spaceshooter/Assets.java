@@ -2,24 +2,32 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     private static Assets instance = null;
-    public Texture player;
-    public Texture simpleEnemy;
-    public TextureRegion[] textureRegions;
-    public Animation<TextureRegion> anim;
+    public TextureAtlas player;
+    public TextureRegion[] playerTexRegions;
+    
+
+    public Animation<TextureRegion> bankLeft;
+    public Animation<TextureRegion> bankRight;
+
     private Assets() {
-        player = new Texture("Player.png");
-        simpleEnemy = new Texture("SimpleEnemy.png");
-        textureRegions = new TextureRegion[Constants.TEXREG_NUMBER];
-        for(int i=0; i<Constants.TEXREG_NUMBER; i++)
+        player = new TextureAtlas("Player.atlas");
+        playerTexRegions = new TextureRegion[Constants.PLAYER_TEXREG_NUMBER];
+
+        for(int i = 0; i<Constants.PLAYER_TEXREG_NUMBER; i++)
         {
-            textureRegions[i] = SpriteHelper.textureFromTextureAtlas("mario"+(i+1));
+            playerTexRegions[i] = SpriteHelper.textureFromTextureAtlas("player"+(i), player);
         }
-        anim = new Animation<TextureRegion>(0.1f,textureRegions);
-        anim.setPlayMode(Animation.PlayMode.LOOP);
+
+        bankLeft = new Animation<TextureRegion>(0.1f,playerTexRegions[0],playerTexRegions[1],playerTexRegions[2]);
+        bankLeft.setPlayMode(Animation.PlayMode.REVERSED);
+        bankRight = new Animation<TextureRegion>(0.1f,playerTexRegions[4],playerTexRegions[5],playerTexRegions[6]);
+        bankRight.setPlayMode(Animation.PlayMode.NORMAL);
+
     }
 
     public static Assets getInstance() {
