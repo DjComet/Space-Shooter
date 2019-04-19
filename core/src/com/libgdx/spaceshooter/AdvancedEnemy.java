@@ -35,7 +35,7 @@ public class AdvancedEnemy extends GameObject {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(Assets.getInstance().advancedETexRegions[0],position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+        batch.draw(Assets.getInstance().aeTexRegions[0],position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
     }
 
     @Override

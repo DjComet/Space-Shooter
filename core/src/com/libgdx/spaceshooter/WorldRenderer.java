@@ -41,7 +41,7 @@ public class WorldRenderer {
 
         for (int i=0; i<Constants.SPRITE_NUMBER; i++)
         {
-            controller.sprites[i].setRegion(Assets.getInstance().bankLeft.getKeyFrame(elapsedTime));
+            controller.sprites[i].setRegion(Assets.getInstance().p_bankLeft.getKeyFrame(elapsedTime));
             controller.sprites[i].draw(batch);
         }
         batch.end();

@@ -34,7 +34,7 @@ public class SimpleEnemy extends GameObject {
 
     @Override
     public void draw(SpriteBatch batch) {
-        batch.draw(Assets.getInstance().textureRegions[0], position.x, position.y, 0, 0, width, height, scale.x, scale.y, rotation);
+        batch.draw(Assets.getInstance().seTexRegions[0], position.x, position.y, 0, 0, width, height, scale.x, scale.y, rotation);
     }
 
     @Override

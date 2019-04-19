@@ -3,7 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.sun.corba.se.impl.orbutil.closure.Constant;
+
 
 public class CameraHelper {
     public OrthographicCamera camera;
