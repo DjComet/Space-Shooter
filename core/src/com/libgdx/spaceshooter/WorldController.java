@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
@@ -27,15 +28,11 @@ public class WorldController extends InputAdapter {
     public void init()
     {
 
-        objects.add(new SimpleEnemy(1,1));
-        selectedSprite = 0;
-        sprites = new Sprite[Constants.SPRITE_NUMBER];
-        for (int i = 0; i<sprites.length; i++){
-            sprites[i] = SpriteHelper.spriteFromTextureRegion("mario1");
-        }
+        objects.add(new Player(Constants.VIEWPORT_WIDTH/2, Constants.VIEWPORT_HEIGHT/4));
+
     }
 
-    public void update(float delta){
+    public void update(float deltaTime){
 
         //ch.moveCamera(delta);
         int directionX = 0;
@@ -46,14 +43,14 @@ public class WorldController extends InputAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.W)){directionY = 1;}
         if(Gdx.input.isKeyPressed(Input.Keys.S)){directionY = -1;}
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){ selectedSprite++;}
-        if(Gdx.input.isKeyPressed(Input.Keys.Z)) {ch.zoomIn(delta);}
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)) {ch.zoomIn(deltaTime);}
 
         if( selectedSprite >= sprites.length-1 ) selectedSprite = 0;
 
         float x = sprites[selectedSprite].getX();
         float y = sprites[selectedSprite].getY();
-        x += directionX * delta;
-        y += directionY * delta;
+        x += directionX * deltaTime;
+        y += directionY * deltaTime;
         sprites[selectedSprite].setX(x);
         sprites[selectedSprite].setY(y);
 
@@ -61,7 +58,7 @@ public class WorldController extends InputAdapter {
         for(Iterator<GameObject> iter = objects.iterator(); iter.hasNext();)
         {
             GameObject element = iter.next();
-            element.update(delta);
+            element.update(deltaTime);
         }
 
         ch.followGO(objects.get(0));
