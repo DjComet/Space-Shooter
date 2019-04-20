@@ -2,30 +2,37 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends GameObject {
     public int lives = 5;
     public float maxSpeed = 5f;
+    public float acceleration = 7f;
     public float roll = 0;
     public boolean dead = false;
     public Vector2 speed;
+    public TextureAtlas texAtlas = Assets.getInstance().player;
+    public TextureRegion[] texregs= Assets.getInstance().playerTexRegions;
 
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);
         rotation = 0;
 
 
-        width = Assets.getInstance().playerTexRegions[3].getRegionWidth();
-        height = Assets.getInstance().playerTexRegions[3].getRegionHeight();
+        //width = Assets.getInstance().playerTexRegions[3].getRegionWidth();
+        //height = Assets.getInstance().playerTexRegions[3].getRegionHeight();
 
-        scale.x = 1.0f;
-        scale.y = 1.0f;
+        width= 1;
+        height=1;
 
-        speed.x = 1.0f;
-        speed.y = 1.0f;
+        scale = new Vector2(1,1);
+
+        speed = Vector2.Zero;
     }
 
     @Override
@@ -46,7 +53,13 @@ public class Player extends GameObject {
         else if(Gdx.input.isKeyPressed(Input.Keys.S)) vertical = -1;
         else vertical = 0;
 
-        //doAcceleration
+        Vector2 targetSpeed = new Vector2(maxSpeed * horizontal, maxSpeed * vertical);
+        Vector2 offsetSpeed = targetSpeed.sub(speed);
+        offsetSpeed.x = MathUtils.clamp(offsetSpeed.x, -acceleration * delta, acceleration * delta);
+        offsetSpeed.y = MathUtils.clamp(offsetSpeed.y, -acceleration * delta, acceleration * delta);
+
+        speed.x += offsetSpeed.x;
+        speed.y += offsetSpeed.y;
 
         position.x += horizontal * speed.x * delta;
         position.y += vertical * speed.y* delta;

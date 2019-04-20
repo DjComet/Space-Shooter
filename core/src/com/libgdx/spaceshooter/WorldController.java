@@ -17,6 +17,7 @@ public class WorldController extends InputAdapter {
     public String TAG_KEYS = "KEYS";
     public int selectedSprite;
     public ArrayList<GameObject> objects;
+    public Assets assets = Assets.getInstance();
 
     public WorldController(){
         Gdx.input.setInputProcessor(this);
@@ -38,7 +39,7 @@ public class WorldController extends InputAdapter {
         int directionX = 0;
         int directionY = 0;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){directionX = -1;}
+        /*if(Gdx.input.isKeyPressed(Input.Keys.A)){directionX = -1;}
         if(Gdx.input.isKeyPressed(Input.Keys.D)){directionX = 1;}
         if(Gdx.input.isKeyPressed(Input.Keys.W)){directionY = 1;}
         if(Gdx.input.isKeyPressed(Input.Keys.S)){directionY = -1;}
@@ -52,7 +53,7 @@ public class WorldController extends InputAdapter {
         x += directionX * deltaTime;
         y += directionY * deltaTime;
         sprites[selectedSprite].setX(x);
-        sprites[selectedSprite].setY(y);
+        sprites[selectedSprite].setY(y);*/
 
 
         for(Iterator<GameObject> iter = objects.iterator(); iter.hasNext();)
