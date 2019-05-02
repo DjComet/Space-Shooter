@@ -39,24 +39,22 @@ public class WorldRenderer {
             element.draw(batch);
         }
 
-        for (int i=0; i<Constants.SPRITE_NUMBER; i++)
-        {
-            controller.sprites[i].setRegion(Assets.getInstance().p_bankLeft.getKeyFrame(elapsedTime));
-            controller.sprites[i].draw(batch);
-        }
+
         batch.end();
 
         long elapsed = System.nanoTime() - t0;
 
         float elapsedMs = elapsed / 1000000;
 
-        Gdx.app.debug(TAG_TIME, elapsedMs + "ms - " + batch.maxSpritesInBatch + " - " + batch.renderCalls);
+        //Gdx.app.debug(TAG_TIME, elapsedMs + "ms - " + batch.maxSpritesInBatch + " - " + batch.renderCalls);
 
 
     }
 
     public void resize(int width, int height){
         controller.ch.camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;
+        controller.ch.camera.update();
+        System.out.println("ViewportW: "+controller.ch.camera.viewportWidth + " - ViewportH: "+controller.ch.camera.viewportHeight);
 
     }
 }

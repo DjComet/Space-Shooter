@@ -4,56 +4,56 @@ size: 512,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-Player
+Player0
   rotate: false
   xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
-Player
+Player1
   rotate: false
   xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-Player
+Player2
   rotate: false
   xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
-Player
+Player3
   rotate: false
   xy: 104, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
-Player
+Player4
   rotate: false
   xy: 138, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
-Player
+Player5
   rotate: false
   xy: 172, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
-Player
+Player6
   rotate: false
   xy: 206, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
-Player
+Player7
   rotate: false
   xy: 240, 2
   size: 32, 32

@@ -1,5 +1,7 @@
 package com.libgdx.spaceshooter;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,9 +26,12 @@ public class Assets {
     public TextureAtlas shot;
     public TextureRegion[] shotTexRegions;
 
+    public Texture bg;
+
 
     private Assets() {
 
+        bg = new Texture (Gdx.files.internal("background.jpg"));
         //PLAYER-------------------------------------------------------------------------------------------------------------------------
         player = new TextureAtlas("Player.atlas");
         int playerRegionsNumber = player.getRegions().size;
@@ -35,7 +40,7 @@ public class Assets {
 
         for(int i = 0; i<playerRegionsNumber; i++)
         {
-            playerTexRegions[i] = SpriteHelper.textureFromTextureAtlas("player"+(i), player);
+            playerTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Player"+(i), player);
         }
 
         p_bankLeft = new Animation<TextureRegion>(0.1f,playerTexRegions[0],playerTexRegions[1],playerTexRegions[2]);
@@ -51,7 +56,7 @@ public class Assets {
 
         for(int i = 0; i<seRegionsNumber; i++)
         {
-            seTexRegions[i] = SpriteHelper.textureFromTextureAtlas("simpleEnemy"+(i), simpleEnemy);
+            seTexRegions[i] = SpriteHelper.textureFromTextureAtlas("SimpleEnemy"+(i), simpleEnemy);
         }
 
         se_bankLeft = new Animation<TextureRegion>(0.1f, seTexRegions[0], seTexRegions[1], seTexRegions[2]);
@@ -67,7 +72,7 @@ public class Assets {
 
         for(int i = 0; i<aeRegionsNumber; i++)
         {
-            aeTexRegions[i] = SpriteHelper.textureFromTextureAtlas("advancedEnemy"+(i), advancedEnemy);
+            aeTexRegions[i] = SpriteHelper.textureFromTextureAtlas("AdvancedEnemy"+(i), advancedEnemy);
         }
 
         ae_bankLeft = new Animation<TextureRegion>(0.1f, aeTexRegions[0], aeTexRegions[1], aeTexRegions[2]);
@@ -83,7 +88,7 @@ public class Assets {
 
         for(int i = 0; i<shotRegionsNumber; i++)
         {
-            shotTexRegions[i] = SpriteHelper.textureFromTextureAtlas("shot"+(i), shot);
+            shotTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Shot"+(i), shot);
         }
     }
 

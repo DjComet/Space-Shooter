@@ -4,56 +4,56 @@ size: 512,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-AdvancedEnemy
+AdvancedEnemy0
   rotate: false
   xy: 2, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
-AdvancedEnemy
+AdvancedEnemy1
   rotate: false
   xy: 36, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-AdvancedEnemy
+AdvancedEnemy2
   rotate: false
   xy: 70, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
-AdvancedEnemy
+AdvancedEnemy3
   rotate: false
   xy: 104, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
-AdvancedEnemy
+AdvancedEnemy4
   rotate: false
   xy: 138, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
-AdvancedEnemy
+AdvancedEnemy5
   rotate: false
   xy: 172, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
-AdvancedEnemy
+AdvancedEnemy6
   rotate: false
   xy: 206, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
-AdvancedEnemy
+AdvancedEnemy7
   rotate: false
   xy: 240, 2
   size: 32, 32

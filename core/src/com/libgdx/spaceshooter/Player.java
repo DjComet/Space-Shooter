@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameObject {
     public int lives = 5;
-    public float maxSpeed = 5f;
-    public float acceleration = 7f;
+    public float maxSpeed = 30f;
+    public float acceleration = 80f;
     public float roll = 0;
     public boolean dead = false;
     public Vector2 speed;
@@ -23,12 +25,8 @@ public class Player extends GameObject {
         position = new Vector2(posX, posY);
         rotation = 0;
 
-
-        //width = Assets.getInstance().playerTexRegions[3].getRegionWidth();
-        //height = Assets.getInstance().playerTexRegions[3].getRegionHeight();
-
-        width= 1;
-        height=1;
+        width= 10;
+        height=10;
 
         scale = new Vector2(1,1);
 
@@ -54,16 +52,17 @@ public class Player extends GameObject {
         else vertical = 0;
 
         Vector2 targetSpeed = new Vector2(maxSpeed * horizontal, maxSpeed * vertical);
-        Vector2 offsetSpeed = targetSpeed.sub(speed);
+        Vector2 offsetSpeed = new Vector2(targetSpeed.x - speed.x, targetSpeed.y - speed.y);
         offsetSpeed.x = MathUtils.clamp(offsetSpeed.x, -acceleration * delta, acceleration * delta);
         offsetSpeed.y = MathUtils.clamp(offsetSpeed.y, -acceleration * delta, acceleration * delta);
 
         speed.x += offsetSpeed.x;
         speed.y += offsetSpeed.y;
 
-        position.x += horizontal * speed.x * delta;
-        position.y += vertical * speed.y* delta;
+        position.x += speed.x * delta;
+        position.y += speed.y* delta;
 
+        //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/ maxSpeed;
 
 
@@ -81,11 +80,11 @@ public class Player extends GameObject {
         {
             i=4;
         }
-        else if(roll>0.2f && roll<=0.7f) //Right hand turn
+        else if(roll>0.2f && roll<=0.4f) //Right hand turn
         {
             i=5;
         }
-        else if(roll>0.7)
+        else if(roll>0.4)
         {
             i=6;
         }
@@ -93,11 +92,11 @@ public class Player extends GameObject {
         {
             i=2;
         }
-        else if(roll<-0.2f && roll>=-0.7f) //left hand turn
+        else if(roll<-0.2f && roll>=-0.4f) //left hand turn
         {
             i=1;
         }
-        else if(roll<-0.7)
+        else if(roll<-0.4)
         {
             i=0;
         }
@@ -108,6 +107,8 @@ public class Player extends GameObject {
         }
 
         batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+        //batch.draw(Assets.getInstance().test,0,0,5,5);
+        //batch.draw(texRegionToDraw(3),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
     }
 
     TextureRegion texRegionToDraw(int i)
