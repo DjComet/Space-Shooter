@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ public class WorldController extends InputAdapter {
     public int selectedSprite;
     public ArrayList<GameObject> objects;
     public Assets assets = Assets.getInstance();
+    public Level level1 = new Level(new Background());
 
     public WorldController(){
         Gdx.input.setInputProcessor(this);
@@ -27,25 +29,21 @@ public class WorldController extends InputAdapter {
 
     public void init()
     {
+        level1.Instantiate(new Player(0,0));
 
-        objects.add(new Background());
-        objects.add(new Player(0, 0));
+
+
 
 
     }
 
     public void update(float deltaTime){
 
-        ch.moveCamera(deltaTime);
-
-        for(Iterator<GameObject> iter = objects.iterator(); iter.hasNext();)
-        {
-            GameObject element = iter.next();
-            element.update(deltaTime);
-        }
-
-        ch.followGO(objects.get(1));
+        level1.update(deltaTime);
+        ch.followGO(level1.getPlayer());
 
     }
+
+
 
 }

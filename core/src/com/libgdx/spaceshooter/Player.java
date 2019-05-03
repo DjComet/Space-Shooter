@@ -13,8 +13,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameObject {
     public int lives = 5;
-    public float maxSpeed = 30f;
-    public float acceleration = 80f;
+    public float maxSpeed = 40f;
+    public float acceleration = 100f;
     public float roll = 0;
     public boolean dead = false;
     public Vector2 speed;
@@ -31,6 +31,7 @@ public class Player extends GameObject {
         scale = new Vector2(1,1);
 
         speed = Vector2.Zero;
+        tag = "PLAYER";
     }
 
     @Override
@@ -63,7 +64,7 @@ public class Player extends GameObject {
         position.y += speed.y* delta;
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
-        roll = speed.x/ maxSpeed;
+        roll = speed.x/maxSpeed;
 
 
     }

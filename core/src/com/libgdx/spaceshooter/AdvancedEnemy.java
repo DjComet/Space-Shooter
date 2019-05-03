@@ -32,6 +32,7 @@ public class AdvancedEnemy extends GameObject {
         speed.y = 0f;
 
         createWaypointPath(waypointType);
+        tag = "ENEMY";
     }
 
     @Override

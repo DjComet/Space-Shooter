@@ -29,6 +29,7 @@ public class SimpleEnemy extends GameObject {
         speed.x = 1.0f;
         speed.y = 1.0f;
         texture = new Texture(Gdx.files.internal("SimpleEnemy.png"));
+        tag = "ENEMY";
     }
 
     @Override

@@ -11,8 +11,14 @@ abstract public class GameObject {
     public float rotation;
     public Vector2 scale;
     public float width, height;
+    public String tag;
 
     abstract public void draw(SpriteBatch batch);
     abstract public void update(float delta);
+
+    public Vector2 getCenterPos()
+    {
+        return new Vector2(position.x+ width/2,position.y+ height/2);
+    }
 
 }
