@@ -1,6 +1,7 @@
 package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,8 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
 
-    public float maxSpeed = 5f;
+    public float maxSpeed = 15f;
     public Vector2 speed;
+    public float acceleration = 100f;
     public float roll = 0f;
     public boolean dead = false;
 
@@ -19,7 +21,7 @@ public class SimpleEnemy extends GameObject {
     float realTime;
     float period = 5f;
     float amplitude = 3f;
-    Vector2 direction = Vector2.Zero;
+    Vector2 direction;
 
     public SimpleEnemy(float posX, float posY) {
         position = new Vector2(posX, posY);
@@ -31,7 +33,7 @@ public class SimpleEnemy extends GameObject {
 
         scale = new Vector2(1,1);
 
-        speed = new Vector2(1f, 3f);
+        speed = new Vector2(0f, maxSpeed);
 
         tag = "ENEMY";
     }
@@ -50,18 +52,21 @@ public class SimpleEnemy extends GameObject {
 
 
 
-        direction.x = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;
+        float sine = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;
 
-        direction.x = MathUtils.clamp(direction.x,-1, 1);
+        if(sine<0) direction.x  = -1;
+        else if(sine>0) direction.x  = 1;
+        else direction.x  = 0;
 
+        float targetSpeed = maxSpeed * direction.x;
+        float offsetSpeed = targetSpeed - speed.x;
+        offsetSpeed = MathUtils.clamp(offsetSpeed, -acceleration * delta, acceleration * delta);
+        speed.x += offsetSpeed;
 
-
-
-
-        position.x += speed.x * direction.x * delta;
+        position.x += speed.x * delta;
         position.y += speed.y * direction.y * delta;
 
-        roll = speed.x/maxSpeed;
+        roll = -speed.x/maxSpeed;
 
     }
 

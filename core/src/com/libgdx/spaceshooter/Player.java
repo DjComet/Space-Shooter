@@ -51,6 +51,7 @@ public class Player extends GameObject {
         else if(Gdx.input.isKeyPressed(Input.Keys.S)) vertical = -1;
         else vertical = 0;
 
+        if(vertical<0)maxSpeed = 20f;
         Vector2 targetSpeed = new Vector2(maxSpeed * horizontal, maxSpeed * vertical);
         Vector2 offsetSpeed = new Vector2(targetSpeed.x - speed.x, targetSpeed.y - speed.y);
         offsetSpeed.x = MathUtils.clamp(offsetSpeed.x, -acceleration * delta, acceleration * delta);

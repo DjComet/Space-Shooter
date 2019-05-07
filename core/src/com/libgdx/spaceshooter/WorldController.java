@@ -38,7 +38,7 @@ public class WorldController extends InputAdapter {
     public void init()
     {
         level1.Instantiate(new Player(0,0));
-        level1.Instantiate(new SimpleEnemy(0,50));
+        level1.Instantiate(new SimpleEnemy(0,50000));
 
 
 
