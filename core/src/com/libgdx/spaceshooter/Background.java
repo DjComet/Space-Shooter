@@ -9,8 +9,8 @@ public class Background extends GameObject {
     {
         rotation = 0;
 
-        width= 100;
-        height=100;
+        width= 200;
+        height=1000;
 
         position = new Vector2(-width/2, -height/2);
 
@@ -27,7 +27,8 @@ public class Background extends GameObject {
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(Assets.getInstance().bg,position.x,position.y,width,height);
+
+        batch.draw(Assets.getInstance().tiledBg,position.x,position.y,width,height);
     }
 
 

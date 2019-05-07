@@ -121,6 +121,6 @@ public class AdvancedEnemy extends GameObject {
 
     TextureRegion texRegionToDraw(int i)
     {
-        return Assets.getInstance().playerTexRegions[i];
+        return Assets.getInstance().aeTexRegions[i];
     }
 }

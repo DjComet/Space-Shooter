@@ -18,8 +18,7 @@ public class Player extends GameObject {
     public float roll = 0;
     public boolean dead = false;
     public Vector2 speed;
-    public TextureAtlas texAtlas = Assets.getInstance().player;
-    public TextureRegion[] texregs= Assets.getInstance().playerTexRegions;
+
 
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);

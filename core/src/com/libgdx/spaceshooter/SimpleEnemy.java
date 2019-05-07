@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
@@ -12,23 +13,26 @@ public class SimpleEnemy extends GameObject {
     public Vector2 speed;
     public float roll = 0f;
     public boolean dead = false;
-    private Texture texture;
 
+    float shotTimer = 0f;
+    public float shotInterval = 0.5f;
+    float realTime;
+    float period = 5f;
+    float amplitude = 3f;
+    Vector2 direction = Vector2.Zero;
 
     public SimpleEnemy(float posX, float posY) {
         position = new Vector2(posX, posY);
 
         rotation = 180;
+        direction = new Vector2(0, -1);
+        width = 10;
+        height = 10;
 
-        width = Assets.getInstance().seTexRegions[0].getRegionWidth();
-        height = Assets.getInstance().seTexRegions[0].getRegionHeight();
+        scale = new Vector2(1,1);
 
-        scale.x = 1.0f;
-        scale.y = 1.0f;
+        speed = new Vector2(1f, 3f);
 
-        speed.x = 1.0f;
-        speed.y = 1.0f;
-        texture = new Texture(Gdx.files.internal("SimpleEnemy.png"));
         tag = "ENEMY";
     }
 
@@ -39,17 +43,35 @@ public class SimpleEnemy extends GameObject {
 
     @Override
     public void update(float delta) {
-        Vector2 direction = new Vector2(0, 1);
 
-        position.x += direction.x * speed.x * delta;
-        position.y += direction.y * speed.y * delta;
+
+        realTime += delta;
+        realTime %= period;
+
+
+
+        direction.x = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;
+
+        direction.x = MathUtils.clamp(direction.x,-1, 1);
+
+
+
+
+
+        position.x += speed.x * direction.x * delta;
+        position.y += speed.y * direction.y * delta;
 
         roll = speed.x/maxSpeed;
 
     }
 
-    void shoot() {
+    void shoot(float delta) {
+        shotTimer += delta;
 
+        if(shotTimer>= shotInterval)
+        {
+            //WorldController.instance.level1.Instantiate(new Shot(se,0,0));
+        }
     }
 
     void animateRoll(SpriteBatch batch)
@@ -95,6 +117,6 @@ public class SimpleEnemy extends GameObject {
 
     TextureRegion texRegionToDraw(int i)
     {
-        return Assets.getInstance().playerTexRegions[i];
+        return Assets.getInstance().seTexRegions[i];
     }
 }

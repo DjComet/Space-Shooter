@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class WorldController extends InputAdapter {
 
     public CameraHelper ch;
-
+    public static WorldController instance;
     public String TAG_KEYS = "KEYS";
     public int selectedSprite;
     public ArrayList<GameObject> objects;
@@ -21,6 +21,14 @@ public class WorldController extends InputAdapter {
     public Level level1 = new Level(new Background());
 
     public WorldController(){
+        if(WorldController.instance ==null)
+        {
+            instance = this;
+        }
+        else if(WorldController.instance != this)
+        {
+            WorldController.instance = null;
+        }
         Gdx.input.setInputProcessor(this);
         objects = new ArrayList<GameObject>();
         ch = new CameraHelper();
@@ -30,6 +38,7 @@ public class WorldController extends InputAdapter {
     public void init()
     {
         level1.Instantiate(new Player(0,0));
+        level1.Instantiate(new SimpleEnemy(0,50));
 
 
 

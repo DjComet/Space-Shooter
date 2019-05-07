@@ -15,23 +15,32 @@ public class Assets {
 
     public TextureAtlas simpleEnemy;
     public TextureRegion[] seTexRegions;
-    public Animation<TextureRegion> se_bankLeft;
-    public Animation<TextureRegion> se_bankRight;
+
 
     public TextureAtlas advancedEnemy;
     public TextureRegion[] aeTexRegions;
-    public Animation<TextureRegion> ae_bankLeft;
-    public Animation<TextureRegion> ae_bankRight;
+
 
     public TextureAtlas shot;
     public TextureRegion[] shotTexRegions;
 
     public Texture bg;
-
+    public TextureRegion tiledBg;
 
     private Assets() {
 
-        bg = new Texture (Gdx.files.internal("background.jpg"));
+        bg = new Texture (Gdx.files.internal("WaterTile.png"));
+        bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
+        float bgFactorWidth = bg.getWidth() * 1f;        //this means that my Texture should cover 1 world unit width.
+
+        float bgFactorHeight = bg.getHeight() * 1f;   //this means that my Texture should cover 1 world unit height.
+
+        float widthInWorldUnits = 25;                        //I am creating a world of 25 units width (my viewport width is around 10)
+
+        float heightInWorldUnits = 100;                     //I am creating a world of 100 units height (my viewport height is fixed to 10)
+
+        tiledBg = new TextureRegion(bg, Math.round(widthInWorldUnits*bgFactorWidth),Math.round(heightInWorldUnits*bgFactorHeight));
+
         //PLAYER-------------------------------------------------------------------------------------------------------------------------
         player = new TextureAtlas("Player.atlas");
         int playerRegionsNumber = player.getRegions().size;
@@ -59,10 +68,7 @@ public class Assets {
             seTexRegions[i] = SpriteHelper.textureFromTextureAtlas("SimpleEnemy"+(i), simpleEnemy);
         }
 
-        se_bankLeft = new Animation<TextureRegion>(0.1f, seTexRegions[0], seTexRegions[1], seTexRegions[2]);
-        se_bankLeft.setPlayMode(Animation.PlayMode.REVERSED);
-        se_bankRight = new Animation<TextureRegion>(0.1f, seTexRegions[4], seTexRegions[5], seTexRegions[6]);
-        se_bankRight.setPlayMode(Animation.PlayMode.NORMAL);
+
 
         //ADVANCED ENEMY-------------------------------------------------------------------------------------------------------------------------------
 
@@ -75,10 +81,6 @@ public class Assets {
             aeTexRegions[i] = SpriteHelper.textureFromTextureAtlas("AdvancedEnemy"+(i), advancedEnemy);
         }
 
-        ae_bankLeft = new Animation<TextureRegion>(0.1f, aeTexRegions[0], aeTexRegions[1], aeTexRegions[2]);
-        ae_bankLeft.setPlayMode(Animation.PlayMode.REVERSED);
-        ae_bankRight = new Animation<TextureRegion>(0.1f, aeTexRegions[4], aeTexRegions[5], aeTexRegions[6]);
-        ae_bankRight.setPlayMode(Animation.PlayMode.NORMAL);
 
         //SHOT--------------------------------------------------------------------------------------------------------------------------------
 
