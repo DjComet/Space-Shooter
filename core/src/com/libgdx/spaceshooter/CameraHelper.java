@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 public class CameraHelper {
     public OrthographicCamera camera;
     public String TAG_CAMERA = "CAMERA";
-    private float maxDistanceToPlayer = 10f;
+    private float maxDistanceToPlayer = 20f;
 
 
     public CameraHelper(){
@@ -41,7 +41,7 @@ public class CameraHelper {
         //keep the camera within a certain distance to the player
         if(Math.abs(camera.position.x - goCenterPos.x) > maxDistanceToPlayer)
         {
-            if(direction.x >0)
+            if(direction.x > 0)
                 camera.position.x = goCenterPos.x + maxDistanceToPlayer;
             else
                 camera.position.x = goCenterPos.x -maxDistanceToPlayer;
@@ -49,12 +49,14 @@ public class CameraHelper {
 
         if(Math.abs(camera.position.y - goCenterPos.y) > maxDistanceToPlayer)
         {
-            if(direction.y >0)
+            if(direction.y > 0)
                 camera.position.y = goCenterPos.y + maxDistanceToPlayer;
             else
                 camera.position.y = goCenterPos.y - maxDistanceToPlayer;
         }
 
+        //camera.position.x = MathUtils.clamp(camera.position.x, -bg.width/2 + camera.width, bg.width/2 - width );
+        //camera.position.y = MathUtils.clamp(camera.position.y, -bg.height/2 + camera.height, bg.height/2 - height);
 
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.x " + (go.position.x));
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.y" + (go.position.y));

@@ -19,6 +19,8 @@ public class WorldController extends InputAdapter {
     public ArrayList<GameObject> objects;
     public Assets assets = Assets.getInstance();
     public Level level1 = new Level(new Background());
+    float seTimer = 0f;
+    float aeTimer = 0f;
 
     public WorldController(){
         if(WorldController.instance ==null)
@@ -38,17 +40,21 @@ public class WorldController extends InputAdapter {
     public void init()
     {
         level1.Instantiate(new Player(0,0));
-        level1.Instantiate(new SimpleEnemy(0,50000));
-
-
-
-
+        for(int i = 0; i<10; i++)
+        level1.Instantiate(new SimpleEnemy(-level1.background.width/2 + (float)Math.random()*level1.background.width +1,80));
 
     }
 
     public void update(float deltaTime){
 
         level1.update(deltaTime);
+
+
+
+
+
+
+
         ch.followGO(level1.getPlayer());
 
     }

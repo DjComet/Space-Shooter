@@ -37,7 +37,7 @@ public class Assets {
 
         float widthInWorldUnits = 25;                        //I am creating a world of 25 units width (my viewport width is around 10)
 
-        float heightInWorldUnits = 100;                     //I am creating a world of 100 units height (my viewport height is fixed to 10)
+        float heightInWorldUnits = 25;                     //I am creating a world of 100 units height (my viewport height is fixed to 10)
 
         tiledBg = new TextureRegion(bg, Math.round(widthInWorldUnits*bgFactorWidth),Math.round(heightInWorldUnits*bgFactorHeight));
 

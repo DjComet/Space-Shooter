@@ -13,24 +13,26 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameObject {
     public int lives = 5;
-    public float maxSpeed = 40f;
-    public float acceleration = 100f;
+    public float maxSpeed = 20f;
+    public float acceleration = 80f;
     public float roll = 0;
     public boolean dead = false;
     public Vector2 speed;
+    public GameObject bg;
 
 
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);
         rotation = 0;
 
-        width= 10;
-        height=10;
+        width= 7;
+        height=7;
 
         scale = new Vector2(1,1);
 
         speed = Vector2.Zero;
         tag = "PLAYER";
+
     }
 
     @Override
@@ -42,7 +44,7 @@ public class Player extends GameObject {
     public void update(float delta) {
         int horizontal = 0;
         int vertical = 0;
-
+        bg = WorldController.instance.level1.gameObjects.get(0);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) horizontal = -1;
         else if(Gdx.input.isKeyPressed(Input.Keys.D)) horizontal = 1;
         else horizontal = 0;
@@ -51,7 +53,7 @@ public class Player extends GameObject {
         else if(Gdx.input.isKeyPressed(Input.Keys.S)) vertical = -1;
         else vertical = 0;
 
-        if(vertical<0)maxSpeed = 20f;
+
         Vector2 targetSpeed = new Vector2(maxSpeed * horizontal, maxSpeed * vertical);
         Vector2 offsetSpeed = new Vector2(targetSpeed.x - speed.x, targetSpeed.y - speed.y);
         offsetSpeed.x = MathUtils.clamp(offsetSpeed.x, -acceleration * delta, acceleration * delta);
@@ -60,8 +62,13 @@ public class Player extends GameObject {
         speed.x += offsetSpeed.x;
         speed.y += offsetSpeed.y;
 
+
+
         position.x += speed.x * delta;
         position.y += speed.y* delta;
+
+        position.x = MathUtils.clamp(position.x, -bg.width/2 + width, bg.width/2 - width );
+        position.y = MathUtils.clamp(position.y, -bg.height/2 + height, bg.height/2 - height);
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;

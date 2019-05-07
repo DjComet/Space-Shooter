@@ -11,8 +11,8 @@ public class Background extends GameObject {
     {
         rotation = 0;
 
-        width= 200;
-        height=1000;
+        width = 200;
+        height = 200;
 
         position = new Vector2(-width/2, -height/2);
 
@@ -35,7 +35,7 @@ public class Background extends GameObject {
 
         tr.setRegionX(tr.getRegionX()+amountX);
 
-        //after modifying the X coordinate, the width of the TextureRegion has shrink (it has the same value as before the change) so we need to manually update it.
+        //after modifying the X coordinate, the width of the TextureRegion has shrunk (it has the same value as before the change) so we need to manually update it.
 
         tr.setRegionWidth(tr.getRegionWidth()+amountX);
 

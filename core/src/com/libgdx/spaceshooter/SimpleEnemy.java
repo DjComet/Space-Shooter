@@ -19,8 +19,8 @@ public class SimpleEnemy extends GameObject {
     float shotTimer = 0f;
     public float shotInterval = 0.5f;
     float realTime;
-    float period = 5f;
-    float amplitude = 3f;
+    float period = 1f;
+    float amplitude = 1f;
     Vector2 direction;
 
     public SimpleEnemy(float posX, float posY) {
@@ -28,12 +28,12 @@ public class SimpleEnemy extends GameObject {
 
         rotation = 180;
         direction = new Vector2(0, -1);
-        width = 10;
-        height = 10;
+        width = 7;
+        height = 7;
 
         scale = new Vector2(1,1);
 
-        speed = new Vector2(0f, maxSpeed);
+        speed = new Vector2(0f, maxSpeed-5f);
 
         tag = "ENEMY";
     }

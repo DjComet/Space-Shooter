@@ -12,8 +12,10 @@ public class Level {
     public ArrayList<GameObject> playerGos;
     public ArrayList<GameObject> enemyGos;
     public ArrayList<GameObject> defaultGos;
-
     public ArrayList<GameObject> gameObjects;
+
+    public float seInterval = 2f;
+    public float aeInterval = 5f;
 
 
     public Level(GameObject bg)
@@ -83,8 +85,12 @@ public class Level {
 
     void centerObject(int index)
     {
-        if(index< gameObjects.size())
-            gameObjects.get(index).position = new Vector2(-gameObjects.get(1).getCenterPos().x,-gameObjects.get(1).getCenterPos().y);
+        System.out.println("Index of object being centered: "+index);
+        if(index < gameObjects.size())
+        {
+            gameObjects.get(index).position = new Vector2(gameObjects.get(index).position.x-gameObjects.get(index).width/2,gameObjects.get(index).position.y-gameObjects.get(index).width/2);
+            System.out.println("position of centered object: " + gameObjects.get(index).position);
+        }
         else
             System.out.println("The index is out of bounds");
     }

@@ -18,7 +18,7 @@ abstract public class GameObject {
 
     public Vector2 getCenterPos()
     {
-        return new Vector2(position.x+ width/2,position.y+ height/2);
+        return new Vector2(this.position.x+ width/2,this.position.y+ height/2);
     }
 
 }
