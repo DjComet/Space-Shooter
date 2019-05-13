@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
@@ -17,11 +18,14 @@ public class SimpleEnemy extends GameObject {
     public boolean dead = false;
 
     float shotTimer = 0f;
-    public float shotInterval = 0.5f;
+    public float shotInterval = 1.5f;
     float realTime;
     float period = 1f;
     float amplitude = 1f;
     Vector2 direction;
+    Vector2 shootingPosL;
+    Vector2 shootingPosR;
+    public float shotSpeed = 10f;
 
     public SimpleEnemy(float posX, float posY) {
         position = new Vector2(posX, posY);
@@ -34,6 +38,9 @@ public class SimpleEnemy extends GameObject {
         scale = new Vector2(1,1);
 
         speed = new Vector2(0f, maxSpeed-5f);
+
+        shootingPosL = new Vector2(-3,2);
+        shootingPosR = new Vector2( 3,2);
 
         tag = "ENEMY";
     }
@@ -52,7 +59,7 @@ public class SimpleEnemy extends GameObject {
 
 
 
-        float sine = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;
+        float sine = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;//Movimiento armónico simple
 
         if(sine<0) direction.x  = -1;
         else if(sine>0) direction.x  = 1;
@@ -67,7 +74,7 @@ public class SimpleEnemy extends GameObject {
         position.y += speed.y * direction.y * delta;
 
         roll = -speed.x/maxSpeed;
-
+        //shoot(delta);
     }
 
     void shoot(float delta) {
@@ -75,7 +82,9 @@ public class SimpleEnemy extends GameObject {
 
         if(shotTimer>= shotInterval)
         {
-            //WorldController.instance.level1.Instantiate(new Shot(se,0,0));
+            WorldController.instance.level1.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
+            WorldController.instance.level1.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
+
         }
     }
 
@@ -86,10 +95,13 @@ public class SimpleEnemy extends GameObject {
         if(roll ==0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
         {
             i = 3;
+            shootingPosL = new Vector2(-3,2);
+            shootingPosR = new Vector2( 3,2);
         }
         else if(roll>0 && roll<=0.2f)
         {
             i=4;
+
         }
         else if(roll>0.2f && roll<=0.7f) //Right hand turn
         {

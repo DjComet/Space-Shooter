@@ -50,11 +50,6 @@ public class WorldController extends InputAdapter {
         level1.update(deltaTime);
 
 
-
-
-
-
-
         ch.followGO(level1.getPlayer());
 
     }

@@ -29,14 +29,22 @@ public class Level {
 
     public void update(float deltaTime)
     {
-        for(Iterator<GameObject> iter = gameObjects.iterator(); iter.hasNext();)
-        {
+        Iterator<GameObject> iter = gameObjects.iterator();
+        while (iter.hasNext()){
+
             GameObject element = iter.next();
+
             element.update(deltaTime);
+
+
         }
 
 
+
+
+
     }
+
     public void refresh()
     {
         gameObjects.clear();
@@ -81,6 +89,7 @@ public class Level {
         refresh();
         centerObject(gameObjects.size()-1);
 
+
     }
 
     void centerObject(int index)
@@ -97,7 +106,7 @@ public class Level {
 
     public GameObject getPlayer()
     {
-        return gameObjects.get(1);
+        return playerGos.get(0);
     }
 
 }

@@ -2,14 +2,11 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+
 
 public class Player extends GameObject {
     public int lives = 5;
@@ -20,6 +17,11 @@ public class Player extends GameObject {
     public Vector2 speed;
     public GameObject bg;
 
+    float shotTimer = 0f;
+    public float shotInterval = 0.5f;
+    Vector2 shootingPosL;
+    Vector2 shootingPosR;
+    public float shotSpeed = 10f;
 
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);
@@ -32,6 +34,10 @@ public class Player extends GameObject {
 
         speed = Vector2.Zero;
         tag = "PLAYER";
+
+        shootingPosL = new Vector2(-3,2);
+        shootingPosR = new Vector2( 3,2);
+
 
     }
 
@@ -65,15 +71,26 @@ public class Player extends GameObject {
 
 
         position.x += speed.x * delta;
-        position.y += speed.y* delta;
+        position.y += speed.y * delta;
 
         position.x = MathUtils.clamp(position.x, -bg.width/2 + width, bg.width/2 - width );
         position.y = MathUtils.clamp(position.y, -bg.height/2 + height, bg.height/2 - height);
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;
+        shoot(delta);
 
 
+    }
+    void shoot(float delta) {
+        shotTimer += delta;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shotTimer>= shotInterval)
+        {
+            WorldController.instance.level1.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
+            WorldController.instance.level1.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
+            shotTimer = 0f;
+        }
     }
 
     void animateRoll(SpriteBatch batch)
