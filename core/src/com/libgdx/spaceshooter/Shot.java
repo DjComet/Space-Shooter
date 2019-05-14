@@ -58,28 +58,28 @@ public class Shot extends GameObject{
 
            if(this.tag =="PLAYER")
            {
-                Iterator<GameObject> iter = WorldController.instance.levels.playerGos.iterator();
+                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().playerGos.iterator();
                 while (iter.hasNext())
                 {
                     GameObject element = iter.next();
                     if(element == this)
                     {
-                       WorldController.instance.levels.playerGos.remove(element);
-                       WorldController.instance.levels.refresh();
+                       WorldController.instance.getCurrentLevel().playerGos.remove(element);
+                       WorldController.instance.getCurrentLevel().refresh();
                     }
                 }
             }
 
             if(this.tag =="ENEMY")
             {
-                Iterator<GameObject> iter = WorldController.instance.levels.enemyGos.iterator();
+                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
                 while (iter.hasNext())
                 {
                     GameObject element = iter.next();
                     if(element == this)
                     {
-                        WorldController.instance.levels.enemyGos.remove(element);
-                        WorldController.instance.levels.refresh();
+                        WorldController.instance.getCurrentLevel().enemyGos.remove(element);
+                        WorldController.instance.getCurrentLevel().refresh();
                     }
                 }
             }

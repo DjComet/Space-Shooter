@@ -33,7 +33,7 @@ public class WorldRenderer {
 
         batch.begin();
 
-        for(Iterator<GameObject> iter = controller.levels.gameObjects.iterator(); iter.hasNext();)
+        for(Iterator<GameObject> iter = controller.getCurrentLevel().gameObjects.iterator(); iter.hasNext();)
         {
             GameObject element = iter.next();
             element.draw(batch);

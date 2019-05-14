@@ -78,8 +78,8 @@ public class SimpleEnemy extends GameObject {
 
         if(shotTimer>= shotInterval)
         {
-            WorldController.instance.levels.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
-            WorldController.instance.levels.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
 
         }
     }

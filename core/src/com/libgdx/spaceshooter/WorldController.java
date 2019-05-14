@@ -10,7 +10,7 @@ public class WorldController extends InputAdapter {
     public CameraHelper ch;
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
-    public ArrayList<Level> levels;
+    public ArrayList<Level> levels = new ArrayList<Level>();
     public int currentLevel = 0;
     float seTimer = 0f;
     float aeTimer = 0f;

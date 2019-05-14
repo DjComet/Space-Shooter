@@ -16,6 +16,7 @@ public class WaveManager {
 
     public WaveManager()
     {
+        waves = new ArrayList<Wave>();
         //create the waves here based on difficulty and totalWaves parameter
 
             generateLevelWaves();

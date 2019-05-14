@@ -21,7 +21,7 @@ public class Player extends GameObject {
     public float shotInterval = 0.1f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 10f;
+    public float shotSpeed = 40f;
 
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);
