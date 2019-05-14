@@ -4,15 +4,18 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Level {
 
     //initialize and refresh gameobjects, rendering and updating.
     public GameObject background;
-    public ArrayList<GameObject> playerGos;
-    public ArrayList<GameObject> enemyGos;
-    public ArrayList<GameObject> defaultGos;
-    public ArrayList<GameObject> gameObjects;
+    public CopyOnWriteArrayList<GameObject> playerGos;
+    public CopyOnWriteArrayList<GameObject> enemyGos;
+    public CopyOnWriteArrayList<GameObject> defaultGos;
+    public CopyOnWriteArrayList<GameObject> gameObjects;
+
+    public WaveManager waveM;
 
     public float seInterval = 2f;
     public float aeInterval = 5f;
@@ -21,10 +24,19 @@ public class Level {
     public Level(GameObject bg)
     {
         background = bg;
-        playerGos = new ArrayList<GameObject>();
-        enemyGos = new ArrayList<GameObject>();
-        defaultGos = new ArrayList<GameObject>();
-        gameObjects = new ArrayList<GameObject>();
+        playerGos = new CopyOnWriteArrayList<GameObject>();
+        enemyGos = new CopyOnWriteArrayList<GameObject>();
+        defaultGos = new CopyOnWriteArrayList<GameObject>();
+        gameObjects = new CopyOnWriteArrayList<GameObject>();
+
+        switch(WorldController.instance.currentLevel)
+        {
+            case 0: waveM = new WaveManager();
+            break;
+
+            case 1: waveM = new WaveManager();
+
+        }
     }
 
     public void update(float deltaTime)
@@ -38,11 +50,6 @@ public class Level {
 
 
         }
-
-
-
-
-
     }
 
     public void refresh()
@@ -54,9 +61,9 @@ public class Level {
         gameObjects = combine(gameObjects, defaultGos);
     }
 
-    public ArrayList<GameObject> combine(ArrayList<GameObject> a, ArrayList<GameObject> b){
+    public CopyOnWriteArrayList<GameObject> combine(CopyOnWriteArrayList<GameObject> a, CopyOnWriteArrayList<GameObject> b){
         //int length = a.size() + b.size();
-        ArrayList<GameObject> result = new ArrayList<GameObject>();
+        CopyOnWriteArrayList<GameObject> result = new CopyOnWriteArrayList<GameObject>();
         for(int i = 0; i < a.size(); i++)
         {
             result.add(a.get(i));
@@ -85,8 +92,8 @@ public class Level {
             defaultGos.add(gameObject);
         }
 
-
         refresh();
+
         centerObject(gameObjects.size()-1);
 
 
@@ -106,7 +113,7 @@ public class Level {
 
     public GameObject getPlayer()
     {
-        return playerGos.get(0);
+        return gameObjects.get(1);
     }
 
 }

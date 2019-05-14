@@ -14,11 +14,11 @@ public class Player extends GameObject {
     public float acceleration = 80f;
     public float roll = 0;
     public boolean dead = false;
-    public Vector2 speed;
+    private Vector2 speed;
     public GameObject bg;
 
     float shotTimer = 0f;
-    public float shotInterval = 0.5f;
+    public float shotInterval = 0.1f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
     public float shotSpeed = 10f;
@@ -32,7 +32,7 @@ public class Player extends GameObject {
 
         scale = new Vector2(1,1);
 
-        speed = Vector2.Zero;
+        speed = new Vector2(0f,0f);
         tag = "PLAYER";
 
         shootingPosL = new Vector2(-3,2);
@@ -50,7 +50,7 @@ public class Player extends GameObject {
     public void update(float delta) {
         int horizontal = 0;
         int vertical = 0;
-        bg = WorldController.instance.level1.gameObjects.get(0);
+        bg = WorldController.instance.levels.get().gameObjects.get(0);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) horizontal = -1;
         else if(Gdx.input.isKeyPressed(Input.Keys.D)) horizontal = 1;
         else horizontal = 0;
@@ -70,6 +70,7 @@ public class Player extends GameObject {
 
 
 
+
         position.x += speed.x * delta;
         position.y += speed.y * delta;
 
@@ -78,6 +79,7 @@ public class Player extends GameObject {
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;
+
         shoot(delta);
 
 
@@ -87,8 +89,8 @@ public class Player extends GameObject {
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shotTimer>= shotInterval)
         {
-            WorldController.instance.level1.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
-            WorldController.instance.level1.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
+            WorldController.instance.levels.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
+            WorldController.instance.levels.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
     }

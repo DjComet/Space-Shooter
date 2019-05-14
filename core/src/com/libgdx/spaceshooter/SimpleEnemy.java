@@ -1,12 +1,8 @@
 package com.libgdx.spaceshooter;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
@@ -82,8 +78,8 @@ public class SimpleEnemy extends GameObject {
 
         if(shotTimer>= shotInterval)
         {
-            WorldController.instance.level1.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
-            WorldController.instance.level1.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
+            WorldController.instance.levels.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
+            WorldController.instance.levels.Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
 
         }
     }

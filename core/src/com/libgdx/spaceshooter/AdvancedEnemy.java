@@ -28,8 +28,7 @@ public class AdvancedEnemy extends GameObject {
         scale.x = 1.0f;
         scale.y = 1.0f;
 
-        speed.x = 0f;
-        speed.y = 0f;
+        speed = new Vector2(0f,0f);
 
         createWaypointPath(waypointType);
         tag = "ENEMY";

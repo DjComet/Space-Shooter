@@ -3,12 +3,15 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Iterator;
+
 
 public class Shot extends GameObject{
     public int damage;
     public ShotType shotType;
-
-    private Vector2 speed = Vector2.Zero;
+    float lifeTimer = 0f;
+    float lifeTime = 2f;
+    private Vector2 speed = new Vector2(0f,0f);
 
 
 
@@ -45,9 +48,51 @@ public class Shot extends GameObject{
     @Override
     public void update(float delta) {
 
-        position.x += this.speed.x * delta;
-        position.y += this.speed.y * delta;
+        position.x += speed.x * delta;
+        position.y += speed.y * delta;
+
+        lifeTimer += delta;
+
+        if(lifeTimer>lifeTime)
+        {
+
+           if(this.tag =="PLAYER")
+           {
+                Iterator<GameObject> iter = WorldController.instance.levels.playerGos.iterator();
+                while (iter.hasNext())
+                {
+                    GameObject element = iter.next();
+                    if(element == this)
+                    {
+                       WorldController.instance.levels.playerGos.remove(element);
+                       WorldController.instance.levels.refresh();
+                    }
+                }
+            }
+
+            if(this.tag =="ENEMY")
+            {
+                Iterator<GameObject> iter = WorldController.instance.levels.enemyGos.iterator();
+                while (iter.hasNext())
+                {
+                    GameObject element = iter.next();
+                    if(element == this)
+                    {
+                        WorldController.instance.levels.enemyGos.remove(element);
+                        WorldController.instance.levels.refresh();
+                    }
+                }
+            }
 
 
+
+
+
+
+
+
+
+
+        }
     }
 }
