@@ -50,7 +50,7 @@ public class Player extends GameObject {
     public void update(float delta) {
         int horizontal = 0;
         int vertical = 0;
-        bg = WorldController.instance.levels.get().gameObjects.get(0);
+        bg = WorldController.instance.getCurrentLevel().gameObjects.get(0);
         if(Gdx.input.isKeyPressed(Input.Keys.A)) horizontal = -1;
         else if(Gdx.input.isKeyPressed(Input.Keys.D)) horizontal = 1;
         else horizontal = 0;
@@ -89,8 +89,8 @@ public class Player extends GameObject {
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shotTimer>= shotInterval)
         {
-            WorldController.instance.levels.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
-            WorldController.instance.levels.Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
     }

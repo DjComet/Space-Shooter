@@ -34,10 +34,10 @@ public class WorldController extends InputAdapter {
         levels.add(new Level(new Background()));//Level 0
         levels.add(new Level(new Background()));//Level 1
 
-        levels.get(currentLevel).Instantiate(new Player(0,0));
+        getCurrentLevel().Instantiate(new Player(0,0));
         //levels.Instantiate(new Shot(ShotType.PLNORMAL, 0,0,30, 10, 0));
         for(int i = 0; i<10; i++)
-            levels.get(currentLevel).Instantiate(new SimpleEnemy(-levels.get(currentLevel).background.width/2 + (float)Math.random()* levels.get(currentLevel).background.width +1,80));
+            getCurrentLevel().Instantiate(new SimpleEnemy(-getCurrentLevel().background.width/2 + (float)Math.random()* getCurrentLevel().background.width +1,80));
 
     }
 
@@ -50,6 +50,10 @@ public class WorldController extends InputAdapter {
 
     }
 
+    public Level getCurrentLevel()
+    {
+        return levels.get(currentLevel);
+    }
 
 
 }

@@ -14,6 +14,23 @@ public class Wave {
         typeOfShip = type;
     }
 
+    public void SpawnWave()
+    {
+        for (int i = 0; i < numberOfEnemies; i++)
+        {
+            switch (typeOfShip)
+            {
+                case simple:
+                    WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(0,0));
+                    break;
+                case advanced:
+                    WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(0,0, AdvancedEnemy.WaypointType.curveL));
+                    break;
+            }
+        }
+
+    }
+
 
 
 }
