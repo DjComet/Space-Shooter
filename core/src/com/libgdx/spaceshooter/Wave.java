@@ -16,6 +16,7 @@ public class Wave {
 
     public void SpawnWave()
     {
+        //somehow the time at which each wave spawns must be available
         for (int i = 0; i < numberOfEnemies; i++)
         {
             switch (typeOfShip)

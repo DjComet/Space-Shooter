@@ -13,6 +13,7 @@ public class WaveManager {
     int shipSwitchInterval;
 
     int specialWaveCount =0;
+    float currentTime = 0f;
 
     public WaveManager()
     {
@@ -26,6 +27,7 @@ public class WaveManager {
 
     void generateLevelWaves()
     {
+
         for (int i = 0; i<totalWaves;i++)
         {
             specialWaveCount ++;
@@ -35,20 +37,42 @@ public class WaveManager {
                 case 1:
                     enemies = 1 + (int) Math.random() * 5;//1 to 5 enemies
                     timeBetween = 2 + (float) Math.random() * 5;//2 to 5 seconds between waves
-                    shipSwitchInterval = 4 + (int) Math.random() * 7;//4 to seven rounds of simple enemies between one round of advanced enemies
+                    shipSwitchInterval = 5 + (int) Math.random() * 7;//4 to seven rounds of simple enemies between one round of advanced enemies
+                    break;
+
+                case 2:
+                    enemies = 3 + (int) Math.random() * 7;
+                    timeBetween = 1.8f + (float) Math.random() * 4.2f;
+                    shipSwitchInterval = 4 + (int) Math.random() * 5;
+                    break;
+
+                case 3:
+                    enemies = 4 + (int) Math.random() * 9;
+                    timeBetween = 1 + (float) Math.random() * 3.5f;
+                    shipSwitchInterval = 3 + (int) Math.random() * 4;
+                    break;
+
+                case 4:
+                    enemies = 6 + (int) Math.random() * 12;
+                    timeBetween = 0.8f + (float) Math.random() * 2.5f;
+                    shipSwitchInterval = 2 + (int) Math.random() * 3;
                     break;
 
             }
 
-            if (shipSwitchInterval >= specialWaveCount)
-            {
-                waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.advanced));
-                specialWaveCount = 0;
-            }
-            else
-            {
-                waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.simple));
-            }
+
+                if (shipSwitchInterval >= specialWaveCount)
+                {
+                    waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.advanced));
+                    specialWaveCount = 0;
+                }
+                else
+                {
+                    waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.simple));
+                }
+
+
+
         }
     }
 

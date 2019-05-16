@@ -74,8 +74,8 @@ public class Player extends GameObject {
         position.x += speed.x * delta;
         position.y += speed.y * delta;
 
-        position.x = MathUtils.clamp(position.x, -bg.width/2 + width, bg.width/2 - width );
-        position.y = MathUtils.clamp(position.y, -bg.height/2 + height, bg.height/2 - height);
+        position.x = MathUtils.clamp(position.x, -bg.width/2 , bg.width/2 - width );
+        position.y = MathUtils.clamp(position.y, -bg.height/2.13f, bg.height/2.13f - height);
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;

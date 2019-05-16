@@ -56,7 +56,7 @@ public class CameraHelper {
         }
 
         //camera.position.x = MathUtils.clamp(camera.position.x, -bg.width/2 + camera.width, bg.width/2 - width );
-        //camera.position.y = MathUtils.clamp(camera.position.y, -bg.height/2 + camera.height, bg.height/2 - height);
+        //camera.position.y = MathUtils.clamp(camera.position.y, -WorldController.instance.getCurrentLevel().gameObjects.get(0).height/2 , WorldController.instance.getCurrentLevel().gameObjects.get(0).height/2);
 
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.x " + (go.position.x));
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.y" + (go.position.y));

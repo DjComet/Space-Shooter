@@ -31,9 +31,9 @@ public class Assets {
 
         bg = new Texture (Gdx.files.internal("WaterTile.png"));
         bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-        float bgFactorWidth = bg.getWidth() * 1f;        //this means that my Texture should cover 1 world unit width.
+        float bgFactorWidth = bg.getWidth() * 0.25f;        //this means that my Texture should cover 1 world unit width.
 
-        float bgFactorHeight = bg.getHeight() * 1f;   //this means that my Texture should cover 1 world unit height.
+        float bgFactorHeight = bg.getHeight() * 0.25f;   //this means that my Texture should cover 1 world unit height.
 
         float widthInWorldUnits = 25;                        //I am creating a world of 25 units width (my viewport width is around 10)
 
