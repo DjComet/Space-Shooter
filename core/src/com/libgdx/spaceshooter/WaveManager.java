@@ -60,15 +60,15 @@ public class WaveManager {
 
             }
 
-
+                //adds a wave to the arrayList at a certain second.
                 if (shipSwitchInterval >= specialWaveCount)
                 {
-                    waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.advanced));
+                    waves.add(new Wave(enemies, getTimeToSpawn(timeBetween), Wave.TypeOfShip.advanced));
                     specialWaveCount = 0;
                 }
                 else
                 {
-                    waves.add(new Wave(enemies, timeBetween, Wave.TypeOfShip.simple));
+                    waves.add(new Wave(enemies, getTimeToSpawn(timeBetween), Wave.TypeOfShip.simple));
                 }
 
 
@@ -77,6 +77,16 @@ public class WaveManager {
     }
 
 
+    float getTimeToSpawn(float tb)
+    {
+        float totalTime = 0;
+        for (int i = 0; i<waves.size();i++)
+        {
+            totalTime += waves.get(i).timeToNextWave;//gets the total time elapsed between all waves
+        }
+        totalTime += tb;//and adds the time for the next wave to spawn
+        return totalTime;
+    }
 
 
 }

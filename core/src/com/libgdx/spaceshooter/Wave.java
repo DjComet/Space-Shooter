@@ -25,7 +25,7 @@ public class Wave {
                     WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(0,0));
                     break;
                 case advanced:
-                    WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(0,0, AdvancedEnemy.WaypointType.curveL));
+                    WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(-WorldController.instance.getCurrentLevel().background.width/2 + (float)Math.random() * WorldController.instance.getCurrentLevel().background.width,80, AdvancedEnemy.WaypointType.curveL));
                     break;
             }
         }
