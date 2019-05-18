@@ -1,6 +1,7 @@
 package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Iterator;
@@ -27,15 +28,16 @@ public class Shot extends GameObject{
         damage = dmg;
         speed.y = spd;
         shotType = st;
+        rectangle = new Rectangle();
 
         switch (shotType){
-            case SE: tag = "ENEMY";
+            case SE: tag = "ENEMYSHOT";
             break;
-            case AE: tag = "ENEMY";
+            case AE: tag = "ENEMYSHOT";
             break;
-            case PLNORMAL: tag = "PLAYER";
+            case PLNORMAL: tag = "PLAYERSHOT";
             break;
-            case PLSPECIAL:tag = "PLAYER";
+            case PLSPECIAL:tag = "PLAYERSHOT";
         }
 
         if(this.shotType == ShotType.PLSPECIAL)
@@ -68,15 +70,15 @@ public class Shot extends GameObject{
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x-(width/2)-2.8f, position.y));
             }
 
-           if(this.tag =="PLAYER")
+           if(this.tag =="PLAYERSHOT")
            {
-                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().playerGos.iterator();
+                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().playerShots.iterator();
                 while (iter.hasNext())
                 {
                     GameObject element = iter.next();
                     if(element == this)
                     {
-                       WorldController.instance.getCurrentLevel().playerGos.remove(element);
+                       WorldController.instance.getCurrentLevel().playerShots.remove(element);
                        WorldController.instance.getCurrentLevel().refresh();
                     }
                 }

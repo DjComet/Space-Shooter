@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -12,24 +13,25 @@ public class AdvancedEnemy extends GameObject {
     public float maxSpeed;
     public float roll = 0f;
     public boolean dead = false;
-    Vector2[] waypoints;
-    enum WaypointType {curveL, curveR, loopL, loopR}
-    WaypointType waypointType;
+
+
     public Vector2 speed;
+    float t = 0;
 
-    public AdvancedEnemy(float posX, float posY, WaypointType wpt){
+    public AdvancedEnemy(float posX, float posY){
         position = new Vector2(posX, posY);
-        waypointType = wpt;
-        rotation = 0;
 
-        width = Assets.getInstance().aeTexRegions[0].getRegionWidth();
-        height = Assets.getInstance().aeTexRegions[0].getRegionHeight();
+        rotation = 180;
+
+        width = 8;
+        height = 8;
 
         scale = new Vector2(1,1);
 
-        speed = new Vector2(0f,0f);
+        speed = new Vector2(0f,-20f);
 
-        createWaypointPath(waypointType);
+        rectangle = new Rectangle();
+
         tag = "ENEMY";
     }
 
@@ -41,39 +43,28 @@ public class AdvancedEnemy extends GameObject {
     @Override
     public void update(float delta) {
 
-        move();
+        move(delta);
 
     }
 
-    public void createWaypointPath(WaypointType wpt){
 
-        Vector2[]wpCL = {new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)};
-        Vector2[]wpCR = {new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)};
-        Vector2[]wpLL = {new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)};
-        Vector2[]wpLR = {new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)};
 
-        switch (wpt)
-        {
-            case curveL: waypoints = wpCL;
-                break;
-
-            case curveR: waypoints = wpCR;
-                break;
-
-            case loopL: waypoints = wpLL;
-                break;
-
-            case loopR: waypoints = wpLR;
-                break;
-        }
-    }
-
-    public void move()
+    public void move(float delta)
     {
         int i=0;
-        float t=0;
+
+        float distanceX = WorldController.instance.getCurrentLevel().getPlayer().position.x - position.x;
+
+
+        position.y += speed.y * delta;
         roll = speed.x/maxSpeed;
-        position = position.interpolate(waypoints[i],t, Interpolation.linear);
+
+
+        //speed.x *= Math.cos(rotation);
+        //speed.y *= Math.sin(rotation);
+
+        position.x += speed.x * delta;
+        position.y += speed.y * delta;
     }
 
     void animateRoll(SpriteBatch batch)

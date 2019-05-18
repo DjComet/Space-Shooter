@@ -2,8 +2,6 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.math.Vector2;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -11,8 +9,10 @@ public class Level {
 
     //initialize and refresh gameobjects, rendering and updating.
     public GameObject background;
-    public CopyOnWriteArrayList<GameObject> playerGos;
+    public GameObject player;
+    public CopyOnWriteArrayList<GameObject> playerShots;
     public CopyOnWriteArrayList<GameObject> enemyGos;
+    public CopyOnWriteArrayList<GameObject> enemyShots;
     public CopyOnWriteArrayList<GameObject> defaultGos;
     public CopyOnWriteArrayList<GameObject> gameObjects;
 
@@ -26,14 +26,16 @@ public class Level {
     public Level(GameObject bg)
     {
         background = bg;
-        playerGos = new CopyOnWriteArrayList<GameObject>();
+        playerShots = new CopyOnWriteArrayList<GameObject>();
         enemyGos = new CopyOnWriteArrayList<GameObject>();
+        enemyShots = new CopyOnWriteArrayList<GameObject>();
         defaultGos = new CopyOnWriteArrayList<GameObject>();
         gameObjects = new CopyOnWriteArrayList<GameObject>();
         currentTime = 0f;
+        player = new Player(-4.5f,-4.5f);
         switch(WorldController.instance.currentLevel)
         {
-            case 0: waveM = new WaveManager(1,5);
+            case 0: waveM = new WaveManager(4,10);
             break;
 
             case 1: waveM = new WaveManager(3,15);
@@ -45,11 +47,12 @@ public class Level {
     {
         currentTime += deltaTime;
 
-        for (Wave wave: waveM.waves)
+        for (int i = 0; i< waveM.waves.size(); i++)
         {
-            if(wave.timeToNextWave > currentTime)
+            if(waveM.waves.get(i).spawnable && waveM.waves.get(i).timeToNextWave < currentTime)
             {
-                wave.SpawnWave();
+                System.out.println("Time For Next Wave: " + waveM.waves.get(i).timeToNextWave + ", CurrentTime: " + currentTime);
+                waveM.waves.get(i).SpawnWave();
             }
         }
 
@@ -69,8 +72,10 @@ public class Level {
     {
         gameObjects.clear();
         gameObjects.add(background);
+        gameObjects = combine(gameObjects, enemyShots);
         gameObjects = combine(gameObjects, enemyGos);
-        gameObjects = combine(gameObjects, playerGos);
+        gameObjects = combine(gameObjects, playerShots);
+        gameObjects.add (player);
         gameObjects = combine(gameObjects, defaultGos);
     }
 
@@ -91,15 +96,20 @@ public class Level {
 
     public void Instantiate(GameObject gameObject)
     {
-        if(gameObject.tag == "PLAYER")
+        if(gameObject.tag == "PLAYERSHOT")
         {
-            playerGos.add(0,gameObject);
-            centerObject(playerGos, 0);
+            playerShots.add(0,gameObject);
+            centerObject(playerShots, 0);
         }
         else if(gameObject.tag == "ENEMY")
         {
             enemyGos.add(gameObject);
             centerObject(enemyGos, enemyGos.size()-1);
+        }
+        else if(gameObject.tag == "ENEMYSHOT")
+        {
+            enemyShots.add(gameObject);
+            centerObject(enemyShots, enemyShots.size()-1);
         }
         else
         {
@@ -128,7 +138,7 @@ public class Level {
 
     public GameObject getPlayer()
     {
-        return playerGos.get(playerGos.size()-1);
+        return player;
     }
 
 }

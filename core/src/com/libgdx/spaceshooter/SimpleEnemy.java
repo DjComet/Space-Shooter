@@ -3,20 +3,21 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
 
-    public float maxSpeed = 15f;
+    public float maxSpeed = 10f;
     public Vector2 speed;
     public float acceleration = 100f;
     public float roll = 0f;
     public boolean dead = false;
 
-    float shotTimer = 0f;
-    public float shotInterval = 1.5f;
+
     float realTime;
-    float period = 1f;
+    float delay;
+    float period = 2f;
     float amplitude = 1f;
     Vector2 direction;
     Vector2 shootingPosL;
@@ -35,14 +36,17 @@ public class SimpleEnemy extends GameObject {
 
         scale = new Vector2(1,1);
 
-        speed = new Vector2(0f, maxSpeed-5f);
+        speed = new Vector2(0f, maxSpeed);
 
         shootingPosL = new Vector2(0.1f,2);
         shootingPosR = new Vector2( 1.2f,2);
 
+        rectangle = new Rectangle();
+
         tag = "ENEMY";
         timeToShoot =  1 + (float) Math.random() * 2;
-        System.out.println("Time to shoot: " + timeToShoot);
+        delay = (float) Math.random();
+
 
     }
 
@@ -60,7 +64,7 @@ public class SimpleEnemy extends GameObject {
 
 
 
-        float sine = (float)Math.sin(realTime * 2 * MathUtils.PI/period) * amplitude;//Movimiento armónico simple
+        float sine = (float)Math.sin((realTime + delay) * 2 * MathUtils.PI/period) * amplitude;//Movimiento armónico simple
 
         if(sine<0) direction.x  = -1;
         else if(sine>0) direction.x  = 1;

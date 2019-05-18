@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -36,6 +37,7 @@ public class Player extends GameObject {
 
         speed = new Vector2(0f,0f);
         tag = "PLAYER";
+        rectangle = new Rectangle();
 
         shootingPosL = new Vector2(-1.2f,2);
         shootingPosR = new Vector2( 1.2f,2);
