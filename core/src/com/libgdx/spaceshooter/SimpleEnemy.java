@@ -21,7 +21,9 @@ public class SimpleEnemy extends GameObject {
     Vector2 direction;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 10f;
+    public float shotSpeed = 30f;
+    float timer = 0f;
+    float timeToShoot;
 
     public SimpleEnemy(float posX, float posY) {
         position = new Vector2(posX, posY);
@@ -35,10 +37,13 @@ public class SimpleEnemy extends GameObject {
 
         speed = new Vector2(0f, maxSpeed-5f);
 
-        shootingPosL = new Vector2(-3,2);
-        shootingPosR = new Vector2( 3,2);
+        shootingPosL = new Vector2(0.1f,2);
+        shootingPosR = new Vector2( 1.2f,2);
 
         tag = "ENEMY";
+        timeToShoot =  1 + (float) Math.random() * 2;
+        System.out.println("Time to shoot: " + timeToShoot);
+
     }
 
     @Override
@@ -70,18 +75,22 @@ public class SimpleEnemy extends GameObject {
         position.y += speed.y * direction.y * delta;
 
         roll = -speed.x/maxSpeed;
-        //shoot(delta);
+        timer += delta;
+        if(timer > timeToShoot)
+        {
+            shoot(delta);
+            timer = 0;
+        }
     }
 
     void shoot(float delta) {
-        shotTimer += delta;
 
-        if(shotTimer>= shotInterval)
-        {
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1, 180));
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1,180));
 
-        }
+
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+
+
     }
 
     void animateRoll(SpriteBatch batch)

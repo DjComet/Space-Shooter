@@ -38,6 +38,12 @@ public class Shot extends GameObject{
             case PLSPECIAL:tag = "PLAYER";
         }
 
+        if(this.shotType == ShotType.PLSPECIAL)
+        {
+            scale = new Vector2(3,3);
+        }
+
+
     }
 
     @Override
@@ -51,10 +57,16 @@ public class Shot extends GameObject{
         position.x += speed.x * delta;
         position.y += speed.y * delta;
 
+
+
         lifeTimer += delta;
 
         if(lifeTimer>lifeTime)
         {
+            if(this.shotType == ShotType.PLSPECIAL)
+            {
+                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x-(width/2)-2.8f, position.y));
+            }
 
            if(this.tag =="PLAYER")
            {

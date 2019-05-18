@@ -13,13 +13,15 @@ public class WaveManager {
     int shipSwitchInterval;
 
     int specialWaveCount =0;
-    float currentTime = 0f;
 
-    public WaveManager()
+
+    public WaveManager(int diff, int totalW)
     {
         waves = new ArrayList<Wave>();
-        //create the waves here based on difficulty and totalWaves parameter
+        difficulty = diff;
+        totalWaves = totalW;
 
+        //create the waves here based on difficulty and totalWaves parameter
             generateLevelWaves();
 
     }

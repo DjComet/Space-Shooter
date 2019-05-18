@@ -25,8 +25,7 @@ public class AdvancedEnemy extends GameObject {
         width = Assets.getInstance().aeTexRegions[0].getRegionWidth();
         height = Assets.getInstance().aeTexRegions[0].getRegionHeight();
 
-        scale.x = 1.0f;
-        scale.y = 1.0f;
+        scale = new Vector2(1,1);
 
         speed = new Vector2(0f,0f);
 

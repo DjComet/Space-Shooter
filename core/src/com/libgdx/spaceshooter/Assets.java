@@ -24,11 +24,16 @@ public class Assets {
     public TextureAtlas shot;
     public TextureRegion[] shotTexRegions;
 
+    public TextureAtlas expl;
+    public TextureRegion[] explTexRegions;
+    public Animation<TextureRegion> explosion;
+
     public Texture bg;
     public TextureRegion tiledBg;
 
     private Assets() {
 
+        //BACKGROUND---------------------------------------------------------------------------------------------------------------------
         bg = new Texture (Gdx.files.internal("WaterTile.png"));
         bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         float bgFactorWidth = bg.getWidth() * 0.25f;        //this means that my Texture should cover 1 world unit width.
@@ -40,6 +45,18 @@ public class Assets {
         float heightInWorldUnits = 25;                     //I am creating a world of 100 units height (my viewport height is fixed to 10)
 
         tiledBg = new TextureRegion(bg, Math.round(widthInWorldUnits*bgFactorWidth),Math.round(heightInWorldUnits*bgFactorHeight));
+
+        //EXPLOSION----------------------------------------------------------------------------------------------------------------------
+
+        expl = new TextureAtlas("Explosion.atlas");
+        int expRegNumbers = expl.getRegions().size;
+        explTexRegions = new TextureRegion[expRegNumbers];
+        for(int i = 0; i<expRegNumbers; i++)
+        {
+            explTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Explosion"+(i), expl);
+        }
+        explosion = new Animation<TextureRegion>(0.05f,explTexRegions[0],explTexRegions[1],explTexRegions[2],explTexRegions[3],explTexRegions[4],explTexRegions[5],explTexRegions[6],explTexRegions[7]);
+        explosion.setPlayMode(Animation.PlayMode.NORMAL);
 
         //PLAYER-------------------------------------------------------------------------------------------------------------------------
         player = new TextureAtlas("Player.atlas");

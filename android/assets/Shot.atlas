@@ -1,34 +1,34 @@
 
 Shot.png
-size: 64,16
+size: 128,32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Shot0
   rotate: false
   xy: 2, 2
-  size: 8, 8
-  orig: 8, 8
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
-  index: 0
+  index: -1
 Shot1
   rotate: false
-  xy: 12, 2
-  size: 8, 8
-  orig: 8, 8
+  xy: 20, 2
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
-  index: 1
+  index: -1
 Shot2
   rotate: false
-  xy: 22, 2
-  size: 8, 8
-  orig: 8, 8
+  xy: 38, 2
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
-  index: 2
+  index: -1
 Shot3
   rotate: false
-  xy: 32, 2
-  size: 8, 8
-  orig: 8, 8
+  xy: 56, 2
+  size: 16, 16
+  orig: 16, 16
   offset: 0, 0
-  index: 3
+  index: -1

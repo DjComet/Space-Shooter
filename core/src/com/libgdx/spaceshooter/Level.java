@@ -2,6 +2,7 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,6 +21,7 @@ public class Level {
     public float seInterval = 2f;
     public float aeInterval = 5f;
 
+    public float currentTime;
 
     public Level(GameObject bg)
     {
@@ -28,19 +30,30 @@ public class Level {
         enemyGos = new CopyOnWriteArrayList<GameObject>();
         defaultGos = new CopyOnWriteArrayList<GameObject>();
         gameObjects = new CopyOnWriteArrayList<GameObject>();
-
+        currentTime = 0f;
         switch(WorldController.instance.currentLevel)
         {
-            case 0: waveM = new WaveManager();
+            case 0: waveM = new WaveManager(1,5);
             break;
 
-            case 1: waveM = new WaveManager();
+            case 1: waveM = new WaveManager(3,15);
 
         }
     }
 
     public void update(float deltaTime)
     {
+        currentTime += deltaTime;
+
+        for (Wave wave: waveM.waves)
+        {
+            if(wave.timeToNextWave > currentTime)
+            {
+                wave.SpawnWave();
+            }
+        }
+
+
         Iterator<GameObject> iter = gameObjects.iterator();
         while (iter.hasNext()){
 
@@ -56,8 +69,8 @@ public class Level {
     {
         gameObjects.clear();
         gameObjects.add(background);
-        gameObjects = combine(gameObjects, playerGos);
         gameObjects = combine(gameObjects, enemyGos);
+        gameObjects = combine(gameObjects, playerGos);
         gameObjects = combine(gameObjects, defaultGos);
     }
 
@@ -80,32 +93,34 @@ public class Level {
     {
         if(gameObject.tag == "PLAYER")
         {
-            playerGos.add(gameObject);
-
+            playerGos.add(0,gameObject);
+            centerObject(playerGos, 0);
         }
         else if(gameObject.tag == "ENEMY")
         {
             enemyGos.add(gameObject);
+            centerObject(enemyGos, enemyGos.size()-1);
         }
         else
         {
             defaultGos.add(gameObject);
+            centerObject(defaultGos, enemyGos.size()-1);
         }
 
         refresh();
 
-        centerObject(gameObjects.size()-1);
+
 
 
     }
 
-    void centerObject(int index)
+    void centerObject(CopyOnWriteArrayList<GameObject> arr, int index)
     {
-        System.out.println("Index of object being centered: "+index);
-        if(index < gameObjects.size())
+
+        if(index < arr.size())
         {
-            gameObjects.get(index).position = new Vector2(gameObjects.get(index).position.x-gameObjects.get(index).width/2,gameObjects.get(index).position.y-gameObjects.get(index).width/2);
-            System.out.println("position of centered object: " + gameObjects.get(index).position);
+            arr.get(index).position = new Vector2(arr.get(index).position.x-arr.get(index).width/2,arr.get(index).position.y-arr.get(index).width/2);
+
         }
         else
             System.out.println("The index is out of bounds");
@@ -113,7 +128,7 @@ public class Level {
 
     public GameObject getPlayer()
     {
-        return gameObjects.get(1);
+        return playerGos.get(playerGos.size()-1);
     }
 
 }

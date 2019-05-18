@@ -22,14 +22,19 @@ public class Wave {
             switch (typeOfShip)
             {
                 case simple:
-                    WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(0,0));
+                    WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(randomPos(),50));
                     break;
                 case advanced:
-                    WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(-WorldController.instance.getCurrentLevel().background.width/2 + (float)Math.random() * WorldController.instance.getCurrentLevel().background.width,80, AdvancedEnemy.WaypointType.curveL));
+                    WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(randomPos(),50, AdvancedEnemy.WaypointType.curveL));
                     break;
             }
         }
 
+    }
+
+    public float randomPos()
+    {
+        return -WorldController.instance.getCurrentLevel().background.width/2 + (float)Math.random() * WorldController.instance.getCurrentLevel().background.width;
     }
 
 

@@ -18,7 +18,9 @@ public class Player extends GameObject {
     public GameObject bg;
 
     float shotTimer = 0f;
+    float specialShotTimer = 0f;
     public float shotInterval = 0.1f;
+    public float specialShotInterval = 1f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
     public float shotSpeed = 40f;
@@ -35,8 +37,8 @@ public class Player extends GameObject {
         speed = new Vector2(0f,0f);
         tag = "PLAYER";
 
-        shootingPosL = new Vector2(-3,2);
-        shootingPosR = new Vector2( 3,2);
+        shootingPosL = new Vector2(-1.2f,2);
+        shootingPosR = new Vector2( 1.2f,2);
 
 
     }
@@ -86,12 +88,19 @@ public class Player extends GameObject {
     }
     void shoot(float delta) {
         shotTimer += delta;
+        specialShotTimer += delta;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && shotTimer>= shotInterval)
+        if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
         {
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+width/2+shootingPosR.y, shotSpeed, 1,0));
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+width/2+shootingPosL.y, shotSpeed, 1, 0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+height/2+shootingPosR.y, shotSpeed, 1,0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && specialShotTimer>= specialShotInterval)
+        {
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x+0.2f,position.y+width/2, shotSpeed/4, 5,0));
+
+            specialShotTimer = 0f;
         }
     }
 
