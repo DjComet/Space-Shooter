@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,13 +11,20 @@ import com.badlogic.gdx.math.Vector2;
 public class AdvancedEnemy extends GameObject {
 
     int lives;
-    public float maxSpeed;
+    public float maxSpeed = 20f;
     public float roll = 0f;
     public boolean dead = false;
-
+    public float acceleration = 60f;
+    public Vector2 direction = new Vector2(0,-1);
 
     public Vector2 speed;
-    float t = 0;
+    float distanceToStopFollow = 5f;
+    float timer = 0f;
+    float timeToShoot;
+    Vector2 shootingPosL;
+    Vector2 shootingPosR;
+    public float shotSpeed = 30f;
+
 
     public AdvancedEnemy(float posX, float posY){
         position = new Vector2(posX, posY);
@@ -28,9 +36,12 @@ public class AdvancedEnemy extends GameObject {
 
         scale = new Vector2(1,1);
 
-        speed = new Vector2(0f,-20f);
+        speed = new Vector2(0f,maxSpeed/2);
+        shootingPosL = new Vector2(0.1f,2);
+        shootingPosR = new Vector2( 1.2f,2);
 
         rectangle = new Rectangle();
+        timeToShoot =  2 + (float) Math.random() * 3;
 
         tag = "ENEMY";
     }
@@ -51,20 +62,46 @@ public class AdvancedEnemy extends GameObject {
 
     public void move(float delta)
     {
-        int i=0;
+
 
         float distanceX = WorldController.instance.getCurrentLevel().getPlayer().position.x - position.x;
 
+        if(Math.signum(distanceX) < 0) direction.x  = -1;
+        else if(Math.signum(distanceX)>0) direction.x  = 1;
+        else direction.x  = 0;
 
-        position.y += speed.y * delta;
-        roll = speed.x/maxSpeed;
+        float targetSpeed = maxSpeed * direction.x;
+        float offsetSpeed = targetSpeed - speed.x;
+        offsetSpeed = MathUtils.clamp(offsetSpeed, -acceleration * delta, acceleration * delta);
+        speed.x += offsetSpeed;
 
+        position.x += speed.x * delta;
+        position.y += speed.y * direction.y * delta;
 
+        roll = -speed.x/maxSpeed;
+
+        timer += delta;
+        if(timer > timeToShoot)
+        {
+            shoot();
+            timer = 0;
+        }
         //speed.x *= Math.cos(rotation);
         //speed.y *= Math.sin(rotation);
 
-        position.x += speed.x * delta;
-        position.y += speed.y * delta;
+
+
+
+    }
+
+    void shoot() {
+
+
+
+        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
+        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+
+
     }
 
     void animateRoll(SpriteBatch batch)

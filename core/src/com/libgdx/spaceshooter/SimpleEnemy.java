@@ -82,12 +82,12 @@ public class SimpleEnemy extends GameObject {
         timer += delta;
         if(timer > timeToShoot)
         {
-            shoot(delta);
+            shoot();
             timer = 0;
         }
     }
 
-    void shoot(float delta) {
+    void shoot() {
 
 
 
