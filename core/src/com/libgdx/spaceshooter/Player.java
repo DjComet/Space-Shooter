@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Iterator;
+
 
 public class Player extends GameObject {
     public int lives = 5;
@@ -52,6 +54,15 @@ public class Player extends GameObject {
 
     @Override
     public void update(float delta) {
+
+        move(delta);
+        shoot(delta);
+        //checkHit();
+
+    }
+
+    void move(float delta)
+    {
         int horizontal = 0;
         int vertical = 0;
         bg = WorldController.instance.getCurrentLevel().gameObjects.get(0);
@@ -83,10 +94,6 @@ public class Player extends GameObject {
 
         //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;
-
-        shoot(delta);
-
-
     }
     void shoot(float delta) {
         shotTimer += delta;
@@ -106,11 +113,40 @@ public class Player extends GameObject {
         }
     }
 
+    void checkHit()
+    {
+        for (GameObject shot: WorldController.instance.getCurrentLevel().enemyShots)
+        {
+            if(CollisionHelper.CheckCollision(this, shot))
+            {
+                WorldController.instance.getCurrentLevel().enemyShots.remove(shot);
+                lives -= 1;//Make it so that the damage of the shot is subtracted here
+
+            }
+        }
+        if(lives <= 0)
+        {
+            die();
+        }
+
+    }
+
+    void die()
+    {
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+        dead = true;
+        //insert replay pop up logic
+    }
+
     void animateRoll(SpriteBatch batch)
     {
         int i = 0;
 
-        if(roll ==0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
+        if(dead)
+        {
+            i=7;
+        }
+        else if(roll ==0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
         {
             i = 3;
         }
@@ -139,10 +175,7 @@ public class Player extends GameObject {
             i=0;
         }
 
-        if(dead)
-        {
-            i=7;
-        }
+
 
         batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
         //batch.draw(Assets.getInstance().test,0,0,5,5);

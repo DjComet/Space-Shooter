@@ -69,10 +69,6 @@ public class SimpleEnemy extends GameObject {
         checkHit();
     }
 
-
-
-
-
     void move(float delta)
     {
         realTime += delta;
@@ -112,6 +108,7 @@ public class SimpleEnemy extends GameObject {
             {
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
                 WorldController.instance.getCurrentLevel().playerShots.remove(shot);
+                dead = true;
                 despawn();
             }
         }
@@ -149,7 +146,11 @@ public class SimpleEnemy extends GameObject {
     {
         int i = 0;
 
-        if(roll ==0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
+        if(dead)
+        {
+            i=7;
+        }
+        else if(roll == 0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
         {
             i = 3;
             shootingPosL = new Vector2(-3,2);
@@ -181,10 +182,6 @@ public class SimpleEnemy extends GameObject {
             i=0;
         }
 
-        if(dead)
-        {
-            i=7;
-        }
 
         batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
     }
