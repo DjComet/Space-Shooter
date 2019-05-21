@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 public class AdvancedEnemy extends GameObject {
 
-    int lives = 5;
+    int lives = 6;
     public float maxSpeed = 20f;
     public float roll = 0f;
     public boolean dead = false;
@@ -61,6 +61,7 @@ public class AdvancedEnemy extends GameObject {
         if (position.y < -WorldController.instance.getCurrentLevel().background.height / 2) {
             despawn();
         }
+        checkHit();
     }
 
     void despawn()
@@ -85,10 +86,13 @@ public class AdvancedEnemy extends GameObject {
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
+                WorldController.instance.getCurrentLevel().playerShots.remove(shot);
                lives -= 1;//Make it so that the damage of the shot is substracteddddd here
                if(lives <= 0)
                {
+
                    die();
+
                }
             }
         }

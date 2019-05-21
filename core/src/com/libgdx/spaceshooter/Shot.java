@@ -97,16 +97,6 @@ public class Shot extends GameObject{
                     }
                 }
             }
-
-
-
-
-
-
-
-
-
-
         }
     }
 }

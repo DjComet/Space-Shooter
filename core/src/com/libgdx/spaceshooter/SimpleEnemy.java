@@ -111,6 +111,7 @@ public class SimpleEnemy extends GameObject {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+                WorldController.instance.getCurrentLevel().playerShots.remove(shot);
                 despawn();
             }
         }

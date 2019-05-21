@@ -21,7 +21,7 @@ abstract public class GameObject {
     }
 
     public Rectangle GetRectangle(){
-        return rectangle.set(position.x,position.y,width,height);
+        return (rotation == 0 ? rectangle.set(position.x,position.y,width,height):rectangle.set(position.x-width,position.y-height,width,height));
     }
 
 }
