@@ -12,8 +12,7 @@ public class WorldController extends InputAdapter {
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
     public int currentLevel = 0;
-    float seTimer = 0f;
-    float aeTimer = 0f;
+
 
     public WorldController(){
         if(WorldController.instance ==null)

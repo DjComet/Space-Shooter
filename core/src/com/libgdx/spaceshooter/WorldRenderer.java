@@ -33,11 +33,7 @@ public class WorldRenderer {
 
         batch.begin();
 
-        for(Iterator<GameObject> iter = controller.getCurrentLevel().gameObjects.iterator(); iter.hasNext();)
-        {
-            GameObject element = iter.next();
-            element.draw(batch);
-        }
+        updateArrays();
 
 
         batch.end();
@@ -49,6 +45,31 @@ public class WorldRenderer {
         //Gdx.app.debug(TAG_TIME, elapsedMs + "ms - " + batch.maxSpritesInBatch + " - " + batch.renderCalls);
 
 
+    }
+
+    void updateArrays()
+    {
+        WorldController.instance.getCurrentLevel().getBg().draw(batch);
+
+        for (int i = 0; i< WorldController.instance.getCurrentLevel().playerShots.size(); i++)
+        {
+            WorldController.instance.getCurrentLevel().playerShots.get(i).draw(batch);
+        }
+        for (int i = 0; i< WorldController.instance.getCurrentLevel().enemyShots.size(); i++)
+        {
+            WorldController.instance.getCurrentLevel().enemyShots.get(i).draw(batch);
+        }
+        for (int i = 0; i< WorldController.instance.getCurrentLevel().enemyGos.size(); i++)
+        {
+            WorldController.instance.getCurrentLevel().enemyGos.get(i).draw(batch);
+        }
+
+        WorldController.instance.getCurrentLevel().getPlayer().draw(batch);
+
+        for (int i = 0; i< WorldController.instance.getCurrentLevel().defaultGos.size(); i++)
+        {
+            WorldController.instance.getCurrentLevel().defaultGos.get(i).draw(batch);
+        }
     }
 
     public void resize(int width, int height){

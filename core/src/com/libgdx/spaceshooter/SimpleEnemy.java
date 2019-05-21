@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
 
 public class SimpleEnemy extends GameObject {
 
@@ -63,7 +62,7 @@ public class SimpleEnemy extends GameObject {
         move(delta);
 
         if(position.y < -WorldController.instance.getCurrentLevel().background.height/2) {
-            despawn();
+            WorldController.instance.getCurrentLevel().Despawn(this);
         }
 
         checkHit();
@@ -107,38 +106,18 @@ public class SimpleEnemy extends GameObject {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
-                WorldController.instance.getCurrentLevel().playerShots.remove(shot);
+                WorldController.instance.getCurrentLevel().Despawn(shot);
                 dead = true;
-                despawn();
+                WorldController.instance.getCurrentLevel().Despawn(this);
             }
         }
 
     }
-
-    void despawn()
-    {
-
-        Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
-        while (iter.hasNext())
-        {
-            GameObject element = iter.next();
-            if(element == this)
-            {
-                WorldController.instance.getCurrentLevel().enemyGos.remove(element);
-                WorldController.instance.getCurrentLevel().refresh();
-            }
-        }
-
-    }
-
 
     void shoot() {
 
-
-
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
-
 
     }
 

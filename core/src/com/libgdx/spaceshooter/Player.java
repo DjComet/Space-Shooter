@@ -8,8 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
-
 
 public class Player extends GameObject {
     public int lives = 5;
@@ -65,7 +63,7 @@ public class Player extends GameObject {
     {
         int horizontal = 0;
         int vertical = 0;
-        bg = WorldController.instance.getCurrentLevel().gameObjects.get(0);
+        bg = WorldController.instance.getCurrentLevel().getBg();
         if(Gdx.input.isKeyPressed(Input.Keys.A)) horizontal = -1;
         else if(Gdx.input.isKeyPressed(Input.Keys.D)) horizontal = 1;
         else horizontal = 0;

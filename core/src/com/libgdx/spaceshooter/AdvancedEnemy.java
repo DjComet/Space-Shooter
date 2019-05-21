@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
-
 
 public class AdvancedEnemy extends GameObject {
 
@@ -59,25 +57,9 @@ public class AdvancedEnemy extends GameObject {
         move(delta);
 
         if (position.y < -WorldController.instance.getCurrentLevel().background.height / 2) {
-            despawn();
+            WorldController.instance.getCurrentLevel().Despawn(this);
         }
         checkHit();
-    }
-
-    void despawn()
-    {
-
-        Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
-        while (iter.hasNext())
-        {
-            GameObject element = iter.next();
-            if(element == this)
-            {
-                WorldController.instance.getCurrentLevel().enemyGos.remove(element);
-                WorldController.instance.getCurrentLevel().refresh();
-            }
-        }
-
     }
 
     void checkHit()
@@ -86,7 +68,7 @@ public class AdvancedEnemy extends GameObject {
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
-                WorldController.instance.getCurrentLevel().playerShots.remove(shot);
+                WorldController.instance.getCurrentLevel().Despawn(shot);
                lives -= 1;//Make it so that the damage of the shot is subtracted here
 
             }
@@ -101,9 +83,9 @@ public class AdvancedEnemy extends GameObject {
 
     void die()
     {
-        //WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
         dead = true;
-        despawn();
+        WorldController.instance.getCurrentLevel().Despawn(this);
     }
 
     public void move(float delta)

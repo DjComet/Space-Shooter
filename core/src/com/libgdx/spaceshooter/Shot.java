@@ -70,33 +70,9 @@ public class Shot extends GameObject{
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x+(width/2)+1, position.y));
             }
 
-           if(this.tag =="PLAYERSHOT")
-           {
-                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().playerShots.iterator();
-                while (iter.hasNext())
-                {
-                    GameObject element = iter.next();
-                    if(element == this)
-                    {
-                       WorldController.instance.getCurrentLevel().playerShots.remove(element);
-                       WorldController.instance.getCurrentLevel().refresh();
-                    }
-                }
-            }
+           WorldController.instance.getCurrentLevel().Despawn(this);
 
-            if(this.tag =="ENEMY")
-            {
-                Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
-                while (iter.hasNext())
-                {
-                    GameObject element = iter.next();
-                    if(element == this)
-                    {
-                        WorldController.instance.getCurrentLevel().enemyGos.remove(element);
-                        WorldController.instance.getCurrentLevel().refresh();
-                    }
-                }
-            }
+
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.libgdx.spaceshooter;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -10,42 +12,52 @@ public class Level {
     //initialize and refresh gameobjects, rendering and updating.
     public GameObject background;
     public GameObject player;
-    public CopyOnWriteArrayList<GameObject> playerShots;
-    public CopyOnWriteArrayList<GameObject> enemyGos;
-    public CopyOnWriteArrayList<GameObject> enemyShots;
-    public CopyOnWriteArrayList<GameObject> defaultGos;
-    public CopyOnWriteArrayList<GameObject> gameObjects;
+    public ArrayList<GameObject> playerShots;
+    public ArrayList<GameObject> enemyGos;
+    public ArrayList<GameObject> enemyShots;
+    public ArrayList<GameObject> defaultGos;
+
+
+    public ArrayList<GameObject> toRemove;
+    public ArrayList<GameObject> toAdd;
 
     public WaveManager waveM;
 
-    public float seInterval = 2f;
-    public float aeInterval = 5f;
 
     public float currentTime;
 
     public Level(GameObject bg)
     {
         background = bg;
-        playerShots = new CopyOnWriteArrayList<GameObject>();
-        enemyGos = new CopyOnWriteArrayList<GameObject>();
-        enemyShots = new CopyOnWriteArrayList<GameObject>();
-        defaultGos = new CopyOnWriteArrayList<GameObject>();
-        gameObjects = new CopyOnWriteArrayList<GameObject>();
+        playerShots = new ArrayList<GameObject>();
+        enemyGos = new ArrayList<GameObject>();
+        enemyShots = new ArrayList<GameObject>();
+        defaultGos = new ArrayList<GameObject>();
+
+        toRemove = new ArrayList<GameObject>();
+        toAdd = new ArrayList<GameObject>();
         currentTime = 0f;
         player = new Player(-4.5f,-4.5f);
         switch(WorldController.instance.currentLevel)
         {
-            case 0: waveM = new WaveManager(4,10);
+            case 0: waveM = new WaveManager(1,10);
             break;
 
-            case 1: waveM = new WaveManager(3,15);
+            case 1: waveM = new WaveManager(2,15);
+            break;
+
+            case 2: waveM = new WaveManager(3,20);
+            break;
+
+            case 3: waveM = new WaveManager(4, 35);
+
 
         }
     }
 
-    public void update(float deltaTime)
+    public void update(float delta)
     {
-        currentTime += deltaTime;
+        currentTime += delta;
 
         for (int i = 0; i< waveM.waves.size(); i++)
         {
@@ -57,74 +69,102 @@ public class Level {
         }
 
 
-        Iterator<GameObject> iter = gameObjects.iterator();
-        while (iter.hasNext()){
-
-            GameObject element = iter.next();
-
-            element.update(deltaTime);
+        updateArrays(delta);
+        removeGos();
+        addGos();
 
 
-        }
     }
 
-    public void refresh()
+    void updateArrays(float delta)
     {
-        gameObjects.clear();
-        gameObjects.add(background);
-        gameObjects = combine(gameObjects, enemyShots);
-        gameObjects = combine(gameObjects, enemyGos);
-        gameObjects = combine(gameObjects, playerShots);
-        gameObjects.add (player);
-        gameObjects = combine(gameObjects, defaultGos);
-    }
+        background.update(delta);
 
-    public CopyOnWriteArrayList<GameObject> combine(CopyOnWriteArrayList<GameObject> a, CopyOnWriteArrayList<GameObject> b){
-        //int length = a.size() + b.size();
-        CopyOnWriteArrayList<GameObject> result = new CopyOnWriteArrayList<GameObject>();
-        for(int i = 0; i < a.size(); i++)
+        for (int i = 0; i< playerShots.size(); i++)
         {
-            result.add(a.get(i));
+            playerShots.get(i).update(delta);
+        }
+        for (int i = 0; i< enemyShots.size(); i++)
+        {
+            enemyShots.get(i).update(delta);
+        }
+        for (int i = 0; i< enemyGos.size(); i++)
+        {
+            enemyGos.get(i).update(delta);
         }
 
-        for(int i = 0; i < b.size(); i++)
+        player.update(delta);
+
+        for (int i = 0; i< defaultGos.size(); i++)
         {
-            result.add(b.get(i));
+            defaultGos.get(i).update(delta);
         }
-        return result;
     }
+
+    void addGos()
+    {
+        for(int i = 0; i<toAdd.size(); i++)
+        {
+            if(toAdd.get(i).tag == "PLAYERSHOT")
+            {
+                playerShots.add(0,toAdd.get(i));
+            }
+            else if(toAdd.get(i).tag == "ENEMYSHOT")
+            {
+                enemyShots.add(toAdd.get(i));
+            }
+            else if(toAdd.get(i).tag == "ENEMY")
+            {
+                enemyGos.add(toAdd.get(i));
+            }
+            else if(toAdd.get(i).tag == "DEFAULT")
+            {
+                defaultGos.add(toAdd.get(i));
+            }
+        }
+        toAdd.clear();
+    }
+
+    void removeGos()
+    {
+        for(int i = toRemove.size()-1; i>=0; i--)
+        {
+            if(toRemove.get(i).tag == "PLAYERSHOT")
+            {
+                playerShots.remove(toRemove.get(i));
+            }
+            else if(toRemove.get(i).tag == "ENEMYSHOT")
+            {
+                enemyShots.remove(toRemove.get(i));
+            }
+            else if(toRemove.get(i).tag == "ENEMY")
+            {
+                enemyGos.remove(toRemove.get(i));
+            }
+            else if(toRemove.get(i).tag == "DEFAULT")
+            {
+                defaultGos.remove(toRemove.get(i));
+            }
+        }
+        toRemove.clear();
+    }
+
+
+
 
     public void Instantiate(GameObject gameObject)
     {
-        if(gameObject.tag == "PLAYERSHOT")
-        {
-            playerShots.add(0,gameObject);
-            centerObject(playerShots, 0);
-        }
-        else if(gameObject.tag == "ENEMY")
-        {
-            enemyGos.add(gameObject);
-            centerObject(enemyGos, enemyGos.size()-1);
-        }
-        else if(gameObject.tag == "ENEMYSHOT")
-        {
-            enemyShots.add(gameObject);
-            centerObject(enemyShots, enemyShots.size()-1);
-        }
-        else
-        {
-            defaultGos.add(gameObject);
-            centerObject(defaultGos, defaultGos.size()-1);
-        }
-
-        refresh();
-
-
-
-
+        toAdd.add(gameObject);
+        toAdd.get(toAdd.size()-1).position = new Vector2(toAdd.get(toAdd.size()-1).position.x-toAdd.get(toAdd.size()-1).width/2,
+                                                         toAdd.get(toAdd.size()-1).position.y-toAdd.get(toAdd.size()-1).width/2);
     }
 
-    void centerObject(CopyOnWriteArrayList<GameObject> arr, int index)
+    public void Despawn(GameObject gameObject)
+    {
+        toRemove.add(gameObject);
+    }
+
+    void centerObject(ArrayList<GameObject> arr, int index)
     {
 
         if(index < arr.size())
@@ -138,6 +178,10 @@ public class Level {
     public GameObject getPlayer()
     {
         return player;
+    }
+    public GameObject getBg()
+    {
+        return background;
     }
 
 }

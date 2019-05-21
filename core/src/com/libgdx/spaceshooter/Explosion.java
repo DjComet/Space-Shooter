@@ -41,16 +41,7 @@ public class Explosion extends GameObject{
 
         if(stateTime > 0.4f)
         {
-            Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().defaultGos.iterator();
-            while (iter.hasNext())
-            {
-                GameObject element = iter.next();
-                if(element == this)
-                {
-                    WorldController.instance.getCurrentLevel().defaultGos.remove(element);
-                    WorldController.instance.getCurrentLevel().refresh();
-                }
-            }
+            WorldController.instance.getCurrentLevel().Despawn(this);
         }
     }
 
