@@ -11,7 +11,7 @@ public class WorldController extends InputAdapter {
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
-    public int currentLevel = 0;
+    public int currentLevel = 1;//Set to 0 when the menu is done
 
 
     public WorldController(){
@@ -32,6 +32,8 @@ public class WorldController extends InputAdapter {
     {
         levels.add(new Level(new Background()));//Level 0
         levels.add(new Level(new Background()));//Level 1
+        levels.add(new Level(new Background()));//Level 2
+        levels.add(new Level(new Background()));//Level 3
 
 
         //levels.Instantiate(new Shot(ShotType.PLNORMAL, 0,0,30, 10, 0));

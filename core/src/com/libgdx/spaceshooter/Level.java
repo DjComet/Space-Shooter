@@ -20,6 +20,7 @@ public class Level {
 
     public ArrayList<GameObject> toRemove;
     public ArrayList<GameObject> toAdd;
+    public float timeToNextLevel = 7f;
 
     public WaveManager waveM;
 
@@ -38,19 +39,24 @@ public class Level {
         toAdd = new ArrayList<GameObject>();
         currentTime = 0f;
         player = new Player(-4.5f,-4.5f);
+
+
         switch(WorldController.instance.currentLevel)
         {
-            case 0: waveM = new WaveManager(1,10);
+            case 0: waveM = null;
             break;
 
-            case 1: waveM = new WaveManager(2,15);
+            case 1: waveM = new WaveManager(1,10);
             break;
 
-            case 2: waveM = new WaveManager(3,20);
+            case 2: waveM = new WaveManager(2,15);
             break;
 
-            case 3: waveM = new WaveManager(4, 35);
+            case 3: waveM = new WaveManager(3,20);
+            break;
 
+            case 4: waveM = new WaveManager(4, 35);
+            break;
 
         }
     }
@@ -73,6 +79,11 @@ public class Level {
         removeGos();
         addGos();
 
+        if(waveM.waves.get((waveM.waves.size()-1)).timeToNextWave + timeToNextLevel < currentTime)
+        {
+            WorldController.instance.currentLevel++;
+            System.out.println("Going to level " + WorldController.instance.currentLevel);
+        }
 
     }
 
