@@ -2,15 +2,16 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Iterator;
+
 
 public class AdvancedEnemy extends GameObject {
 
-    int lives;
+    int lives = 5;
     public float maxSpeed = 20f;
     public float roll = 0f;
     public boolean dead = false;
@@ -18,13 +19,14 @@ public class AdvancedEnemy extends GameObject {
     public Vector2 direction = new Vector2(0,-1);
 
     public Vector2 speed;
-    float distanceToStopFollow = 5f;
-    float timer = 0f;
-    float timeToShoot;
+    float distanceToStopFollow = 20f;
+    float timesToShoot;
+    float numberOfShots=0f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
     public float shotSpeed = 30f;
-
+    boolean startShooting = false;
+    int counter = 0;
 
     public AdvancedEnemy(float posX, float posY){
         position = new Vector2(posX, posY);
@@ -41,7 +43,7 @@ public class AdvancedEnemy extends GameObject {
         shootingPosR = new Vector2( 1.2f,2);
 
         rectangle = new Rectangle();
-        timeToShoot =  2 + (float) Math.random() * 3;
+        timesToShoot =  10;
 
         tag = "ENEMY";
     }
@@ -56,51 +58,99 @@ public class AdvancedEnemy extends GameObject {
 
         move(delta);
 
+        if (position.y < -WorldController.instance.getCurrentLevel().background.height / 2) {
+            despawn();
+        }
     }
 
+    void despawn()
+    {
 
+        Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
+        while (iter.hasNext())
+        {
+            GameObject element = iter.next();
+            if(element == this)
+            {
+                WorldController.instance.getCurrentLevel().enemyGos.remove(element);
+                WorldController.instance.getCurrentLevel().refresh();
+            }
+        }
+
+    }
+
+    void checkHit()
+    {
+        for (GameObject shot: WorldController.instance.getCurrentLevel().playerShots)
+        {
+            if(CollisionHelper.CheckCollision(this, shot))
+            {
+               lives -= 1;//Make it so that the damage of the shot is substracteddddd here
+               if(lives <= 0)
+               {
+                   die();
+               }
+            }
+        }
+
+    }
+
+    void die()
+    {
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+        despawn();
+    }
 
     public void move(float delta)
     {
 
 
-        float distanceX = WorldController.instance.getCurrentLevel().getPlayer().position.x - position.x;
+        float distanceX = (WorldController.instance.getCurrentLevel().getPlayer().position.x + WorldController.instance.getCurrentLevel().getPlayer().width/2) - (position.x - width/2);
+        float distanceY = (WorldController.instance.getCurrentLevel().getPlayer().position.y + WorldController.instance.getCurrentLevel().getPlayer().height/2) - (position.y - height/2);
 
-        if(Math.signum(distanceX) < 0) direction.x  = -1;
-        else if(Math.signum(distanceX)>0) direction.x  = 1;
+        if(distanceX < -0.5) direction.x  = -1;
+        else if(distanceX > 0.5) direction.x  = 1;
         else direction.x  = 0;
+
+        if(startShooting) direction.x = 0;
 
         float targetSpeed = maxSpeed * direction.x;
         float offsetSpeed = targetSpeed - speed.x;
         offsetSpeed = MathUtils.clamp(offsetSpeed, -acceleration * delta, acceleration * delta);
         speed.x += offsetSpeed;
 
+
+
         position.x += speed.x * delta;
         position.y += speed.y * direction.y * delta;
 
         roll = -speed.x/maxSpeed;
 
-        timer += delta;
-        if(timer > timeToShoot)
+        if(Math.abs(distanceY) <= distanceToStopFollow && !startShooting)
         {
-            shoot();
-            timer = 0;
+            startShooting = true;
         }
-        //speed.x *= Math.cos(rotation);
-        //speed.y *= Math.sin(rotation);
+
+        if(startShooting && numberOfShots < timesToShoot && counter > 20)
+        {
+            //shoot();
+            numberOfShots ++;
+            counter = 0;
+        }
+        else if(counter<=20)
+        {
+            counter++;
+        }
 
 
-
+        checkHit();
 
     }
 
     void shoot() {
 
-
-
         WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
         WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
-
 
     }
 

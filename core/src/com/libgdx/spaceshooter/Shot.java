@@ -67,7 +67,7 @@ public class Shot extends GameObject{
         {
             if(this.shotType == ShotType.PLSPECIAL)
             {
-                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x-(width/2)-2.8f, position.y));
+                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x+(width/2)+1, position.y));
             }
 
            if(this.tag =="PLAYERSHOT")

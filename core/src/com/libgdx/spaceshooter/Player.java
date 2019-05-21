@@ -20,7 +20,7 @@ public class Player extends GameObject {
 
     float shotTimer = 0f;
     float specialShotTimer = 0f;
-    public float shotInterval = 0.1f;
+    public float shotInterval = 0.3f;
     public float specialShotInterval = 1f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;

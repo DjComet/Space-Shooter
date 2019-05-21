@@ -114,7 +114,7 @@ public class Level {
         else
         {
             defaultGos.add(gameObject);
-            centerObject(defaultGos, enemyGos.size()-1);
+            centerObject(defaultGos, defaultGos.size()-1);
         }
 
         refresh();
@@ -130,7 +130,6 @@ public class Level {
         if(index < arr.size())
         {
             arr.get(index).position = new Vector2(arr.get(index).position.x-arr.get(index).width/2,arr.get(index).position.y-arr.get(index).width/2);
-
         }
         else
             System.out.println("The index is out of bounds");

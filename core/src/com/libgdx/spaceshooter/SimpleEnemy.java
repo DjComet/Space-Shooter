@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Iterator;
+
 public class SimpleEnemy extends GameObject {
 
     public float maxSpeed = 10f;
@@ -58,7 +60,21 @@ public class SimpleEnemy extends GameObject {
     @Override
     public void update(float delta) {
 
+        move(delta);
 
+        if(position.y < -WorldController.instance.getCurrentLevel().background.height/2) {
+            despawn();
+        }
+
+        checkHit();
+    }
+
+
+
+
+
+    void move(float delta)
+    {
         realTime += delta;
         realTime %= period;
 
@@ -85,7 +101,38 @@ public class SimpleEnemy extends GameObject {
             shoot();
             timer = 0;
         }
+
     }
+
+    void checkHit()
+    {
+        for (GameObject shot: WorldController.instance.getCurrentLevel().playerShots)
+        {
+            if(CollisionHelper.CheckCollision(this, shot))
+            {
+                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+                despawn();
+            }
+        }
+
+    }
+
+    void despawn()
+    {
+
+        Iterator<GameObject> iter = WorldController.instance.getCurrentLevel().enemyGos.iterator();
+        while (iter.hasNext())
+        {
+            GameObject element = iter.next();
+            if(element == this)
+            {
+                WorldController.instance.getCurrentLevel().enemyGos.remove(element);
+                WorldController.instance.getCurrentLevel().refresh();
+            }
+        }
+
+    }
+
 
     void shoot() {
 
