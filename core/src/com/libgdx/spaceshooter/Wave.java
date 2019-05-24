@@ -62,7 +62,7 @@ public class Wave {
     boolean checkForCollisionOnSpawn(float pos)
     {
         boolean temp = false;
-        for(GameObject enemy: WorldController.instance.getCurrentLevel().enemyGos)
+        for(GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
         {
             temp = CollisionHelper.CheckCollision(new SimpleEnemy(pos,50), enemy);
             if(temp) continue;
@@ -72,8 +72,8 @@ public class Wave {
 
     public float randomPos(boolean horizontal)
     {
-        float max =  (horizontal ? WorldController.instance.getCurrentLevel().background.width/2 - 6 : 60);
-        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().background.width/2 +6 : 30);
+        float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - 6 : 60);
+        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 +6 : 30);
         float positionX = (random.nextFloat() * (max-min)) + min;
 
         return positionX;

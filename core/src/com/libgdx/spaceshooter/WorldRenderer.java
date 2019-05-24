@@ -49,26 +49,12 @@ public class WorldRenderer {
 
     void updateArrays()
     {
-        WorldController.instance.getCurrentLevel().getBg().draw(batch);
-
-        for (int i = 0; i< WorldController.instance.getCurrentLevel().playerShots.size(); i++)
+        for(int i = 0; i<WorldController.instance.getCurrentLevel().Layers.size(); i++)
         {
-            WorldController.instance.getCurrentLevel().playerShots.get(i).draw(batch);
-        }
-        for (int i = 0; i< WorldController.instance.getCurrentLevel().enemyShots.size(); i++)
-        {
-            WorldController.instance.getCurrentLevel().enemyShots.get(i).draw(batch);
-        }
-        for (int i = 0; i< WorldController.instance.getCurrentLevel().enemyGos.size(); i++)
-        {
-            WorldController.instance.getCurrentLevel().enemyGos.get(i).draw(batch);
-        }
-
-        WorldController.instance.getCurrentLevel().getPlayer().draw(batch);
-
-        for (int i = 0; i< WorldController.instance.getCurrentLevel().defaultGos.size(); i++)
-        {
-            WorldController.instance.getCurrentLevel().defaultGos.get(i).draw(batch);
+            for(int j = 0; j<WorldController.instance.getCurrentLevel().Layers.get(i).list.size(); j++)
+            {
+                WorldController.instance.getCurrentLevel().Layers.get(i).list.get(j).draw(batch);
+            }
         }
     }
 

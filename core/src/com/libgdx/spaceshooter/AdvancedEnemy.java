@@ -43,7 +43,7 @@ public class AdvancedEnemy extends GameObject {
         rectangle = new Rectangle();
         timesToShoot =  10;
 
-        tag = "ENEMY";
+        layerTag = Layer.LayerNames.ENEMY;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AdvancedEnemy extends GameObject {
 
         move(delta);
 
-        if (position.y < -WorldController.instance.getCurrentLevel().background.height / 2) {
+        if (position.y < -WorldController.instance.getCurrentLevel().getBg().height / 2) {
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
         checkHit();
@@ -64,7 +64,7 @@ public class AdvancedEnemy extends GameObject {
 
     void checkHit()
     {
-        for (GameObject shot: WorldController.instance.getCurrentLevel().playerShots)
+        for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.PLAYERSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {

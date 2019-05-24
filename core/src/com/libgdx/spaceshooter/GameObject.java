@@ -10,7 +10,7 @@ abstract public class GameObject {
     public float rotation;
     public Vector2 scale;
     public float width, height;
-    public String tag;
+    public Layer.LayerNames layerTag;
     public Rectangle rectangle;
     abstract public void draw(SpriteBatch batch);
     abstract public void update(float delta);
@@ -21,7 +21,7 @@ abstract public class GameObject {
     }
 
     public Rectangle GetRectangle(){
-        return (rotation == 0 ? rectangle.set(position.x,position.y,width,height):rectangle.set(position.x-width,position.y-height,width,height));
+        return (rotation == 0 ? rectangle.set(position.x,position.y,width,height):rectangle.set(position.x-width,position.y-height,width,height));//returns normal or inverted rectangle based on the rotation of the gameobject (needs improvement)s
     }
 
 }

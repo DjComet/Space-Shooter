@@ -1,21 +1,15 @@
 package com.libgdx.spaceshooter;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Level {
 
     //initialize and refresh gameobjects, rendering and updating.
-    public GameObject background;
-    public GameObject player;
-    public ArrayList<GameObject> playerShots;
-    public ArrayList<GameObject> enemyGos;
-    public ArrayList<GameObject> enemyShots;
-    public ArrayList<GameObject> defaultGos;
+
+    public ArrayList<Layer>Layers;
+
 
 
     public ArrayList<GameObject> toRemove;
@@ -29,16 +23,21 @@ public class Level {
 
     public Level(GameObject bg)
     {
-        background = bg;
-        playerShots = new ArrayList<GameObject>();
-        enemyGos = new ArrayList<GameObject>();
-        enemyShots = new ArrayList<GameObject>();
-        defaultGos = new ArrayList<GameObject>();
+        Layers = new ArrayList<Layer>();
+        Layers.add(new Layer(Layer.LayerNames.BACKGROUND)); //0 BG
+        Layers.add(new Layer(Layer.LayerNames.PLAYERSHOT)); //1 PLSHOTS
+        Layers.add(new Layer(Layer.LayerNames.ENEMY));      //2 ENEMIES
+        Layers.add(new Layer(Layer.LayerNames.ENEMYSHOT));  //3 ENEMYSHOTS
+        Layers.add(new Layer(Layer.LayerNames.PLAYER));     //4 PLAYER
+        Layers.add(new Layer(Layer.LayerNames.DEFAULT));    //5 DEFAULT
+
+        Layers.get(0).list.add(bg);
+        Layers.get(4).list.add(new Player(-4.5f,-4.5f));
 
         toRemove = new ArrayList<GameObject>();
         toAdd = new ArrayList<GameObject>();
         currentTime = 0f;
-        player = new Player(-4.5f,-4.5f);
+
 
 
         switch(WorldController.instance.currentLevel)
@@ -75,7 +74,7 @@ public class Level {
         }
 
 
-        updateArrays(delta);
+        updateLists(delta);
         removeGos();
         addGos();
 
@@ -87,28 +86,15 @@ public class Level {
 
     }
 
-    void updateArrays(float delta)
+    void updateLists(float delta)
     {
-        background.update(delta);
 
-        for (int i = 0; i< playerShots.size(); i++)
+        for(int i = 0; i<Layers.size(); i++)
         {
-            playerShots.get(i).update(delta);
-        }
-        for (int i = 0; i< enemyShots.size(); i++)
-        {
-            enemyShots.get(i).update(delta);
-        }
-        for (int i = 0; i< enemyGos.size(); i++)
-        {
-            enemyGos.get(i).update(delta);
-        }
-
-        player.update(delta);
-
-        for (int i = 0; i< defaultGos.size(); i++)
-        {
-            defaultGos.get(i).update(delta);
+            for(int j = 0; j<Layers.get(i).list.size(); j++)
+            {
+                Layers.get(i).list.get(j).update(delta);
+            }
         }
     }
 
@@ -116,23 +102,15 @@ public class Level {
     {
         for(int i = 0; i<toAdd.size(); i++)
         {
-            if(toAdd.get(i).tag == "PLAYERSHOT")
+            for(Layer L:Layers)
             {
-                playerShots.add(0,toAdd.get(i));
-            }
-            else if(toAdd.get(i).tag == "ENEMYSHOT")
-            {
-                enemyShots.add(toAdd.get(i));
-            }
-            else if(toAdd.get(i).tag == "ENEMY")
-            {
-                enemyGos.add(toAdd.get(i));
-            }
-            else if(toAdd.get(i).tag == "DEFAULT")
-            {
-                defaultGos.add(toAdd.get(i));
+                if(L.name == toAdd.get(i).layerTag)
+                {
+                    L.list.add((toAdd.get(i)));
+                }
             }
         }
+
         toAdd.clear();
     }
 
@@ -140,32 +118,37 @@ public class Level {
     {
         for(int i = toRemove.size()-1; i>=0; i--)
         {
-            if(toRemove.get(i).tag == "PLAYERSHOT")
+            for(Layer L:Layers)
             {
-                playerShots.remove(toRemove.get(i));
-            }
-            else if(toRemove.get(i).tag == "ENEMYSHOT")
-            {
-                enemyShots.remove(toRemove.get(i));
-            }
-            else if(toRemove.get(i).tag == "ENEMY")
-            {
-                enemyGos.remove(toRemove.get(i));
-            }
-            else if(toRemove.get(i).tag == "DEFAULT")
-            {
-                defaultGos.remove(toRemove.get(i));
+                if(L.name == toRemove.get(i).layerTag)
+                {
+                    L.list.remove((toRemove.get(i)));
+                }
             }
         }
         toRemove.clear();
     }
 
 
+    ArrayList<GameObject> getLayerList(Layer.LayerNames _name)
+    {
+        ArrayList<GameObject> goList = null;
+        for(Layer L:Layers)
+        {
+            if(L.name == _name)
+            {
+                goList = L.list;
+            }
+        }
+        if(goList == null) System.out.println("Oh no the list you want is null! Check your tags or if that list exists.");
+        return goList;
+    }
 
 
     public void Instantiate(GameObject gameObject)
     {
         toAdd.add(gameObject);
+        //Center new object:
         toAdd.get(toAdd.size()-1).position = new Vector2(toAdd.get(toAdd.size()-1).position.x-toAdd.get(toAdd.size()-1).width/2,
                                                          toAdd.get(toAdd.size()-1).position.y-toAdd.get(toAdd.size()-1).width/2);
     }
@@ -188,11 +171,29 @@ public class Level {
 
     public GameObject getPlayer()
     {
-        return player;
+        GameObject go = null;
+        for (Layer L: Layers)
+        {
+            if(L.name == Layer.LayerNames.PLAYER)
+            {
+                go = L.list.get(0);
+            }
+        }
+        if(go==null) System.out.println("There is no player object");
+        return go;
     }
     public GameObject getBg()
     {
-        return background;
+        GameObject go = null;
+        for (Layer L: Layers)
+        {
+            if(L.name == Layer.LayerNames.BACKGROUND)
+            {
+                go = L.list.get(0);
+            }
+        }
+        if(go==null) System.out.println("There is no background object");
+        return go;
     }
 
 }

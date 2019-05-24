@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
-
 
 public class Shot extends GameObject{
     public int damage;
@@ -31,13 +29,14 @@ public class Shot extends GameObject{
         rectangle = new Rectangle();
 
         switch (shotType){
-            case SE: tag = "ENEMYSHOT";
+            case SE: layerTag = Layer.LayerNames.ENEMYSHOT;
             break;
-            case AE: tag = "ENEMYSHOT";
+            case AE: layerTag = Layer.LayerNames.ENEMYSHOT;
             break;
-            case PLNORMAL: tag = "PLAYERSHOT";
+            case PLNORMAL: layerTag = Layer.LayerNames.PLAYERSHOT;
             break;
-            case PLSPECIAL:tag = "PLAYERSHOT";
+            case PLSPECIAL: layerTag = Layer.LayerNames.PLAYERSHOT;
+            break;
         }
 
         if(this.shotType == ShotType.PLSPECIAL)

@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Iterator;
-
 public class Explosion extends GameObject{
 
     public int damage = 60;
@@ -23,13 +21,13 @@ public class Explosion extends GameObject{
         height=10;
 
         scale = new Vector2(1,1);
-        tag = "DEFAULT";
+        layerTag = Layer.LayerNames.DEFAULT;
         explosion = Assets.getInstance().explosion;
     }
 
     @Override
     public void update(float delta) {
-        for (GameObject enemy: WorldController.instance.getCurrentLevel().enemyGos)
+        for (GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
         {
             if(Vector2.dst2(enemy.getCenterPos().x, enemy.getCenterPos().y, getCenterPos().x, getCenterPos().y)<=radius*radius)
             {

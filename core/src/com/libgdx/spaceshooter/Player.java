@@ -36,7 +36,7 @@ public class Player extends GameObject {
         scale = new Vector2(1,1);
 
         speed = new Vector2(0f,0f);
-        tag = "PLAYER";
+        layerTag = Layer.LayerNames.PLAYER;
         rectangle = new Rectangle();
 
         shootingPosL = new Vector2(-1.2f,2);
@@ -113,11 +113,11 @@ public class Player extends GameObject {
 
     void checkHit()
     {
-        for (GameObject shot: WorldController.instance.getCurrentLevel().enemyShots)
+        for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMYSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
-                WorldController.instance.getCurrentLevel().enemyShots.remove(shot);
+                WorldController.instance.getCurrentLevel().Despawn(shot);
                 lives -= 1;//Make it so that the damage of the shot is subtracted here
 
             }

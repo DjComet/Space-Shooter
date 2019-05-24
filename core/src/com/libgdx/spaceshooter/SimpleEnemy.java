@@ -44,7 +44,7 @@ public class SimpleEnemy extends GameObject {
 
         rectangle = new Rectangle();
 
-        tag = "ENEMY";
+        layerTag = Layer.LayerNames.ENEMY;
         timeToShoot =  1 + (float) Math.random() * 2;
         delay = (float) Math.random();
 
@@ -61,7 +61,7 @@ public class SimpleEnemy extends GameObject {
 
         move(delta);
 
-        if(position.y < -WorldController.instance.getCurrentLevel().background.height/2) {
+        if(position.y < -WorldController.instance.getCurrentLevel().getBg().height/2) {
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
 
@@ -101,7 +101,7 @@ public class SimpleEnemy extends GameObject {
 
     void checkHit()
     {
-        for (GameObject shot: WorldController.instance.getCurrentLevel().playerShots)
+        for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.PLAYERSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {

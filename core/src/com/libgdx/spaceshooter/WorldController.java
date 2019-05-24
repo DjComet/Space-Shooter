@@ -38,7 +38,7 @@ public class WorldController extends InputAdapter {
 
         //levels.Instantiate(new Shot(ShotType.PLNORMAL, 0,0,30, 10, 0));
         //for(int i = 0; i<10; i++)
-            getCurrentLevel().Instantiate(new SimpleEnemy(-getCurrentLevel().background.width/2 + (float)Math.random()* getCurrentLevel().background.width,50));
+            getCurrentLevel().Instantiate(new SimpleEnemy(-getCurrentLevel().getBg().width/2 + (float)Math.random()* getCurrentLevel().getBg().width,50));
 
     }
 
