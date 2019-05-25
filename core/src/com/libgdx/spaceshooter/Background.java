@@ -11,8 +11,8 @@ public class Background extends GameObject {
     {
         rotation = 0;
 
-        width = 75;
-        height = 50;
+        width = 50;
+        height = 75;
 
         position = new Vector2(-width/2, -height/2);
 

@@ -36,13 +36,13 @@ public class Assets {
         //BACKGROUND---------------------------------------------------------------------------------------------------------------------
         bg = new Texture (Gdx.files.internal("WaterTile.png"));
         bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
-        float bgFactorWidth = bg.getWidth() * 0.3f;        //this means that my Texture should cover 1 world unit width.
+        float bgFactorWidth = bg.getWidth() * 0.25f;        //this means that my Texture should cover 1 world unit width.
 
-        float bgFactorHeight = bg.getHeight() * 0.25f;   //this means that my Texture should cover 1 world unit height.
+        float bgFactorHeight = bg.getHeight() * 0.33f;   //this means that my Texture should cover 1 world unit height.
 
         float widthInWorldUnits = 25;                        //I am creating a world of 25 units width (my viewport width is around 10)
 
-        float heightInWorldUnits = 25;                     //I am creating a world of 20 units height (my viewport height is fixed to 10)
+        float heightInWorldUnits = 40;                     //I am creating a world of 20 units height (my viewport height is fixed to 10)
 
         tiledBg = new TextureRegion(bg, Math.round(widthInWorldUnits*bgFactorWidth),Math.round(heightInWorldUnits*bgFactorHeight));
 

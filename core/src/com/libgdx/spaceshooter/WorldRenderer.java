@@ -2,6 +2,8 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Iterator;
 
@@ -11,6 +13,7 @@ public class WorldRenderer {
     public WorldController controller;
     public String TAG_TIME = "TIMES";
     public float elapsedTime;
+    Viewport viewport;
 
     public WorldRenderer(WorldController wc){
         this.controller = wc;
@@ -19,6 +22,9 @@ public class WorldRenderer {
 
     public void init(){
         batch = new SpriteBatch();
+        viewport = new FitViewport(50,75, controller.ch.camera);
+        viewport.apply();
+        //controller.ch.camera.position.set(controller.ch.camera.viewportWidth/2, controller.ch.camera.viewportHeight/2,0);
         controller.ch.camera.position.set(0,0,0);
         controller.ch.camera.update();
     }
@@ -59,7 +65,9 @@ public class WorldRenderer {
     }
 
     public void resize(int width, int height){
-        controller.ch.camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;
+        viewport.update(width,height);
+        //controller.ch.camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;
+        //controller.ch.camera.position.set(controller.ch.camera.viewportWidth/2, controller.ch.camera.viewportHeight/2,0);
         controller.ch.camera.update();
         System.out.println("ViewportW: "+controller.ch.camera.viewportWidth + " - ViewportH: "+controller.ch.camera.viewportHeight);
 
