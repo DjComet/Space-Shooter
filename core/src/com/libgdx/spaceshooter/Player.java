@@ -97,7 +97,7 @@ public class Player extends GameObject {
         shotTimer += delta;
         specialShotTimer += delta;
 
-        if((Gdx.input.isKeyPressed(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
+        if((WorldController.instance.inputMgr.keyDown(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+height/2+shootingPosR.y, shotSpeed, 1,0));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));

@@ -8,10 +8,13 @@ import java.util.ArrayList;
 public class WorldController extends InputAdapter {
 
     public CameraHelper ch;
+
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
     public int currentLevel = 1;//Set to 0 when the menu is done
+    public InputManager inputMgr = new InputManager();
+
 
 
     public WorldController(){
@@ -23,7 +26,7 @@ public class WorldController extends InputAdapter {
         {
             WorldController.instance = null;
         }
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(inputMgr);
         ch = new CameraHelper();
         init();
     }
