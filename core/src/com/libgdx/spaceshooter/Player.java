@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import sun.security.ssl.Debug;
 
 
 public class Player extends GameObject {
@@ -26,6 +27,11 @@ public class Player extends GameObject {
     Vector2 shootingPosR;
     public float shotSpeed = 40f;
 
+
+    InputManager InputMgr;
+
+
+
     public Player(float posX, float posY) {
         position = new Vector2(posX, posY);
         rotation = 0;
@@ -41,7 +47,7 @@ public class Player extends GameObject {
 
         shootingPosL = new Vector2(-1.2f,2);
         shootingPosR = new Vector2( 1.2f,2);
-
+        InputMgr = WorldController.instance.inputMgr;
 
     }
 
@@ -55,7 +61,7 @@ public class Player extends GameObject {
 
         move(delta);
         shoot(delta);
-        //checkHit();
+        checkHit();
 
     }
 
@@ -64,12 +70,12 @@ public class Player extends GameObject {
         int horizontal = 0;
         int vertical = 0;
         bg = WorldController.instance.getCurrentLevel().getBg();
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) horizontal = -1;
-        else if(Gdx.input.isKeyPressed(Input.Keys.D)) horizontal = 1;
+        if(InputMgr.keyLeft) horizontal = -1;
+        else if(InputMgr.keyRight) horizontal = 1;
         else horizontal = 0;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) vertical = 1;
-        else if(Gdx.input.isKeyPressed(Input.Keys.S)) vertical = -1;
+        if(InputMgr.keyUp) vertical = 1;
+        else if(InputMgr.keyDown) vertical = -1;
         else vertical = 0;
 
 
@@ -90,20 +96,20 @@ public class Player extends GameObject {
         position.x = MathUtils.clamp(position.x, -bg.width/2 , bg.width/2 - width );
         position.y = MathUtils.clamp(position.y, -bg.height/2.13f, bg.height/2.13f - height);
 
-        //Gdx.app.debug("speed: "+speed, ", position: "+position);
         roll = speed.x/maxSpeed;
     }
     void shoot(float delta) {
         shotTimer += delta;
         specialShotTimer += delta;
 
-        if((WorldController.instance.inputMgr.keyDown(Input.Keys.SPACE) || Gdx.input.isKeyPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
+        if((InputMgr.keyShootN || Gdx.input.isButtonPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
         {
+            System.out.println("Shooting input: " + WorldController.instance.inputMgr.keyShootN);
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+height/2+shootingPosR.y, shotSpeed, 1,0));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
-        else if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && specialShotTimer>= specialShotInterval)
+        else if((Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) && specialShotTimer>= specialShotInterval)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x+0.2f,position.y+width/2, shotSpeed/4, 5,0));
 

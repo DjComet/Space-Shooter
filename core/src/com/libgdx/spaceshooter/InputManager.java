@@ -18,26 +18,46 @@ public class InputManager implements InputProcessor {
 
     public boolean keyDown (int keycode) {
 
-        keyRight = (keycode == Input.Keys.D ? true: false);
-        keyLeft = (keycode == Input.Keys.A ? true: false);
-        keyUp = (keycode == Input.Keys.W ? true: false);
-        keyDown = (keycode == Input.Keys.S ? true: false);
-        keyShootN = (keycode == Input.Keys.SPACE ? true: false);
-        keyShootS = (keycode == Input.Keys.SHIFT_LEFT ? true: false);
+        switch(keycode)
+        {
+            case Input.Keys.D: keyRight = true;
+                break;
+            case Input.Keys.A: keyLeft = true;
+                break;
+            case Input.Keys.W: keyUp = true;
+                break;
+            case Input.Keys.S: keyDown  = true;
+                break;
+            case Input.Keys.SPACE: keyShootN = true;
+                break;
+            case Input.Keys.SHIFT_LEFT: keyShootS = true;
+                break;
+        }
 
-        return false;
+
+
+        return true;
     }
 
     public boolean keyUp (int keycode) {
 
-        keyRight = (keycode == Input.Keys.D ? false: true);
-        keyLeft = (keycode == Input.Keys.A ? false: true);
-        keyUp = (keycode == Input.Keys.W ? false: true);
-        keyDown = (keycode == Input.Keys.S ? false: true);
-        keyShootN = (keycode == Input.Keys.SPACE ? false: true);
-        keyShootS = (keycode == Input.Keys.SHIFT_LEFT ? false: true);
+        switch(keycode)
+        {
+            case Input.Keys.D: keyRight = false;
+                break;
+            case Input.Keys.A: keyLeft = false;
+                break;
+            case Input.Keys.W: keyUp = false;
+                break;
+            case Input.Keys.S: keyDown  = false;
+                break;
+            case Input.Keys.SPACE: keyShootN = false;
+                break;
+            case Input.Keys.SHIFT_LEFT: keyShootS = false;
+                break;
+        }
 
-        return false;
+        return true;
     }
 
     public boolean keyTyped (char character) {
