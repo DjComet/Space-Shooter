@@ -9,7 +9,7 @@ public class Shot extends GameObject{
     public int damage;
     public ShotType shotType;
     float lifeTimer = 0f;
-    float lifeTime = 2f;
+    float lifeTime = 3f;
     private Vector2 speed = new Vector2(0f,0f);
 
 
@@ -19,10 +19,10 @@ public class Shot extends GameObject{
         position = new Vector2(posX, posY);
         rotation = rot;
 
-        width = 1.0f;
-        height = 1.0f;
+        width = 16;
+        height = 16;
 
-        scale = new Vector2(1,1);
+        scale = new Vector2(0.5f,0.5f);
         damage = dmg;
         speed.y = spd;
         shotType = st;

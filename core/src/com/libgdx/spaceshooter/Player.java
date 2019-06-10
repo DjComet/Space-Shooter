@@ -12,8 +12,8 @@ import sun.security.ssl.Debug;
 
 public class Player extends GameObject {
     public int lives = 5;
-    public float maxSpeed = 20f;
-    public float acceleration = 80f;
+    public float maxSpeed = 150f;
+    public float acceleration = 500f;
     public float roll = 0;
     public boolean dead = false;
     private Vector2 speed;
@@ -25,7 +25,7 @@ public class Player extends GameObject {
     public float specialShotInterval = 1f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 40f;
+    public float shotSpeed = 200f;
 
 
     InputManager InputMgr;
@@ -36,8 +36,8 @@ public class Player extends GameObject {
         position = new Vector2(posX, posY);
         rotation = 0;
 
-        width= 7;
-        height=7;
+        width= 32;
+        height=32;
 
         scale = new Vector2(1,1);
 
@@ -45,8 +45,8 @@ public class Player extends GameObject {
         layerTag = Layer.LayerNames.PLAYER;
         rectangle = new Rectangle();
 
-        shootingPosL = new Vector2(-1.2f,2);
-        shootingPosR = new Vector2( 1.2f,2);
+        shootingPosL = new Vector2(-1.2f,3);
+        shootingPosR = new Vector2( 9.8f,3);
         InputMgr = WorldController.instance.inputMgr;
 
     }

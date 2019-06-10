@@ -31,10 +31,10 @@ public class AdvancedEnemy extends GameObject {
 
         rotation = 180;
 
-        width = 8;
-        height = 8;
+        width = 32;
+        height = 32;
 
-        scale = new Vector2(1,1);
+        scale = new Vector2(1.2f,1.2f);
 
         speed = new Vector2(0f,maxSpeed/2);
         shootingPosL = new Vector2(0.1f,2);

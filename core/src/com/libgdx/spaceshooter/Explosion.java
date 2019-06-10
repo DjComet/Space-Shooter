@@ -17,8 +17,8 @@ public class Explosion extends GameObject{
         position = new Vector2(posX, posY);
         rotation = 0;
 
-        width= 10;
-        height=10;
+        width= 64;
+        height=64;
 
         scale = new Vector2(1,1);
         layerTag = Layer.LayerNames.DEFAULT;

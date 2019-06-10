@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
 
-    public float maxSpeed = 10f;
+    public float maxSpeed = 50f;
     public Vector2 speed;
-    public float acceleration = 100f;
+    public float acceleration = 300f;
     public float roll = 0f;
     public boolean dead = false;
 
@@ -32,8 +32,8 @@ public class SimpleEnemy extends GameObject {
 
         rotation = 180;
         direction = new Vector2(0, -1);
-        width = 7;
-        height = 7;
+        width = 32;
+        height = 32;
 
         scale = new Vector2(1,1);
 

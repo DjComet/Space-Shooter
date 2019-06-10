@@ -14,24 +14,26 @@ public class Level {
 
     public ArrayList<GameObject> toRemove;
     public ArrayList<GameObject> toAdd;
-    public float timeToNextLevel = 7f;
+    public float timeToNextLevel = 8f;
 
     public WaveManager waveM;
 
 
     public float currentTime;
 
-    public Level(GameObject bg)
+    public Level()
     {
         Layers = new ArrayList<Layer>();
         Layers.add(new Layer(Layer.LayerNames.BACKGROUND)); //0 BG
-        Layers.add(new Layer(Layer.LayerNames.PLAYERSHOT)); //1 PLSHOTS
-        Layers.add(new Layer(Layer.LayerNames.ENEMY));      //2 ENEMIES
-        Layers.add(new Layer(Layer.LayerNames.ENEMYSHOT));  //3 ENEMYSHOTS
+        Layers.add(new Layer(Layer.LayerNames.ENEMY));      //1 ENEMIES
+        Layers.add(new Layer(Layer.LayerNames.ENEMYSHOT));  //2 ENEMYSHOTS
+        Layers.add(new Layer(Layer.LayerNames.PLAYERSHOT)); //3 PLSHOTS
         Layers.add(new Layer(Layer.LayerNames.PLAYER));     //4 PLAYER
         Layers.add(new Layer(Layer.LayerNames.DEFAULT));    //5 DEFAULT
 
-        Layers.get(0).list.add(bg);
+        Layers.get(0).list.add(new Background());
+        Layers.get(0).list.add(new Canyon(-105, -200,false));
+        Layers.get(0).list.add(new Canyon(105-32, -200,true));
         Layers.get(4).list.add(new Player(-4.5f,-4.5f));
 
         toRemove = new ArrayList<GameObject>();
@@ -54,7 +56,9 @@ public class Level {
             case 4: waveM = new WaveManager(4, 35);
             break;
 
-            //ADD A CASE 5 with a wave manager that spawns an ovni when DIFF 5 and totalW 120 (2 minutes)
+            case 5: waveM = new WaveManager(5, 1);//ovni
+            break;
+
         }
     }
 

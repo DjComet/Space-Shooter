@@ -33,16 +33,15 @@ public class WorldController extends InputAdapter {
 
     public void init()
     {
-        levels.add(new Level(new Background()));//Level 0
-        levels.add(new Level(new Background()));//Level 1
-        levels.add(new Level(new Background()));//Level 2
-        levels.add(new Level(new Background()));//Level 3
+        levels.add(new Level());//Level 0
+        levels.add(new Level());//Level 1
+        levels.add(new Level());//Level 2
+        levels.add(new Level());//Level 3
         //add new level
 
 
-        //levels.Instantiate(new Shot(ShotType.PLNORMAL, 0,0,30, 10, 0));
-        //for(int i = 0; i<10; i++)
-            getCurrentLevel().Instantiate(new Ovni());
+
+            //getCurrentLevel().Instantiate(new Ovni());
 
     }
 
@@ -51,7 +50,7 @@ public class WorldController extends InputAdapter {
         levels.get(currentLevel).update(deltaTime);
 
 
-        ch.followGO(levels.get(currentLevel).getPlayer());
+        //ch.followGO(levels.get(currentLevel).getPlayer());
 
     }
 

@@ -1,33 +1,39 @@
 package com.libgdx.spaceshooter;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Background extends GameObject {
+public class Canyon extends GameObject {
 
-    public Background()
+    public Canyon(float posX, float posY, boolean flipped)
     {
         rotation = 0;
 
-        width = 200;
+        width = 32;
         height = 400;
 
-        position = new Vector2(-width/2, -height/2);
+        position = new Vector2(posX, posY);
 
-        scale = new Vector2(1,1);
 
+        if(flipped)
+        {
+            scale = new Vector2(-1,1);
+        }
+        else
+        {
+            scale = new Vector2(1,1);
+        }
 
 
     }
 
-    public void update(float delta)
-    {
-        TextureRegion tr = Assets.getInstance().tiledBg;
+    @Override
+    public void update(float delta) {
+        TextureRegion tr = Assets.getInstance().tiledCanyon;
         float speedX = 0;
 
-        float speedY = -200;
+        float speedY = -100;
 
         int amountX = (int)(speedX*delta);
 
@@ -44,11 +50,9 @@ public class Background extends GameObject {
         tr.setRegionHeight(tr.getRegionHeight()+amountY);
     }
 
-    public void draw(SpriteBatch batch)
-    {
+    @Override
+    public void draw(SpriteBatch batch) {
 
-        batch.draw(Assets.getInstance().tiledBg,position.x,position.y,width,height);
+        batch.draw(Assets.getInstance().tiledCanyon,position.x,position.y,width/2, height/2, width,height, scale.x, scale.y, rotation);
     }
-
-
 }
