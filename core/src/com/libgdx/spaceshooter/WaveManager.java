@@ -65,10 +65,21 @@ public class WaveManager {
                     shipSwitchInterval = (int) Math.random() * 3 + 2;
                     break;
 
+                case 5:
+                    enemies = 0;
+                    advEnemies = 0;
+                    timeBetween = 180;
+                    shipSwitchInterval = 0;
+                    break;
+
             }
                 System.out.println("TimeBetween: " + timeBetween);
                 //adds a wave to the arrayList at a certain second.
-                if (shipSwitchInterval <= specialWaveCount)
+                if(difficulty == 5)
+                {
+                    waves.add(new Wave(2, 10, Wave.TypeOfShip.ovni));
+                }
+                else if (shipSwitchInterval <= specialWaveCount)
                 {
                     System.out.println("Wave of Advanced added" );
                     waves.add(new Wave(advEnemies, getTimeToSpawn(timeBetween), Wave.TypeOfShip.advanced));
@@ -79,6 +90,8 @@ public class WaveManager {
                     System.out.println("wave of simple added");
                     waves.add(new Wave(enemies, getTimeToSpawn(timeBetween), Wave.TypeOfShip.simple));
                 }
+
+
 
 
 

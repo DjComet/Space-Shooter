@@ -9,13 +9,14 @@ public class Wave {
     public boolean spawnable = true;
     int numberOfEnemies;
     float timeToNextWave;
-    enum TypeOfShip {simple, advanced}
+    enum TypeOfShip {simple, advanced, ovni}
     TypeOfShip typeOfShip;
     Random random = new Random();
+    float padding = 100f;
 
 
     float posX = 0;
-    float posY = 50;
+    float posY = 405;
 
     public Wave(int number, float time, TypeOfShip type )
     {
@@ -72,11 +73,11 @@ public class Wave {
 
     public float randomPos(boolean horizontal)
     {
-        float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - 6 : 60);
-        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 +6 : 30);
-        float positionX = (random.nextFloat() * (max-min)) + min;
+        float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - padding : posY+10);
+        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 +padding : posY);
+        float position = (random.nextFloat() * ((max - min) + 1)) + min;
 
-        return positionX;
+        return position;
     }
 
 
