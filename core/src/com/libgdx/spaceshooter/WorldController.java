@@ -37,6 +37,7 @@ public class WorldController extends InputAdapter {
         levels.add(new Level(new Background()));//Level 1
         levels.add(new Level(new Background()));//Level 2
         levels.add(new Level(new Background()));//Level 3
+        //add new level
 
 
         //levels.Instantiate(new Shot(ShotType.PLNORMAL, 0,0,30, 10, 0));

@@ -42,9 +42,6 @@ public class Level {
 
         switch(WorldController.instance.currentLevel)
         {
-            case 0: waveM = null;
-            break;
-
             case 1: waveM = new WaveManager(1,10);
             break;
 
@@ -57,6 +54,7 @@ public class Level {
             case 4: waveM = new WaveManager(4, 35);
             break;
 
+            //ADD A CASE 5 with a wave manager that spawns an ovni when DIFF 5 and totalW 120 (2 minutes)
         }
     }
 
