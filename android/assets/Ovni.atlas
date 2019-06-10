@@ -1,0 +1,27 @@
+
+Ovni.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Ovni0
+  rotate: false
+  xy: 2, 2
+  size: 199, 199
+  orig: 199, 199
+  offset: 0, 0
+  index: -1
+Ovni1
+  rotate: false
+  xy: 203, 2
+  size: 199, 199
+  orig: 199, 199
+  offset: 0, 0
+  index: -1
+Ovni2
+  rotate: false
+  xy: 404, 2
+  size: 199, 199
+  orig: 199, 199
+  offset: 0, 0
+  index: -1
