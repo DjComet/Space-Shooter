@@ -20,6 +20,9 @@ public class Assets {
     public TextureAtlas advancedEnemy;
     public TextureRegion[] aeTexRegions;
 
+    public TextureAtlas ovni;
+    public TextureRegion[] ovniTexRegions;
+
 
     public TextureAtlas shot;
     public TextureRegion[] shotTexRegions;
@@ -96,6 +99,16 @@ public class Assets {
         for(int i = 0; i<aeRegionsNumber; i++)
         {
             aeTexRegions[i] = SpriteHelper.textureFromTextureAtlas("AdvancedEnemy"+(i), advancedEnemy);
+        }
+
+        //OVNI--------------------------------------------------------------------------------------------------------------------------------------
+        ovni = new TextureAtlas("Ovni.atlas");
+        int ovniRegNum = ovni.getRegions().size;
+        ovniTexRegions = new TextureRegion[ovniRegNum];
+
+        for(int i = 0; i<ovniRegNum; i++)
+        {
+            ovniTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Ovni"+(i), ovni);
         }
 
 

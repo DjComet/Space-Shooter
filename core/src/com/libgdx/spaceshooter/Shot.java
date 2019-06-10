@@ -33,13 +33,17 @@ public class Shot extends GameObject{
             break;
             case AE: layerTag = Layer.LayerNames.ENEMYSHOT;
             break;
+            case OVNINORMAL: layerTag = Layer.LayerNames.ENEMYSHOT;
+            break;
+            case OVNILASER: layerTag = Layer.LayerNames.ENEMYSHOT;
+            break;
             case PLNORMAL: layerTag = Layer.LayerNames.PLAYERSHOT;
             break;
             case PLSPECIAL: layerTag = Layer.LayerNames.PLAYERSHOT;
             break;
         }
 
-        if(this.shotType == ShotType.PLSPECIAL)
+        if(this.shotType == ShotType.PLSPECIAL || this.shotType == ShotType.OVNINORMAL)
         {
             scale = new Vector2(3,3);
         }
