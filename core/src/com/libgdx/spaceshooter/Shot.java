@@ -9,7 +9,7 @@ public class Shot extends GameObject{
     public int damage;
     public ShotType shotType;
     float lifeTimer = 0f;
-    float lifeTime = 3f;
+    float lifeTime = 4f;
     private Vector2 speed = new Vector2(0f,0f);
 
 

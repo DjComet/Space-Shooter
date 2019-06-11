@@ -9,21 +9,21 @@ import com.badlogic.gdx.math.Vector2;
 
 public class SimpleEnemy extends GameObject {
 
-    public float maxSpeed = 50f;
+    public float maxSpeed = 100f;
     public Vector2 speed;
     public float acceleration = 300f;
     public float roll = 0f;
     public boolean dead = false;
+    boolean checked = false;
 
-
-    float realTime;
+    float realTime = 0;
     float delay;
-    float period = 2f;
-    float amplitude = 1f;
+    float period = 1f;
+    float amplitude = 2f;
     Vector2 direction;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 30f;
+    public float shotSpeed = 300f;
     float timer = 0f;
     float timeToShoot;
 
@@ -39,8 +39,8 @@ public class SimpleEnemy extends GameObject {
 
         speed = new Vector2(0f, maxSpeed);
 
-        shootingPosL = new Vector2(0.1f,2);
-        shootingPosR = new Vector2( 1.2f,2);
+        shootingPosL = new Vector2(2,0);
+        shootingPosR = new Vector2( -10,0);
 
         rectangle = new Rectangle();
 
@@ -76,17 +76,19 @@ public class SimpleEnemy extends GameObject {
 
 
         float sine = (float)Math.sin((realTime + delay) * 2 * MathUtils.PI/period) * amplitude;//Movimiento armónico simple
+        System.out.println("Sine: "+ sine);
 
-        if(sine<0) direction.x  = -1;
-        else if(sine>0) direction.x  = 1;
-        else direction.x  = 0;
+
+        if(sine<= -amplitude+0.05) direction.x  = 1;
+        else if(sine>= amplitude-0.05) direction.x  = -1;
+
 
         float targetSpeed = maxSpeed * direction.x;
         float offsetSpeed = targetSpeed - speed.x;
         offsetSpeed = MathUtils.clamp(offsetSpeed, -acceleration * delta, acceleration * delta);
         speed.x += offsetSpeed;
 
-        position.x += speed.x * delta;
+        position.x += sine;
         position.y += speed.y * direction.y * delta;
 
         roll = -speed.x/maxSpeed;
@@ -95,6 +97,12 @@ public class SimpleEnemy extends GameObject {
         {
             shoot();
             timer = 0;
+        }
+
+        if(!checked)
+        {
+            System.out.println("Position checked: " +position.x + ", "+ position.y);
+            checked = true;
         }
 
     }
@@ -116,8 +124,8 @@ public class SimpleEnemy extends GameObject {
 
     void shoot() {
 
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-(width/2) +shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
 
     }
 
@@ -132,8 +140,6 @@ public class SimpleEnemy extends GameObject {
         else if(roll == 0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
         {
             i = 3;
-            shootingPosL = new Vector2(-3,2);
-            shootingPosR = new Vector2( 3,2);
         }
         else if(roll>0 && roll<=0.2f)
         {

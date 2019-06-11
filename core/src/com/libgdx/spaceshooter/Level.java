@@ -11,7 +11,6 @@ public class Level {
     public ArrayList<Layer>Layers;
 
 
-
     public ArrayList<GameObject> toRemove;
     public ArrayList<GameObject> toAdd;
     public float timeToNextLevel = 8f;
@@ -21,7 +20,7 @@ public class Level {
 
     public float currentTime;
 
-    public Level()
+    public Level(int difficulty)
     {
         Layers = new ArrayList<Layer>();
         Layers.add(new Layer(Layer.LayerNames.BACKGROUND)); //0 BG
@@ -34,7 +33,7 @@ public class Level {
         Layers.get(0).list.add(new Background());
         Layers.get(0).list.add(new Canyon(-105, -200,false));
         Layers.get(0).list.add(new Canyon(105-32, -200,true));
-        Layers.get(4).list.add(new Player(-4.5f,-4.5f));
+        Layers.get(4).list.add(new Player(-16f,-16f));
 
         toRemove = new ArrayList<GameObject>();
         toAdd = new ArrayList<GameObject>();
@@ -44,16 +43,16 @@ public class Level {
 
         switch(WorldController.instance.currentLevel)
         {
-            case 1: waveM = new WaveManager(1,10);
+            case 1: waveM = new WaveManager(difficulty,7);
             break;
 
-            case 2: waveM = new WaveManager(2,15);
+            case 2: waveM = new WaveManager(difficulty,15);
             break;
 
-            case 3: waveM = new WaveManager(3,20);
+            case 3: waveM = new WaveManager(difficulty,20);
             break;
 
-            case 4: waveM = new WaveManager(4, 35);
+            case 4: waveM = new WaveManager(difficulty, 30);
             break;
 
             case 5: waveM = new WaveManager(5, 1);//ovni
@@ -151,8 +150,8 @@ public class Level {
     {
         toAdd.add(gameObject);
         //Center new object:
-        toAdd.get(toAdd.size()-1).position = new Vector2(toAdd.get(toAdd.size()-1).position.x-toAdd.get(toAdd.size()-1).width/2,
-                                                         toAdd.get(toAdd.size()-1).position.y-toAdd.get(toAdd.size()-1).width/2);
+        //toAdd.get(toAdd.size()-1).position = new Vector2(toAdd.get(toAdd.size()-1).position.x-toAdd.get(toAdd.size()-1).width/2,
+                                                         //toAdd.get(toAdd.size()-1).position.y-toAdd.get(toAdd.size()-1).width/2);
     }
 
     public void Despawn(GameObject gameObject)

@@ -45,8 +45,8 @@ public class Player extends GameObject {
         layerTag = Layer.LayerNames.PLAYER;
         rectangle = new Rectangle();
 
-        shootingPosL = new Vector2(-1.2f,3);
-        shootingPosR = new Vector2( 9.8f,3);
+        shootingPosL = new Vector2(-9.8f,3);
+        shootingPosR = new Vector2( 1.3f,3);
         InputMgr = WorldController.instance.inputMgr;
 
     }
@@ -150,31 +150,31 @@ public class Player extends GameObject {
         {
             i=7;
         }
-        else if(roll ==0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
+        else if(roll == 0)//This is for precise control over the animation (allows for quick direction changes with proper frame correspondance)
         {
             i = 3;
         }
-        else if(roll>0 && roll<=0.2f)
+        else if(roll > 0 && roll <= 0.2f)
         {
             i=4;
         }
-        else if(roll>0.2f && roll<=0.4f) //Right hand turn
+        else if(roll > 0.2f && roll <= 0.4f) //Right hand turn
         {
             i=5;
         }
-        else if(roll>0.4)
+        else if(roll > 0.4)
         {
             i=6;
         }
-        else if(roll<0 && roll>=-0.2f)
+        else if(roll < 0  && roll >= -0.2f)
         {
             i=2;
         }
-        else if(roll<-0.2f && roll>=-0.4f) //left hand turn
+        else if(roll < -0.2f && roll >= -0.4f) //left hand turn
         {
             i=1;
         }
-        else if(roll<-0.4)
+        else if(roll < -0.4)
         {
             i=0;
         }

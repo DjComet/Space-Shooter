@@ -11,12 +11,12 @@ public class Wave {
     float timeToNextWave;
     enum TypeOfShip {simple, advanced, ovni}
     TypeOfShip typeOfShip;
-    Random random = new Random();
-    float padding = 100f;
+    //Random random = new Random();
+    float padding = 50f;
 
 
     float posX = 0;
-    float posY = 405;
+    float posY = 400;
 
     public Wave(int number, float time, TypeOfShip type )
     {
@@ -42,6 +42,7 @@ public class Wave {
                     {
                         posX = randomPos(true);
                         posY += 8f;
+
                     }
                     WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(posX,posY));
                     break;
@@ -74,8 +75,9 @@ public class Wave {
     public float randomPos(boolean horizontal)
     {
         float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - padding : posY+10);
-        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 +padding : posY);
-        float position = (random.nextFloat() * ((max - min) + 1)) + min;
+        float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 + padding +32 : posY);
+        float position = ((float)Math.random() * ((max - min) + 1)) + min;
+        System.out.println("Position provided: " + position + ", min: " + min + ", max: " + max);
 
         return position;
     }

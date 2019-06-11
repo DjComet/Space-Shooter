@@ -14,6 +14,7 @@ public class WorldController extends InputAdapter {
     public ArrayList<Level> levels = new ArrayList<Level>();
     public int currentLevel = 1;//Set to 0 when the menu is done
     public InputManager inputMgr = new InputManager();
+    public int difficulty;
 
 
 
@@ -33,10 +34,12 @@ public class WorldController extends InputAdapter {
 
     public void init()
     {
-        levels.add(new Level());//Level 0
-        levels.add(new Level());//Level 1
-        levels.add(new Level());//Level 2
-        levels.add(new Level());//Level 3
+        difficulty = 1;
+        levels.add(new Level(difficulty));//Level 0
+        levels.add(new Level(difficulty));//Level 1
+        levels.add(new Level(difficulty));//Level 2
+        levels.add(new Level(difficulty));//Level 3
+        levels.add(new Level(difficulty));//Final
         //add new level
 
 
