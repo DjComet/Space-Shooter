@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 
 public class InputManager implements InputProcessor {
 
@@ -12,7 +13,7 @@ public class InputManager implements InputProcessor {
     public boolean keyDown = false;
     public boolean keyShootN = false;
     public boolean keyShootS = false;
-
+    public Vector3 pointBut = null;
 
 
 
@@ -65,7 +66,26 @@ public class InputManager implements InputProcessor {
     }
 
     public boolean touchDown (int x, int y, int pointer, int button) {
-        return false;
+
+        pointBut = new Vector3(x,y,0);
+        //check if the click is for the HUD
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
+        {
+            MenuController.instance.ch.hudCamera.unproject(pointBut);
+            if (!MenuController.instance.hud.click(pointBut.x, pointBut.y))
+            {
+                System.out.println("CLICC");
+            }
+        }
+        else {
+
+            WorldController.instance.ch.hudCamera.unproject(pointBut);
+            if (!WorldController.instance.hud.click(pointBut.x, pointBut.y))
+            {
+                System.out.println("CLICC");
+            }
+        }
+        return true;
     }
 
     public boolean touchUp (int x, int y, int pointer, int button) {

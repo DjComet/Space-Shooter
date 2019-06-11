@@ -2,6 +2,7 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.libgdx.spaceshooter.HUD.HUD;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class WorldController extends InputAdapter {
     public int currentLevel = 1;//Set to 0 when the menu is done
     public InputManager inputMgr = new InputManager();
     public int difficulty;
+    public HUD hud;
 
 
 
