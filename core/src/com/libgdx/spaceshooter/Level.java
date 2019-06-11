@@ -20,7 +20,7 @@ public class Level {
 
     public float currentTime;
 
-    public Level(int difficulty)
+    public Level(int difficulty) //If difficulty is 0, this is a menu.
     {
         Layers = new ArrayList<Layer>();
         Layers.add(new Layer(Layer.LayerNames.BACKGROUND)); //0 BG
@@ -33,53 +33,64 @@ public class Level {
         Layers.get(0).list.add(new Background());
         Layers.get(0).list.add(new Canyon(-105, -200,false));
         Layers.get(0).list.add(new Canyon(105-32, -200,true));
-        Layers.get(4).list.add(new Player(-16f,-16f));
+
+
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen)Layers.get(4).list.add(new Player(-16f,-16f));
 
         toRemove = new ArrayList<GameObject>();
         toAdd = new ArrayList<GameObject>();
         currentTime = 0f;
 
 
-
-        switch(WorldController.instance.currentLevel)
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen)
         {
-            case 1: waveM = new WaveManager(difficulty,7);
-            break;
+            switch (WorldController.instance.currentLevel)
+            {
+                case 1:
+                    waveM = new WaveManager(difficulty, 7);
+                    break;
 
-            case 2: waveM = new WaveManager(difficulty,15);
-            break;
+                case 2:
+                    waveM = new WaveManager(difficulty, 15);
+                    break;
 
-            case 3: waveM = new WaveManager(difficulty,20);
-            break;
+                case 3:
+                    waveM = new WaveManager(difficulty, 20);
+                    break;
 
-            case 4: waveM = new WaveManager(difficulty, 30);
-            break;
+                case 4:
+                    waveM = new WaveManager(difficulty, 30);
+                    break;
 
-            case 5: waveM = new WaveManager(5, 1);//ovni
-            break;
+                case 5:
+                    waveM = new WaveManager(5, 1);//ovni
+                    break;
 
+            }
         }
+        else { /*waveM = new WaveManager(4, 50); */}
+
     }
 
     public void update(float delta)
     {
         currentTime += delta;
 
-        for (int i = 0; i< waveM.waves.size(); i++)
+        if(waveM != null)
         {
-            if(waveM.waves.get(i).spawnable && waveM.waves.get(i).timeToNextWave < currentTime)
-            {
-                System.out.println("Time For Next Wave: " + waveM.waves.get(i).timeToNextWave + ", CurrentTime: " + currentTime);
-                waveM.waves.get(i).SpawnWave();
+            for (int i = 0; i < waveM.waves.size(); i++) {
+                if (waveM.waves.get(i).spawnable && waveM.waves.get(i).timeToNextWave < currentTime) {
+                    System.out.println("Time For Next Wave: " + waveM.waves.get(i).timeToNextWave + ", CurrentTime: " + currentTime);
+                    waveM.waves.get(i).SpawnWave();
+                }
             }
         }
-
 
         updateLists(delta);
         removeGos();
         addGos();
 
-        if(waveM.waves.get((waveM.waves.size()-1)).timeToNextWave + timeToNextLevel < currentTime)
+        if(waveM!=null && waveM.waves.get((waveM.waves.size()-1)).timeToNextWave + timeToNextLevel < currentTime)
         {
             WorldController.instance.currentLevel++;
             System.out.println("Going to level " + WorldController.instance.currentLevel);

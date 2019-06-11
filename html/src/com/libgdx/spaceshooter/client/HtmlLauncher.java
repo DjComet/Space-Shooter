@@ -3,7 +3,8 @@ package com.libgdx.spaceshooter.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.libgdx.spaceshooter.SpaceShooterMain;
+import com.libgdx.spaceshooter.MAIN_GAME;
+import com.libgdx.spaceshooter.SpaceShooterMainScene;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -46,6 +47,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new SpaceShooterMain();
+                return new MAIN_GAME();
         }
 }

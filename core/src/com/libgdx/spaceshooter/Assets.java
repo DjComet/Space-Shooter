@@ -1,13 +1,18 @@
 package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
     private static Assets instance = null;
+
+    public Texture button;
+    public BitmapFont font;
     public TextureAtlas player;
     public TextureRegion[] playerTexRegions;
     public Animation<TextureRegion> p_bankLeft;
@@ -37,9 +42,17 @@ public class Assets {
     public Texture canyon;
     public TextureRegion tiledCanyon;
 
+    public Texture logo;
+
     private Assets() {
 
-        //BACKGROUND---------------------------------------------------------------------------------------------------------------------
+
+        //HUD----------------------------------------------------------------------------------------------------------------------------
+        button = createButtonTexture();
+        font = new BitmapFont();
+        font.getData().setScale(2);
+
+        //BACKGROUNDS---------------------------------------------------------------------------------------------------------------------
         bg = new Texture (Gdx.files.internal("WaterTile.png"));
         bg.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         float bgFactorWidth = bg.getWidth() * 0.03f;        //this means that my Texture should cover 1 world unit width.
@@ -51,7 +64,7 @@ public class Assets {
         float heightInWorldUnits = 400;                     //I am creating a world of 20 units height (my viewport height is fixed to 10)
 
         tiledBg = new TextureRegion(bg, Math.round(widthInWorldUnits*bgFactorWidth),Math.round(heightInWorldUnits*bgFactorHeight));
-
+                                      //---------------------------------------------------//
         canyon = new Texture (Gdx.files.internal("CanyonWall.png"));
         canyon.setWrap(Texture.TextureWrap.Repeat,Texture.TextureWrap.Repeat);
         float canyonFactorWidth = canyon.getWidth() * 0.02f;
@@ -63,6 +76,10 @@ public class Assets {
         float canyonHeightInWorldUnits = 400;
 
         tiledCanyon = new TextureRegion(canyon, Math.round(canyonWidthInWorldUnits*canyonFactorWidth),Math.round(canyonHeightInWorldUnits*canyonFactorHeight));
+
+        //LOGO---------------------------------------------------------------------------------------------------------------------------
+
+        logo = new Texture("CanyonLogo.png");
 
         //EXPLOSION----------------------------------------------------------------------------------------------------------------------
 
@@ -137,6 +154,15 @@ public class Assets {
         {
             shotTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Shot"+(i), shot);
         }
+    }
+
+    private Texture createButtonTexture() {
+        Pixmap pm = new Pixmap(10,10, Pixmap.Format.RGBA8888);
+        pm.setColor(0,0,0,1);
+        pm.drawRectangle(0,0,10,10);
+        pm.setColor(0.2f,0.8f,0.2f,1);
+        pm.fillRectangle(1,1,8,8);
+        return new Texture(pm);
     }
 
     public static Assets getInstance() {

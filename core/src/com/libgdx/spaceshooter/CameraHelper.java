@@ -9,12 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 
 public class CameraHelper {
     public OrthographicCamera camera;
+    public OrthographicCamera hudCamera;
     public String TAG_CAMERA = "CAMERA";
     private float maxDistanceToPlayer = 20f;
 
 
     public CameraHelper(){
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH, Constants.VIEWPORT_HEIGHT);
+        hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void zoomIn(float delta)
@@ -32,13 +34,12 @@ public class CameraHelper {
     }
 
 
-    public void followGO(GameObject go)
+    public void followGO(GameObject go)//To follow a gameobject (player normally)
     {
         Vector2 goCenterPos = go.getCenterPos() ;
 
-
+        //keep the camera within a certain distance to the player-----------------------------------------------------------------
         Vector2 direction = new Vector2((camera.position.x - goCenterPos.x <0?-1:1),(camera.position.y - goCenterPos.y <0?-1:1));
-        //keep the camera within a certain distance to the player
         if(Math.abs(camera.position.x - goCenterPos.x) > maxDistanceToPlayer)
         {
             if(direction.x > 0)
@@ -55,8 +56,9 @@ public class CameraHelper {
                 camera.position.y = goCenterPos.y - maxDistanceToPlayer;
         }
 
+        //Keep camera within bounds-----------------------------------------------------------------------------------------------------
         //camera.position.x = MathUtils.clamp(camera.position.x, -bg.width/2 + camera.width, bg.width/2 - width );
-        //camera.position.y = MathUtils.clamp(camera.position.y, -WorldController.instance.getCurrentLevel().gameObjects.get(0).height/2 , WorldController.instance.getCurrentLevel().gameObjects.get(0).height/2);
+        //camera.position.y = MathUtils.clamp(camera.position.y, -bg.height/2, WorldController.instance.getCurrentLevel().gameObjects.get(0).height/2);
 
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.x " + (go.position.x));
         //Gdx.app.debug(TAG_CAMERA, "Supposed position of GO.y" + (go.position.y));

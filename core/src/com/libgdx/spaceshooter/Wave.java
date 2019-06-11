@@ -16,7 +16,7 @@ public class Wave {
 
 
     float posX = 0;
-    float posY = 400;
+    float posY = 380;
 
     public Wave(int number, float time, TypeOfShip type )
     {
@@ -41,16 +41,17 @@ public class Wave {
                     while (checkForCollisionOnSpawn(posX))
                     {
                         posX = randomPos(true);
-                        posY += 8f;
+                        posY += 10f;
 
                     }
                     WorldController.instance.getCurrentLevel().Instantiate(new SimpleEnemy(posX,posY));
                     break;
                 case advanced:
+                    posX = 0;
                     posY = randomPos(false);
                     while (checkForCollisionOnSpawn(posX))
                     {
-                        posY = randomPos(false);
+                        posY += 40f;
                     }
                     WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(posX,posY));
                     break;
@@ -74,7 +75,7 @@ public class Wave {
 
     public float randomPos(boolean horizontal)
     {
-        float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - padding : posY+10);
+        float max =  (horizontal ? WorldController.instance.getCurrentLevel().getBg().width/2 - padding : posY+40);
         float min =  (horizontal ? -WorldController.instance.getCurrentLevel().getBg().width/2 + padding +32 : posY);
         float position = ((float)Math.random() * ((max - min) + 1)) + min;
         System.out.println("Position provided: " + position + ", min: " + min + ", max: " + max);

@@ -23,7 +23,7 @@ public class SimpleEnemy extends GameObject {
     Vector2 direction;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 300f;
+    public float shotSpeed = 250f;
     float timer = 0f;
     float timeToShoot;
 
@@ -39,8 +39,8 @@ public class SimpleEnemy extends GameObject {
 
         speed = new Vector2(0f, maxSpeed);
 
-        shootingPosL = new Vector2(2,0);
-        shootingPosR = new Vector2( -10,0);
+        shootingPosL = new Vector2(-2,4);
+        shootingPosR = new Vector2( 8,4);
 
         rectangle = new Rectangle();
 
@@ -79,8 +79,8 @@ public class SimpleEnemy extends GameObject {
         System.out.println("Sine: "+ sine);
 
 
-        if(sine<= -amplitude+0.05) direction.x  = 1;
-        else if(sine>= amplitude-0.05) direction.x  = -1;
+        if(sine <= -amplitude+0.05) direction.x  = 1;
+        else if(sine >= amplitude-0.05) direction.x  = -1;
 
 
         float targetSpeed = maxSpeed * direction.x;
@@ -113,7 +113,7 @@ public class SimpleEnemy extends GameObject {
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
-                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32));
                 WorldController.instance.getCurrentLevel().Despawn(shot);
                 dead = true;
                 WorldController.instance.getCurrentLevel().Despawn(this);
@@ -124,8 +124,8 @@ public class SimpleEnemy extends GameObject {
 
     void shoot() {
 
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x+width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-(width/2) +shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 +shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
 
     }
 

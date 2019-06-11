@@ -10,19 +10,19 @@ import com.badlogic.gdx.math.Vector2;
 public class AdvancedEnemy extends GameObject {
 
     int lives = 6;
-    public float maxSpeed = 20f;
+    public float maxSpeed = 100f;
     public float roll = 0f;
     public boolean dead = false;
-    public float acceleration = 60f;
+    public float acceleration = 300f;
     public Vector2 direction = new Vector2(0,-1);
 
     public Vector2 speed;
-    float distanceToStopFollow = 20f;
+    float distanceToStopFollow = 200f;
     float timesToShoot;
     float numberOfShots=0f;
     Vector2 shootingPosL;
     Vector2 shootingPosR;
-    public float shotSpeed = 30f;
+    public float shotSpeed = 300f;
     boolean startShooting = false;
     int counter = 0;
 
@@ -37,8 +37,8 @@ public class AdvancedEnemy extends GameObject {
         scale = new Vector2(1.2f,1.2f);
 
         speed = new Vector2(0f,maxSpeed/2);
-        shootingPosL = new Vector2(0.1f,2);
-        shootingPosR = new Vector2( 1.2f,2);
+        shootingPosL = new Vector2(-3,2);
+        shootingPosR = new Vector2( 8f,2);
 
         rectangle = new Rectangle();
         timesToShoot =  10;
@@ -83,7 +83,7 @@ public class AdvancedEnemy extends GameObject {
 
     void die()
     {
-        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2-32, position.y-height/2-32));
         dead = true;
         WorldController.instance.getCurrentLevel().Despawn(this);
     }
@@ -136,8 +136,8 @@ public class AdvancedEnemy extends GameObject {
 
     void shoot() {
 
-        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-width/2,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
-        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-(width/2) +2f,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
+        WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-(width/2) + shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
 
     }
 
