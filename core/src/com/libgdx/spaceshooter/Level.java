@@ -28,14 +28,15 @@ public class Level {
         Layers.add(new Layer(Layer.LayerNames.ENEMYSHOT));  //2 ENEMYSHOTS
         Layers.add(new Layer(Layer.LayerNames.PLAYERSHOT)); //3 PLSHOTS
         Layers.add(new Layer(Layer.LayerNames.PLAYER));     //4 PLAYER
-        Layers.add(new Layer(Layer.LayerNames.DEFAULT));    //5 DEFAULT
+        Layers.add(new Layer(Layer.LayerNames.EXPLOSION));    //5 EXPLOSION
 
         Layers.get(0).list.add(new Background());
-        Layers.get(0).list.add(new Canyon(-105, -200,false));
-        Layers.get(0).list.add(new Canyon(105-32, -200,true));
+        Layers.get(0).list.add(new Canyon(-getBg().width/2, -200,false));
+        Layers.get(0).list.add(new Canyon(getBg().width/2-32, -200,true));
 
 
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen)Layers.get(4).list.add(new Player(-16f,-16f));
+
 
         toRemove = new ArrayList<GameObject>();
         toAdd = new ArrayList<GameObject>();

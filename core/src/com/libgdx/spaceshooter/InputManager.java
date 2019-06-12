@@ -79,13 +79,14 @@ public class InputManager implements InputProcessor {
     public boolean touchDown (int x, int y, int pointer, int button) {
 
         pointBut = new Vector3(x,y,0);
+        System.out.println("POINTBUT: "+pointBut);
         //check if the click is for the HUD
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
         {
             MenuController.instance.ch.hudCamera.unproject(pointBut);
             if (!MenuController.instance.hud.click(pointBut.x, pointBut.y))
             {
-                System.out.println("CLICC");
+                System.out.println("MENU_CLICC");
             }
         }
         else {
@@ -93,13 +94,15 @@ public class InputManager implements InputProcessor {
             WorldController.instance.ch.hudCamera.unproject(pointBut);
             if (!WorldController.instance.hud.click(pointBut.x, pointBut.y))
             {
-                System.out.println("CLICC");
+                System.out.println("WORLD_CLICC");
             }
         }
         return true;
     }
 
     public boolean touchUp (int x, int y, int pointer, int button) {
+
+        pointBut=null;
         return false;
     }
 
@@ -109,13 +112,13 @@ public class InputManager implements InputProcessor {
 
     public boolean mouseMoved (int x, int y) {
         mousePos = new Vector2(x,y);
-        Vector3 temp = new Vector3(x,y,0);
+        Vector3 temp = new Vector3(mousePos.x,mousePos.y,0);
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
         {
             MenuController.instance.ch.hudCamera.unproject(temp);
             if (!MenuController.instance.hud.onMouseOver(temp.x, temp.y))
             {
-                System.out.println("CLICC");
+                System.out.println("Menu_MouseMoved");
             }
         }
         else
@@ -123,7 +126,7 @@ public class InputManager implements InputProcessor {
             WorldController.instance.ch.hudCamera.unproject(temp);
             if (!WorldController.instance.hud.onMouseOver(temp.x, temp.y))
             {
-                System.out.println("CLICC");
+                System.out.println("World_MouseMoved");
             }
         }
         return false;

@@ -18,11 +18,11 @@ public class Explosion extends GameObject{
         position = new Vector2(posX, posY);
         rotation = 0;
 
-        width= 64;
-        height=64;
+        width = 64;
+        height= 64;
 
         scale = new Vector2(1,1);
-        layerTag = Layer.LayerNames.DEFAULT;
+        layerTag = Layer.LayerNames.EXPLOSION;
         explosion = Assets.getInstance().explosion;
         isBomb = bomb;
 
@@ -30,16 +30,6 @@ public class Explosion extends GameObject{
 
     @Override
     public void update(float delta) {
-        if(isBomb)
-        {
-            for (GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
-            {
-                if(CollisionHelper.CheckCollision(this, enemy))
-                {
-                    WorldController.instance.getCurrentLevel().Despawn(enemy);
-                }
-            }
-        }
 
         stateTime += delta;
 
@@ -47,6 +37,7 @@ public class Explosion extends GameObject{
         {
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
+        rectangle.set(position.x,position.y,width,height);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.libgdx.spaceshooter;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,6 +27,8 @@ public class Player extends GameObject {
     Vector2 shootingPosR;
     public float shotSpeed = 200f;
 
+    float accelX = 0;
+    float accelY = 0;
 
     InputManager InputMgr;
 
@@ -69,13 +72,31 @@ public class Player extends GameObject {
         int horizontal = 0;
         int vertical = 0;
         bg = WorldController.instance.getCurrentLevel().getBg();
-        if(InputMgr.keyLeft) horizontal = -1;
-        else if(InputMgr.keyRight) horizontal = 1;
-        else horizontal = 0;
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop)
+        {
+            if (InputMgr.keyLeft) horizontal = -1;
+            else if (InputMgr.keyRight) horizontal = 1;
+            else horizontal = 0;
 
-        if(InputMgr.keyUp) vertical = 1;
-        else if(InputMgr.keyDown) vertical = -1;
-        else vertical = 0;
+            if (InputMgr.keyUp) vertical = 1;
+            else if (InputMgr.keyDown) vertical = -1;
+            else vertical = 0;
+        }
+
+        if(Gdx.app.getType() == Application.ApplicationType.Android)
+        {
+            accelX = -Gdx.input.getAccelerometerX();
+            accelY = -Gdx.input.getAccelerometerY();
+            if(accelX > 0.5) horizontal = 1;
+            else if(accelX < -0.5) horizontal = -1;
+            else horizontal = 0;
+
+            if(accelY > 0.5) vertical = 1;
+            else if(accelY < -0.5) vertical = -1;
+            else vertical = 0;
+
+        }
+
 
 
         Vector2 targetSpeed = new Vector2(maxSpeed * horizontal, maxSpeed * vertical);
@@ -101,14 +122,17 @@ public class Player extends GameObject {
         shotTimer += delta;
         specialShotTimer += delta;
 
-        if((InputMgr.keyShootN || Gdx.input.isButtonPressed(Input.Buttons.LEFT))  && shotTimer>= shotInterval)
+        boolean touchShootNormal = InputMgr.pointBut!=null && InputMgr.pointBut.x>1080/2;
+        boolean touchShootSpecial = InputMgr.pointBut!=null && InputMgr.pointBut.x<1080/2;//arreglar
+
+        if((InputMgr.keyShootN || touchShootNormal)  && shotTimer>= shotInterval)
         {
             System.out.println("Shooting input: " + WorldController.instance.inputMgr.keyShootN);
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+height/2+shootingPosR.y, shotSpeed, 1,0));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
-        else if((InputMgr.keyShootS || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) && specialShotTimer>= specialShotInterval)
+        else if((InputMgr.keyShootS || touchShootSpecial) && specialShotTimer>= specialShotInterval)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x-2,position.y+width/2, shotSpeed/4, 5,0));
 

@@ -1,5 +1,6 @@
 package com.libgdx.spaceshooter;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.controllers.Controllers;
@@ -31,6 +32,7 @@ public class MenuController extends InputAdapter {
     float secondHeight = firstHeight - (Gdx.graphics.getHeight()/9);
     float thirdHeight = firstHeight - (Gdx.graphics.getHeight()/9)*2;
     float markerHeight = 100000000;
+    int max = 3;
     int i = 3;
     boolean start = false;
     float t = 0;
@@ -63,7 +65,12 @@ public class MenuController extends InputAdapter {
         logo = new Logo();
 
 
-
+        marker = new HUDElement() {
+            @Override
+            public void render(SpriteBatch batch) {
+                batch.draw(Assets.getInstance().marker,Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/3)/2,markerHeight,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/14);
+            }
+        };
         b1Player = new TextButton("I PLAYER",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/3)/2,firstHeight,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/14)
         {
             @Override
@@ -83,7 +90,7 @@ public class MenuController extends InputAdapter {
             public void click() {
                 Controllers.clearListeners();
 
-                //Add second player control;
+                MAIN_GAME.instance.gameScreen.twoPlayers = true;
                 start = true;
             }
 
@@ -103,15 +110,11 @@ public class MenuController extends InputAdapter {
                 i=2;
             }
         };
-        marker = new HUDElement() {
-            @Override
-            public void render(SpriteBatch batch) {
-                batch.draw(Assets.getInstance().marker,Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/3)/2,markerHeight,Gdx.graphics.getWidth()/3,Gdx.graphics.getHeight()/14);
-            }
-        };
+
 
         hud.addHe(logo);
         hud.add(b1Player);
+        if(Gdx.app.getType() != Application.ApplicationType.Android)
         hud.add(b2Players);
         hud.add(bExit);
         hud.addHe(marker);
@@ -138,19 +141,23 @@ public class MenuController extends InputAdapter {
         {
             if(markerHeight==markerpositions[3])
             {
-                markerHeight = markerpositions[0];
+                i=0;
+                max = 2;
             }
-            i++;
+            else i++;
+
+
         }
         else if(inputMgr.keyUpBool)
         {
             if(markerHeight==markerpositions[3])
             {
-                markerHeight = markerpositions[0];
+                i=0;
+                max = 2;
             }
-            i--;
+            else i--;
         }
-        i = MathUtils.clamp(i, 0, 2);
+        i = MathUtils.clamp(i, 0, max);
         markerHeight = markerpositions[i];
 
         if(markerHeight == markerpositions[0] && inputMgr.keyShootNBool)
@@ -162,6 +169,7 @@ public class MenuController extends InputAdapter {
         {
             Controllers.clearListeners();
             start = true;
+            MAIN_GAME.instance.gameScreen.twoPlayers = true;
             //ADD 2nd player control;
         }
         else if(markerHeight == markerpositions[2] && inputMgr.keyShootNBool)

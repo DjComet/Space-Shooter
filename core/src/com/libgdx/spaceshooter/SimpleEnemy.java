@@ -124,7 +124,7 @@ public class SimpleEnemy extends GameObject {
                 WorldController.instance.getCurrentLevel().Despawn(this);
             }
         }
-        for (GameObject explosion: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.DEFAULT))
+        for (GameObject explosion: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.EXPLOSION))
         {
             Explosion exp = (Explosion) explosion;
             if(CollisionHelper.CheckCollision(this, exp))

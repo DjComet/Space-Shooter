@@ -10,7 +10,7 @@ public class SpaceShooterMainScene implements Screen {
 	String TAG_LIFECYCLE = "LIFECYCLE";
 	public WorldController controller;
 	public WorldRenderer renderer;
-
+	boolean twoPlayers = false;
 
 	@Override
 	public void show() {

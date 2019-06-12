@@ -70,7 +70,7 @@ public class Assets {
 
         float bgFactorHeight = bg.getHeight() * 0.03f;   //this means that my Texture should cover 1 world unit height.
 
-        float widthInWorldUnits = 200;                        //I am creating a world of 25 units width (my viewport width is around 10)
+        float widthInWorldUnits = 300;                        //I am creating a world of 25 units width (my viewport width is around 10)
 
         float heightInWorldUnits = 400;                     //I am creating a world of 20 units height (my viewport height is fixed to 10)
 
