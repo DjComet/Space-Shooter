@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Assets {
     private static Assets instance = null;
@@ -48,9 +49,14 @@ public class Assets {
 
 
         //HUD----------------------------------------------------------------------------------------------------------------------------
-        button = createButtonTexture();
-        font = new BitmapFont();
-        font.getData().setScale(2);
+        //button = createButtonTexture();
+        button = new Texture("Button.png");
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 80; // font size
+        font = generator.generateFont(parameter);
+        generator.dispose();
+
 
         //BACKGROUNDS---------------------------------------------------------------------------------------------------------------------
         bg = new Texture (Gdx.files.internal("WaterTile.png"));

@@ -10,7 +10,7 @@ public class Logo extends HUDElement {
     public Logo()
     {
 
-        position = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/1.5f);
+        position = new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/1.3f);
         dimension = new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()/2);
     }
 

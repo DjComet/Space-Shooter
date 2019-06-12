@@ -45,7 +45,8 @@ public class MenuController extends InputAdapter {
     public void init()
     {
         logo = new Logo();
-        b1Player = new TextButton("1 PLAYER",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,Gdx.graphics.getHeight()/4,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/10)
+        float firstHeight = Gdx.graphics.getHeight()/3;
+        b1Player = new TextButton("1 PLAYER",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,firstHeight,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/14)
         {
             @Override
             public void click() {
@@ -53,7 +54,7 @@ public class MenuController extends InputAdapter {
                 MAIN_GAME.instance.setScreen(MAIN_GAME.instance.gameScreen);
             }
         };
-        b2Players = new TextButton("2 PLAYERS",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,Gdx.graphics.getHeight()/4 - (Gdx.graphics.getHeight()/9),Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/10)
+        b2Players = new TextButton("2 PLAYERS",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,firstHeight - (Gdx.graphics.getHeight()/9),Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/14)
         {
             @Override
             public void click() {
@@ -61,7 +62,7 @@ public class MenuController extends InputAdapter {
                 MAIN_GAME.instance.setScreen(MAIN_GAME.instance.gameScreen);
             }
         };
-        bExit = new TextButton("EXIT",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,Gdx.graphics.getHeight()/4 - (Gdx.graphics.getHeight()/9)*2,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/10)
+        bExit = new TextButton("EXIT",Gdx.graphics.getWidth()/2 - (Gdx.graphics.getWidth()/2)/2,firstHeight - (Gdx.graphics.getHeight()/9)*2,Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/14)
         {
             @Override
             public void click() {

@@ -22,7 +22,7 @@ public class WorldRenderer {
 
     public void init(){
         batch = new SpriteBatch();
-        viewport = new FitViewport(200,360, controller.ch.camera);
+        viewport = new FitViewport(250,360, controller.ch.camera);
         viewport.apply();
         //controller.ch.camera.position.set(controller.ch.camera.viewportWidth/2, controller.ch.camera.viewportHeight/2,0);
         controller.ch.camera.position.set(0,0,0);
