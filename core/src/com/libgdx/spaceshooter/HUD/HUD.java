@@ -1,6 +1,8 @@
 package com.libgdx.spaceshooter.HUD;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.libgdx.spaceshooter.MenuController;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class HUD extends HUDElement {
 
     @Override
     public void render(SpriteBatch batch) {
+
         for(HUDElement he : textButtons){
             he.render(batch);
         }
@@ -29,6 +32,7 @@ public class HUD extends HUDElement {
         {
             he.render(batch);
         }
+
     }
 
     public boolean click(float x, float y) {
@@ -36,6 +40,19 @@ public class HUD extends HUDElement {
         for(TextButton b : textButtons){
             if(b.contains(x,y)){
                 b.click();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean onMouseOver(float x, float y){
+
+        for(TextButton b: textButtons)
+        {
+            if(b.contains(x,y))
+            {
+                b.onMouseOver();
                 return true;
             }
         }

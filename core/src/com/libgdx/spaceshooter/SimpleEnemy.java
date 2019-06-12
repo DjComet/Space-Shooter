@@ -109,14 +109,33 @@ public class SimpleEnemy extends GameObject {
 
     void checkHit()
     {
+        if(rotation==0)
+            rectangle.set(position.x, position.y, width*scale.x, height*scale.y);
+        else rectangle.set(position.x-width*scale.x, position.y-height*scale.y, width,height);
+
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.PLAYERSHOT))
         {
-            if(CollisionHelper.CheckCollision(this, shot))
+            Shot temp = (Shot)shot;//As we know that there are only Shot gameobjects in that layer, we can cast it like this without fear of trouble.
+            if(CollisionHelper.CheckCollision(this, shot) && temp.shotType != ShotType.PLSPECIAL)
             {
-                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32));
+                WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32, false));
                 WorldController.instance.getCurrentLevel().Despawn(shot);
                 dead = true;
                 WorldController.instance.getCurrentLevel().Despawn(this);
+            }
+        }
+        for (GameObject explosion: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.DEFAULT))
+        {
+            Explosion exp = (Explosion) explosion;
+            if(CollisionHelper.CheckCollision(this, exp))
+            {
+                if(exp.isBomb)
+                {
+                    WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32, false));
+                    dead = true;
+                    WorldController.instance.getCurrentLevel().Despawn(this);
+                }
+
             }
         }
 

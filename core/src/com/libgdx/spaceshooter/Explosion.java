@@ -11,8 +11,9 @@ public class Explosion extends GameObject{
     public float radius = 7.5f;
     public Animation<TextureRegion> explosion;
     float stateTime = 0f;
+    boolean isBomb = false;
 
-    public Explosion(float posX, float posY)
+    public Explosion(float posX, float posY, boolean bomb)
     {
         position = new Vector2(posX, posY);
         rotation = 0;
@@ -23,15 +24,20 @@ public class Explosion extends GameObject{
         scale = new Vector2(1,1);
         layerTag = Layer.LayerNames.DEFAULT;
         explosion = Assets.getInstance().explosion;
+        isBomb = bomb;
+
     }
 
     @Override
     public void update(float delta) {
-        for (GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
+        if(isBomb)
         {
-            if(Vector2.dst2(enemy.getCenterPos().x, enemy.getCenterPos().y, getCenterPos().x, getCenterPos().y)<=radius*radius)
+            for (GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
             {
-                //take enemy and tell him it's been hit.
+                if(CollisionHelper.CheckCollision(this, enemy))
+                {
+                    WorldController.instance.getCurrentLevel().Despawn(enemy);
+                }
             }
         }
 

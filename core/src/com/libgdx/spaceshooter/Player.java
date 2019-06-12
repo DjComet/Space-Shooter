@@ -7,11 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import sun.security.ssl.Debug;
 
 
 public class Player extends GameObject {
-    public int lives = 5;
+    public int health = 20;
     public float maxSpeed = 150f;
     public float acceleration = 500f;
     public float roll = 0;
@@ -109,9 +108,9 @@ public class Player extends GameObject {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
-        else if((Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) && specialShotTimer>= specialShotInterval)
+        else if((InputMgr.keyShootS || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) && specialShotTimer>= specialShotInterval)
         {
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x+0.2f,position.y+width/2, shotSpeed/4, 5,0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x-2,position.y+width/2, shotSpeed/4, 5,0));
 
             specialShotTimer = 0f;
         }
@@ -119,16 +118,20 @@ public class Player extends GameObject {
 
     void checkHit()
     {
+        if(rotation==0)
+            rectangle.set(position.x, position.y, width*scale.x, height*scale.y);
+        else rectangle.set(position.x-width*scale.x, position.y-height*scale.y, width,height);
+
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMYSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Despawn(shot);
-                lives -= 1;//Make it so that the damage of the shot is subtracted here
+                health -= 1;//Make it so that the damage of the shot is subtracted here
 
             }
         }
-        if(lives <= 0)
+        if(health <= 0)
         {
             die();
         }
@@ -137,8 +140,9 @@ public class Player extends GameObject {
 
     void die()
     {
-        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2));
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2, false));
         dead = true;
+        WorldController.instance.getCurrentLevel().Despawn(this);
         //insert replay pop up logic
     }
 

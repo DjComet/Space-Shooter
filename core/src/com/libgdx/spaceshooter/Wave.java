@@ -55,6 +55,9 @@ public class Wave {
                     }
                     WorldController.instance.getCurrentLevel().Instantiate(new AdvancedEnemy(posX,posY));
                     break;
+                case ovni:
+                    WorldController.instance.getCurrentLevel().Instantiate(new Ovni());
+                    break;
             }
         }
         spawnable = false;
@@ -67,7 +70,7 @@ public class Wave {
         boolean temp = false;
         for(GameObject enemy: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMY))
         {
-            temp = CollisionHelper.CheckCollision(new SimpleEnemy(pos,50), enemy);
+            temp = CollisionHelper.CheckCollision(new SimpleEnemy(pos,380), enemy);
             if(temp) continue;
         }
         return temp;

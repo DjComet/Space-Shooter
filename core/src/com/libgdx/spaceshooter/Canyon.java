@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Canyon extends GameObject {
+public class Canyon extends Background {
+
 
     public Canyon(float posX, float posY, boolean flipped)
     {
@@ -14,7 +15,7 @@ public class Canyon extends GameObject {
         height = 400;
 
         position = new Vector2(posX, posY);
-
+        speedY = -100f;
 
         if(flipped)
         {
@@ -24,16 +25,14 @@ public class Canyon extends GameObject {
         {
             scale = new Vector2(1,1);
         }
-
+        tr = Assets.getInstance().tiledCanyon;
 
     }
 
     @Override
     public void update(float delta) {
-        TextureRegion tr = Assets.getInstance().tiledCanyon;
-        float speedX = 0;
 
-        float speedY = -100;
+
 
         int amountX = (int)(speedX*delta);
 

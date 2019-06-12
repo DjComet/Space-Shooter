@@ -9,15 +9,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class AdvancedEnemy extends GameObject {
 
-    int lives = 6;
+    int health = 6;
     public float maxSpeed = 100f;
     public float roll = 0f;
     public boolean dead = false;
-    public float acceleration = 300f;
+    public float acceleration = 375f;
     public Vector2 direction = new Vector2(0,-1);
+    public GameObject bg;
+
 
     public Vector2 speed;
-    float distanceToStopFollow = 200f;
+    float distanceToStopFollow = 170f;
     float timesToShoot;
     float numberOfShots=0f;
     Vector2 shootingPosL;
@@ -37,13 +39,17 @@ public class AdvancedEnemy extends GameObject {
         scale = new Vector2(1.2f,1.2f);
 
         speed = new Vector2(0f,maxSpeed/2);
-        shootingPosL = new Vector2(-3,2);
-        shootingPosR = new Vector2( 8f,2);
+        shootingPosL = new Vector2(-4,16);
+        shootingPosR = new Vector2( 6f,16);
 
         rectangle = new Rectangle();
         timesToShoot =  10;
 
         layerTag = Layer.LayerNames.ENEMY;
+
+
+        //Can do it here because an advanced enemy will never be spawned before a level constructor has been called
+        bg = WorldController.instance.getCurrentLevel().getBg();
     }
 
     @Override
@@ -64,16 +70,33 @@ public class AdvancedEnemy extends GameObject {
 
     void checkHit()
     {
+        if(rotation==0)
+            rectangle.set(position.x, position.y, width*scale.x, height*scale.y);
+        else rectangle.set(position.x-width*scale.x, position.y-height*scale.y, width,height);
+
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.PLAYERSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Despawn(shot);
-               lives -= 1;//Make it so that the damage of the shot is subtracted here
+               health -= 1;//Make it so that the damage of the shot is subtracted here
 
             }
         }
-        if(lives <= 0)
+        for (GameObject explosion: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.DEFAULT))
+        {
+            Explosion exp = (Explosion) explosion;
+            if(CollisionHelper.CheckCollision(this, exp))
+            {
+                if(exp.isBomb)
+                {
+                    health -= 10;//the damage of the shot is subtracted here
+
+                }
+
+            }
+        }
+        if(health <= 0)
         {
 
             die();
@@ -83,7 +106,7 @@ public class AdvancedEnemy extends GameObject {
 
     void die()
     {
-        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2-32, position.y-height/2-32));
+        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2-32, position.y-height/2-32, false));
         dead = true;
         WorldController.instance.getCurrentLevel().Despawn(this);
     }
@@ -110,6 +133,8 @@ public class AdvancedEnemy extends GameObject {
 
         position.x += speed.x * delta;
         position.y += speed.y * direction.y * delta;
+        position.x = MathUtils.clamp(position.x, -bg.width/2 + width , bg.width/2 );
+
 
         roll = -speed.x/maxSpeed;
 

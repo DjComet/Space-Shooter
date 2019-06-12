@@ -37,4 +37,6 @@ public class TextButton extends HUDElement {
     public void click(){
         System.out.println("You clicked the "+text+" button");
     }
+
+    public void onMouseOver(){System.out.println("Mouse went over "+ text + " button");}
 }

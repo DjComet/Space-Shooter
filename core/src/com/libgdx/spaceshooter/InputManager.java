@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class InputManager implements InputProcessor {
@@ -10,12 +11,22 @@ public class InputManager implements InputProcessor {
     public boolean keyRight = false;
     public boolean keyLeft = false;
     public boolean keyUp = false;
+    public boolean keyUpBool = false;
     public boolean keyDown = false;
+    public boolean keyDownBool = false;
     public boolean keyShootN = false;
+    public boolean keyShootNBool = false;
     public boolean keyShootS = false;
     public Vector3 pointBut = null;
+    public Vector2 mousePos = null;
 
 
+    public void resetInputs()
+    {
+        keyUpBool = false;
+        keyDownBool = false;
+        keyShootNBool = false;
+    }
 
     public boolean keyDown (int keycode) {
 
@@ -25,11 +36,11 @@ public class InputManager implements InputProcessor {
                 break;
             case Input.Keys.A: keyLeft = true;
                 break;
-            case Input.Keys.W: keyUp = true;
+            case Input.Keys.W: keyUp = true; keyUpBool = true;
                 break;
-            case Input.Keys.S: keyDown  = true;
+            case Input.Keys.S: keyDown  = true; keyDownBool = true;
                 break;
-            case Input.Keys.SPACE: keyShootN = true;
+            case Input.Keys.SPACE: keyShootN = true; keyShootNBool = true;
                 break;
             case Input.Keys.SHIFT_LEFT: keyShootS = true;
                 break;
@@ -97,6 +108,24 @@ public class InputManager implements InputProcessor {
     }
 
     public boolean mouseMoved (int x, int y) {
+        mousePos = new Vector2(x,y);
+        Vector3 temp = new Vector3(x,y,0);
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
+        {
+            MenuController.instance.ch.hudCamera.unproject(temp);
+            if (!MenuController.instance.hud.onMouseOver(temp.x, temp.y))
+            {
+                System.out.println("CLICC");
+            }
+        }
+        else
+        {
+            WorldController.instance.ch.hudCamera.unproject(temp);
+            if (!WorldController.instance.hud.onMouseOver(temp.x, temp.y))
+            {
+                System.out.println("CLICC");
+            }
+        }
         return false;
     }
 

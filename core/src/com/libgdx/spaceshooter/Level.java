@@ -95,6 +95,14 @@ public class Level {
             WorldController.instance.currentLevel++;
             System.out.println("Going to level " + WorldController.instance.currentLevel);
         }
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
+        {
+            MenuController.instance.inputMgr.resetInputs();
+        }
+        else
+        {
+            WorldController.instance.inputMgr.resetInputs();
+        }
 
     }
 

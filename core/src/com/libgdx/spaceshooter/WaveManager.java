@@ -77,7 +77,7 @@ public class WaveManager {
                 //adds a wave to the arrayList at a certain second.
                 if(difficulty == 5)
                 {
-                    waves.add(new Wave(1, 10, Wave.TypeOfShip.ovni));
+                    waves.add(new Wave(1, 0, Wave.TypeOfShip.ovni));
                     waves.add(new Wave(0,180, Wave.TypeOfShip.simple));
                 }
                 else if (shipSwitchInterval <= specialWaveCount)

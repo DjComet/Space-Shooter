@@ -25,3 +25,10 @@ Ovni2
   orig: 199, 199
   offset: 0, 0
   index: -1
+Ovni3
+  rotate: false
+  xy: 605, 2
+  size: 199, 199
+  orig: 199, 199
+  offset: 0, 0
+  index: -1

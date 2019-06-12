@@ -31,7 +31,7 @@ abstract public class GameObject {
     }
 
     public Rectangle GetRectangle(){
-        return (rotation == 0 ? rectangle.set(position.x,position.y,width,height):rectangle.set(position.x-width,position.y-height,width,height));//returns normal or inverted rectangle based on the rotation of the gameobject (needs improvement)s
+        return (rectangle);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,6 +14,7 @@ public class Assets {
     private static Assets instance = null;
 
     public Texture button;
+    public Texture marker;
     public BitmapFont font;
     public TextureAtlas player;
     public TextureRegion[] playerTexRegions;
@@ -49,11 +51,14 @@ public class Assets {
 
 
         //HUD----------------------------------------------------------------------------------------------------------------------------
-        //button = createButtonTexture();
+
         button = new Texture("Button.png");
+        marker = new Texture("Marker.png");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 80; // font size
+        parameter.size = 60; // font size
+        parameter.spaceX = 10;
+        parameter.color = new Color(0,0,0,1);
         font = generator.generateFont(parameter);
         generator.dispose();
 
@@ -152,13 +157,13 @@ public class Assets {
 
         //SHOT--------------------------------------------------------------------------------------------------------------------------------
 
-        shot = new TextureAtlas("shot.atlas");
+        shot = new TextureAtlas("Shot.atlas");
         int shotRegionsNumber = shot.getRegions().size;
         shotTexRegions = new TextureRegion[shotRegionsNumber];
 
         for(int i = 0; i<shotRegionsNumber; i++)
         {
-            shotTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Shot"+(i), shot);
+            shotTexRegions[i] = SpriteHelper.textureFromTextureAtlas("shot"+(i), shot);
         }
     }
 

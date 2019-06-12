@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Background extends GameObject {
 
+    public float speedX = 0;
+    public float speedY = -200;
+    TextureRegion tr;
     public Background()
     {
         rotation = 0;
@@ -17,17 +20,17 @@ public class Background extends GameObject {
         position = new Vector2(-width/2, -height/2);
 
         scale = new Vector2(1,1);
-
+        tr = Assets.getInstance().tiledBg;
 
 
     }
 
     public void update(float delta)
     {
-        TextureRegion tr = Assets.getInstance().tiledBg;
-        float speedX = 0;
 
-        float speedY = -200;
+
+
+
 
         int amountX = (int)(speedX*delta);
 
