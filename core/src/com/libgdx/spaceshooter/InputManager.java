@@ -79,7 +79,7 @@ public class InputManager implements InputProcessor {
     public boolean touchDown (int x, int y, int pointer, int button) {
 
         pointBut = new Vector3(x,y,0);
-        System.out.println("POINTBUT: "+pointBut);
+
         //check if the click is for the HUD
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
         {

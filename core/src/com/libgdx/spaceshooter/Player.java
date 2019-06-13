@@ -87,13 +87,14 @@ public class Player extends GameObject {
         {
             accelX = -Gdx.input.getAccelerometerX();
             accelY = -Gdx.input.getAccelerometerY();
-            if(accelX > 0.5) horizontal = 1;
-            else if(accelX < -0.5) horizontal = -1;
+            if(accelX > 0.7) horizontal = 1;
+            else if(accelX < -0.7) horizontal = -1;
             else horizontal = 0;
 
-            if(accelY > 0.5) vertical = 1;
-            else if(accelY < -0.5) vertical = -1;
+            if(accelY < -6) vertical = -1;
+            else if(accelY > -5) vertical = 1;
             else vertical = 0;
+
 
         }
 
@@ -122,8 +123,9 @@ public class Player extends GameObject {
         shotTimer += delta;
         specialShotTimer += delta;
 
-        boolean touchShootNormal = InputMgr.pointBut!=null && InputMgr.pointBut.x>1080/2;
-        boolean touchShootSpecial = InputMgr.pointBut!=null && InputMgr.pointBut.x<1080/2;//arreglar
+        boolean touchShootNormal = InputMgr.pointBut!=null && InputMgr.pointBut.x>100;
+        boolean touchShootSpecial = InputMgr.pointBut!=null && InputMgr.pointBut.x<100;//arreglar
+        System.out.println("POINTBUT: "+InputMgr.pointBut);
 
         if((InputMgr.keyShootN || touchShootNormal)  && shotTimer>= shotInterval)
         {
