@@ -35,7 +35,15 @@ public class Level {
         Layers.get(0).list.add(new Canyon(getBg().width/2-32, -200,true));
 
 
-        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen)Layers.get(4).list.add(new Player(-16f,-16f));
+        if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen && MAIN_GAME.instance.gameScreen.twoPlayers)
+        {
+            Layers.get(4).list.add(new Player(-80f,-16f));
+            Layers.get(4).list.add(new Player(48f,-16f));
+            Player temp = (Player)Layers.get(4).list.get(1);
+            temp.secondPlayer = true;
+        }
+        else if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.gameScreen)Layers.get(4).list.add(new Player(-16f,-16f));
+
 
 
         toRemove = new ArrayList<GameObject>();
@@ -190,19 +198,36 @@ public class Level {
             System.out.println("The index is out of bounds");
     }
 
-    public GameObject getPlayer()
+    public Player getPlayer()
     {
-        GameObject go = null;
+        Player go = null;
         for (Layer L: Layers)
         {
             if(L.name == Layer.LayerNames.PLAYER)
             {
-                go = L.list.get(0);
+                go = (Player)L.list.get(0);
             }
         }
         if(go==null) System.out.println("There is no player object");
         return go;
     }
+
+    public Player getPlayer2()
+    {
+        Player go = null;
+        for (Layer L: Layers)
+        {
+            if(L.name == Layer.LayerNames.PLAYER)
+            {
+                go = (Player)L.list.get(1);
+            }
+        }
+        if(go==null) System.out.println("There is no player object");
+        return go;
+    }
+
+
+
     public GameObject getBg()
     {
         GameObject go = null;

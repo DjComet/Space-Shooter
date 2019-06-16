@@ -11,7 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class Player extends GameObject {
-    public int health = 20;
+    public int health;
+    public int maxHealth = 20;
+    public int lives;
+    public int maxLives = 3;
+    public float respawnTime = 5f;
+    float timerToRespawn = 0f;
+    float invencibilityTimer = 0f;
     public float maxSpeed = 150f;
     public float acceleration = 500f;
     public float roll = 0;
@@ -29,9 +35,10 @@ public class Player extends GameObject {
 
     float accelX = 0;
     float accelY = 0;
+    boolean secondPlayer = false;
 
     InputManager InputMgr;
-
+    float dt;
 
 
     public Player(float posX, float posY) {
@@ -50,6 +57,9 @@ public class Player extends GameObject {
         shootingPosL = new Vector2(-9.8f,3);
         shootingPosR = new Vector2( 1.3f,3);
         InputMgr = WorldController.instance.inputMgr;
+        lives = maxLives;
+        health = maxHealth;
+
 
     }
 
@@ -61,9 +71,14 @@ public class Player extends GameObject {
     @Override
     public void update(float delta) {
 
-        move(delta);
-        shoot(delta);
-        checkHit();
+        dt = delta;
+        if(!dead)
+        {
+            move(delta);
+            shoot(delta);
+        }
+            checkHit();
+
 
     }
 
@@ -74,13 +89,27 @@ public class Player extends GameObject {
         bg = WorldController.instance.getCurrentLevel().getBg();
         if(Gdx.app.getType() == Application.ApplicationType.Desktop)
         {
-            if (InputMgr.keyLeft) horizontal = -1;
-            else if (InputMgr.keyRight) horizontal = 1;
-            else horizontal = 0;
+            if(!secondPlayer)
+            {
+                if (InputMgr.keyLeft) horizontal = -1;
+                else if (InputMgr.keyRight) horizontal = 1;
+                else horizontal = 0;
 
-            if (InputMgr.keyUp) vertical = 1;
-            else if (InputMgr.keyDown) vertical = -1;
-            else vertical = 0;
+                if (InputMgr.keyUp) vertical = 1;
+                else if (InputMgr.keyDown) vertical = -1;
+                else vertical = 0;
+            }
+            else
+            {
+                if (InputMgr.keyLeftP2) horizontal = -1;
+                else if (InputMgr.keyRightP2) horizontal = 1;
+                else horizontal = 0;
+
+                if (InputMgr.keyUpP2) vertical = 1;
+                else if (InputMgr.keyDownP2) vertical = -1;
+                else vertical = 0;
+            }
+
         }
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
@@ -127,17 +156,63 @@ public class Player extends GameObject {
         boolean touchShootSpecial = InputMgr.pointBut!=null && InputMgr.pointBut.x<100;//arreglar
         System.out.println("POINTBUT: "+InputMgr.pointBut);
 
-        if((InputMgr.keyShootN || touchShootNormal)  && shotTimer>= shotInterval)
+
+
+
+        if(Gdx.app.getType() == Application.ApplicationType.Android)
         {
-            System.out.println("Shooting input: " + WorldController.instance.inputMgr.keyShootN);
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosR.x,position.y+height/2+shootingPosR.y, shotSpeed, 1,0));
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL,position.x+width/2+shootingPosL.x,position.y+height/2+shootingPosL.y, shotSpeed, 1, 0));
+            if (touchShootNormal)
+            {
+                spawnNormalShot();
+            }
+            else if (touchShootSpecial)
+            {
+                spawnSpecialShot();
+            }
+        }
+        else
+        {
+            if(!secondPlayer)
+            {
+                if (InputMgr.keyShootN)
+                {
+                     spawnNormalShot();
+                }
+                else if(InputMgr.keyShootS)
+                {
+                    spawnSpecialShot();
+                }
+            }
+            else
+            {
+                if ((InputMgr.keyShootNP2 || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) && shotTimer >= shotInterval)
+                {
+                    spawnNormalShot();
+                }
+                else if ((InputMgr.keyShootSP2 || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) && specialShotTimer >= specialShotInterval)
+                {
+                    spawnSpecialShot();
+                }
+            }
+        }
+
+    }
+
+    void spawnNormalShot()
+    {
+        if(shotTimer >= shotInterval)
+        {
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL, position.x + width / 2 + shootingPosR.x, position.y + height / 2 + shootingPosR.y, shotSpeed, 1, 0));
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL, position.x + width / 2 + shootingPosL.x, position.y + height / 2 + shootingPosL.y, shotSpeed, 1, 0));
             shotTimer = 0f;
         }
-        else if((InputMgr.keyShootS || touchShootSpecial) && specialShotTimer>= specialShotInterval)
-        {
-            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL,position.x+width/2+shootingPosL.x-2,position.y+width/2, shotSpeed/4, 5,0));
 
+    }
+    void spawnSpecialShot()
+    {
+        if(specialShotTimer >= specialShotInterval)
+        {
+            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL, position.x + width / 2 + shootingPosL.x - 2, position.y + width / 2, shotSpeed / 4, 5, 0));
             specialShotTimer = 0f;
         }
     }
@@ -148,13 +223,16 @@ public class Player extends GameObject {
             rectangle.set(position.x, position.y, width*scale.x, height*scale.y);
         else rectangle.set(position.x-width*scale.x, position.y-height*scale.y, width,height);
 
+        invencibilityTimer -= dt;
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMYSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Despawn(shot);
-                health -= 1;//Make it so that the damage of the shot is subtracted here
-
+                if(!dead && invencibilityTimer<= 0)
+                {
+                    health -= 1;//Make it so that the damage of the shot is subtracted here
+                }
             }
         }
         if(health <= 0)
@@ -166,10 +244,24 @@ public class Player extends GameObject {
 
     void die()
     {
+        if(!dead)
         WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2, false));
         dead = true;
-        WorldController.instance.getCurrentLevel().Despawn(this);
-        //insert replay pop up logic
+        if(lives <= 0)
+        {
+
+            WorldController.instance.getCurrentLevel().Despawn(this);
+            //insert replay pop up logic
+        }
+        timerToRespawn += dt;
+        if(timerToRespawn >= respawnTime)
+        {
+            health = maxHealth;
+            lives = maxLives;
+            dead = false;
+            timerToRespawn = 0;
+            invencibilityTimer = 3f;
+        }
     }
 
     void animateRoll(SpriteBatch batch)

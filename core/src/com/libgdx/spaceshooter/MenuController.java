@@ -76,6 +76,7 @@ public class MenuController extends InputAdapter {
             @Override
             public void click() {
                 Controllers.clearListeners();
+                MAIN_GAME.instance.gameScreen.twoPlayers = false;
                 start = true;
             }
 
@@ -135,11 +136,11 @@ public class MenuController extends InputAdapter {
 
     void updateMarker()
     {
-        float[] markerpositions = new float[]{firstHeight,secondHeight,thirdHeight,100000000};
+        float[] markerPositions = new float[]{firstHeight,secondHeight,thirdHeight,100000000};
 
         if(inputMgr.keyDownBool)
         {
-            if(markerHeight==markerpositions[3])
+            if(markerHeight == markerPositions[3])
             {
                 i=0;
                 max = 2;
@@ -150,7 +151,7 @@ public class MenuController extends InputAdapter {
         }
         else if(inputMgr.keyUpBool)
         {
-            if(markerHeight==markerpositions[3])
+            if(markerHeight == markerPositions[3])
             {
                 i=0;
                 max = 2;
@@ -158,21 +159,22 @@ public class MenuController extends InputAdapter {
             else i--;
         }
         i = MathUtils.clamp(i, 0, max);
-        markerHeight = markerpositions[i];
+        markerHeight = markerPositions[i];
 
-        if(markerHeight == markerpositions[0] && inputMgr.keyShootNBool)
+        if(markerHeight == markerPositions[0] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
+            MAIN_GAME.instance.gameScreen.twoPlayers = false;
             start = true;
         }
-        else if(markerHeight == markerpositions[1] && inputMgr.keyShootNBool)
+        else if(markerHeight == markerPositions[1] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
             start = true;
             MAIN_GAME.instance.gameScreen.twoPlayers = true;
-            //ADD 2nd player control;
+
         }
-        else if(markerHeight == markerpositions[2] && inputMgr.keyShootNBool)
+        else if(markerHeight == markerPositions[2] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
             MAIN_GAME.instance.dispose();

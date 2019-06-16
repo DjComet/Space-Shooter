@@ -31,17 +31,21 @@ public class WorldRenderer {
 
     public void render(){
 
-        batch.setProjectionMatrix(controller.ch.camera.combined);
+
 
         elapsedTime += Gdx.graphics.getDeltaTime();
         long t0 = System.nanoTime();
 
 
+
+        batch.setProjectionMatrix(controller.ch.camera.combined);
         batch.begin();
-
         updateArrays();
+        batch.end();
 
-
+        batch.setProjectionMatrix(controller.ch.hudCamera.combined);
+        batch.begin();
+        controller.hud.render(batch);
         batch.end();
 
         long elapsed = System.nanoTime() - t0;

@@ -21,6 +21,9 @@ public class Assets {
     public Animation<TextureRegion> p_bankLeft;
     public Animation<TextureRegion> p_bankRight;
 
+    public TextureAtlas lives;
+    public TextureRegion[] livesTexRegions;
+
     public TextureAtlas simpleEnemy;
     public TextureRegion[] seTexRegions;
 
@@ -119,6 +122,17 @@ public class Assets {
         p_bankLeft.setPlayMode(Animation.PlayMode.REVERSED);
         p_bankRight = new Animation<TextureRegion>(0.1f,playerTexRegions[4],playerTexRegions[5],playerTexRegions[6]);
         p_bankRight.setPlayMode(Animation.PlayMode.NORMAL);
+
+        //Lives
+        lives = new TextureAtlas("Lives.atlas");
+        int livesTexNum = lives.getRegions().size;
+        livesTexRegions = new TextureRegion[livesTexNum];
+
+        for (int i = 0; i< livesTexNum;i++)
+        {
+            livesTexRegions[i] = SpriteHelper.textureFromTextureAtlas("Lives"+(i), lives);
+        }
+
 
         //SIMPLE ENEMY------------------------------------------------------------------------------------------------------------------------------
 

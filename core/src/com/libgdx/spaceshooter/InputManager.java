@@ -17,6 +17,18 @@ public class InputManager implements InputProcessor {
     public boolean keyShootN = false;
     public boolean keyShootNBool = false;
     public boolean keyShootS = false;
+
+    public boolean keyRightP2 = false;
+    public boolean keyLeftP2 = false;
+    public boolean keyUpP2 = false;
+    public boolean keyUpBoolP2 = false;
+    public boolean keyDownP2 = false;
+    public boolean keyDownBoolP2 = false;
+    public boolean keyShootNP2 = false;
+    public boolean keyShootNBoolP2 = false;
+    public boolean keyShootSP2 = false;
+
+
     public Vector3 pointBut = null;
     public Vector2 mousePos = null;
 
@@ -44,6 +56,18 @@ public class InputManager implements InputProcessor {
                 break;
             case Input.Keys.SHIFT_LEFT: keyShootS = true;
                 break;
+            case Input.Keys.RIGHT: keyRightP2 = true;
+                break;
+            case Input.Keys.LEFT: keyLeftP2 = true;
+                break;
+            case Input.Keys.UP: keyUpP2 = true; keyUpBoolP2 = true;
+                break;
+            case Input.Keys.DOWN: keyDownP2  = true; keyDownBoolP2 = true;
+                break;
+            case Input.Keys.CONTROL_RIGHT: keyShootNP2 = true; keyShootNBoolP2 = true;
+                break;
+            case Input.Keys.SHIFT_RIGHT: keyShootSP2 = true;
+                break;
         }
 
 
@@ -66,6 +90,18 @@ public class InputManager implements InputProcessor {
             case Input.Keys.SPACE: keyShootN = false;
                 break;
             case Input.Keys.SHIFT_LEFT: keyShootS = false;
+                break;
+            case Input.Keys.RIGHT: keyRightP2 = false;
+                break;
+            case Input.Keys.LEFT: keyLeftP2 = false;
+                break;
+            case Input.Keys.UP: keyUpP2 = false; keyUpBoolP2 = false;
+                break;
+            case Input.Keys.DOWN: keyDownP2  = false; keyDownBoolP2 = false;
+                break;
+            case Input.Keys.CONTROL_RIGHT: keyShootNP2 = false; keyShootNBoolP2 = false;
+                break;
+            case Input.Keys.SHIFT_RIGHT: keyShootSP2 = false;
                 break;
         }
 
