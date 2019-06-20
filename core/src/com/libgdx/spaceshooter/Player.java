@@ -145,8 +145,13 @@ public class Player extends GameObject {
         position.x += speed.x * delta;
         position.y += speed.y * delta;
 
+
         position.x = MathUtils.clamp(position.x, -bg.width/2 , bg.width/2 - width );
         position.y = MathUtils.clamp(position.y, -bg.height/2.13f, bg.height/2.13f - height);
+        if(WorldController.instance.currentLevel==4)
+        {
+            position.y = MathUtils.clamp(position.y, -bg.height/2.13f, bg.height/8 - height);
+        }
 
         roll = speed.x/maxSpeed;
     }
@@ -245,12 +250,14 @@ public class Player extends GameObject {
 
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMYSHOT))
         {
+            Shot temp = (Shot) shot;
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Despawn(shot);
                 if(!dead && invencibilityTimer<= 0)
                 {
-                    health -= 1;//Make it so that the damage of the shot is subtracted here
+                    health -= temp.damage;//Make it so that the damage of the shot is subtracted here
+                    health = MathUtils.clamp(health, 0, maxHealth);
                 }
             }
         }

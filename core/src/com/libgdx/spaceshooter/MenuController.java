@@ -195,6 +195,8 @@ public class MenuController extends InputAdapter {
             t += deltatime/2 ;
             if(t>= 1) {
                 MAIN_GAME.instance.setScreen(MAIN_GAME.instance.gameScreen);
+                SoundManager.playMainMusic();
+                SoundManager.menuTheme.stop();
                 start = false;
                 t =0;
             }

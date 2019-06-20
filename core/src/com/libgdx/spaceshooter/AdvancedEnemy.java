@@ -60,6 +60,7 @@ public class AdvancedEnemy extends GameObject {
     @Override
     public void update(float delta) {
 
+        if(WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.PLAYER).size()!=0)
         move(delta);
 
         if (position.y < -WorldController.instance.getCurrentLevel().getBg().height / 2) {

@@ -51,6 +51,9 @@ public class Assets {
 
     public Texture logo;
 
+    public TextureAtlas endgame;
+    public TextureRegion[] endgameTexReg;
+
     private Assets() {
 
 
@@ -70,7 +73,14 @@ public class Assets {
         gameFont = generator.generateFont(parameter);
         generator.dispose();
 
+        endgame = new TextureAtlas("Endgame.atlas");
+        int endgameNum = endgame.getRegions().size;
+        endgameTexReg = new TextureRegion[endgameNum];
 
+        for(int i = 0; i<endgameNum; i++)
+        {
+            endgameTexReg[i] = SpriteHelper.textureFromTextureAtlas("endgame"+(i), endgame);
+        }
 
         //BACKGROUNDS---------------------------------------------------------------------------------------------------------------------
         bg = new Texture (Gdx.files.internal("WaterTile.png"));

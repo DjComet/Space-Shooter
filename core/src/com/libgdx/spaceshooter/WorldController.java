@@ -18,10 +18,10 @@ public class WorldController extends InputAdapter {
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
-    public int currentLevel = 3;
+    public int currentLevel = 4;
     public InputManager inputMgr = new InputManager();
     public int difficulty;
-    float restartTimer = 8f;
+    float restartTimer = 8.46f;
 
 
     public HUD hud;
@@ -100,7 +100,8 @@ public class WorldController extends InputAdapter {
         hud.addHe(healthP1);
 
         lifeP2 = new ArrayList<HUDElement>();
-        if(MAIN_GAME.instance.gameScreen.twoPlayers) {
+        if(MAIN_GAME.instance.gameScreen.twoPlayers)
+        {
             for (int i = 0; i < getCurrentLevel().getPlayer2().lives; i++) {
                 final int finalI = i;
                 lifeP2.add(new HUDElement() {
@@ -122,17 +123,18 @@ public class WorldController extends InputAdapter {
             };
             hud.addHe(healthP2);
 
-            gameEnd = new HUDElement() {
-                @Override
-                public void render(SpriteBatch batch) {
-                    if(WorldController.instance.getCurrentLevel().gameWon)
-                        font.draw(batch,"YOU WON!",0 ,0,healthWidth, Align.center,false);
-                    else if (WorldController.instance.getCurrentLevel().gameLost)
-                        font.draw(batch,"YOU LOST... :(",0 ,0,healthWidth, Align.center,false);
-                }
-            };
-            hud.addHe(gameEnd);
+
         }
+        gameEnd = new HUDElement() {
+            @Override
+            public void render(SpriteBatch batch) {
+                if(getCurrentLevel().gameWon)
+                    batch.draw(Assets.getInstance().endgameTexReg[0],-(Gdx.graphics.getWidth()/1.3f)/2, -(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getWidth()/1.3f,Gdx.graphics.getWidth()/3);
+                else if (getCurrentLevel().gameLost)
+                    batch.draw(Assets.getInstance().endgameTexReg[1],-(Gdx.graphics.getWidth()/1.3f)/2, -(Gdx.graphics.getWidth()/3)/2,Gdx.graphics.getWidth()/1.3f,Gdx.graphics.getWidth()/3);
+            }
+        };
+        hud.addHe(gameEnd);
 
 
 
@@ -159,6 +161,17 @@ public class WorldController extends InputAdapter {
             {
                 lifeP1.get(livesRendering-1).canRender = false;
             }
+            else if(getCurrentLevel().getPlayer()!= null && livesRendering<getCurrentLevel().getPlayer().lives)
+            {
+                for(int j = 0; j < lifeP1.size(); j++)
+                {
+                    if(!lifeP1.get(j).canRender)
+                    {
+                        lifeP1.get(j).canRender = true;
+                    }
+
+                }
+            }
         }
 
 
@@ -181,6 +194,17 @@ public class WorldController extends InputAdapter {
                 {
                     lifeP2.get(livesRendering - 1).canRender = false;
                 }
+                else if(getCurrentLevel().getPlayer2()!= null && livesRendering < getCurrentLevel().getPlayer2().lives)
+                {
+                    for(int j = 0; j < lifeP2.size(); j++)
+                    {
+                        if(!lifeP2.get(j).canRender)
+                        {
+                            lifeP2.get(j).canRender = true;
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -188,6 +212,8 @@ public class WorldController extends InputAdapter {
 
     public void update(float deltaTime){
 
+        levels.get(currentLevel).update(deltaTime);
+        updateHud();
         if(getCurrentLevel().getLayerList(Layer.LayerNames.PLAYER).size()==0)
         {
             System.out.println("Oh shit you've lost!");
@@ -198,12 +224,13 @@ public class WorldController extends InputAdapter {
         else if(getCurrentLevel().gameWon)
         {
             System.out.println("Oh shit you won!");
+
             restartTimer-=deltaTime;
         }
-        levels.get(currentLevel).update(deltaTime);
-        updateHud();
+
         if(restartTimer <= 0)
         {
+            SoundManager.playMenuMusic();
             MAIN_GAME.instance.setScreen(MAIN_GAME.instance.menuScreen);
             restartTimer = 8;
         }

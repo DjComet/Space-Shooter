@@ -9,7 +9,7 @@ public class Ovni extends GameObject {
 
     float dt;
     int health;
-    int maxHealth = 100;
+    int maxHealth = 10;
     boolean isOnPos = false;
 
 
@@ -36,6 +36,7 @@ public class Ovni extends GameObject {
     int explosionNumber = 20;
     int milestoneExplosionNumber = 10;
     boolean dead = false;
+    boolean dying = false;
     float explosionTimer =0f;
     int redFrameCounter = 0;
 
@@ -43,8 +44,8 @@ public class Ovni extends GameObject {
     OvniState state;
     boolean hasDoneNormal = false;
 
-    float st_normalTime = 20f;
-    float st_laserTime = 11f;
+    float st_normalTime = 15f;
+    float st_laserTime = 10f;
     float st_idleTime = 3f;
     float st_normalTimer = 0;
     float st_laserTimer = 0;
@@ -63,6 +64,8 @@ public class Ovni extends GameObject {
         layerTag = Layer.LayerNames.ENEMY;
         health = maxHealth;
         state = OvniState.NORMAL;
+
+        if(MAIN_GAME.instance.gameScreen.twoPlayers) health *=2;
 
 
 
@@ -138,8 +141,14 @@ public class Ovni extends GameObject {
 
     void die()
     {
-        System.out.println("Ovni dying");
+
         explosionTimer+= dt;
+        dying = true;
+        if(!SoundManager.victorySong.isPlaying())
+        {
+            SoundManager.playVictoryMusic();
+            SoundManager.principalTheme.stop();
+        }
 
         if(explosionNumber<=0)
         {
@@ -161,8 +170,8 @@ public class Ovni extends GameObject {
         }
         if(dead)
         {
-            WorldController.instance.getCurrentLevel().gameWon = true;
             System.out.println("Game WON!!");
+            WorldController.instance.getCurrentLevel().gameWon = true;
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
     }
@@ -178,7 +187,7 @@ public class Ovni extends GameObject {
         }
         else if(explosionTimer >= 0.3f)
         {
-            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x+ 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
@@ -348,6 +357,7 @@ public class Ovni extends GameObject {
         }
         else
         {
+            if(!dying)
             shoot();
         }
 

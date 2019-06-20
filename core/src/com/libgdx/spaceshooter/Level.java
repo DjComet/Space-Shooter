@@ -110,6 +110,7 @@ public class Level {
             {
                 gameLost = true;
                 System.out.println("Game Lost! TIMEOUT!");
+                WorldController.instance.currentLevel = 0;
             }
             System.out.println("Going to level " + WorldController.instance.currentLevel);
         }
@@ -231,7 +232,16 @@ public class Level {
             if(L.name == Layer.LayerNames.PLAYER)
             {
                 if(L.list.size()!=0)
-                go = (Player)L.list.get(1);
+                {
+                    if(L.list.size()==1)
+                    {
+                        go = (Player) L.list.get(0);
+                    }
+                    else
+                    {
+                        go = (Player) L.list.get(1);
+                    }
+                }
             }
         }
         if(go==null) System.out.println("There is no player object");

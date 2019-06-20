@@ -35,6 +35,7 @@ public class MAIN_GAME extends Game {
         }
 
         setScreen(menuScreen);
+        SoundManager.playMenuMusic();
     }
 
 
