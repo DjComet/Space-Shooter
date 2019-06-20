@@ -27,6 +27,7 @@ public class WorldController extends InputAdapter {
 
 
 
+
     public WorldController(){
         if(WorldController.instance ==null)
         {
@@ -73,7 +74,7 @@ public class WorldController extends InputAdapter {
             lifeP1.add(new HUDElement() {
                 @Override
                 public void render(SpriteBatch batch) {
-                    batch.draw(Assets.getInstance().livesTexRegions[0],-Gdx.graphics.getWidth()/2f+healthWidth/4, Gdx.graphics.getHeight()/4-(healthHeight *(finalI+1)) ,healthWidth,healthHeight);
+                    if(canRender)batch.draw(Assets.getInstance().livesTexRegions[0],-Gdx.graphics.getWidth()/2f+healthWidth/4, Gdx.graphics.getHeight()/4+(healthHeight *(finalI+1)) ,healthWidth,healthHeight);
                 }
             });
             hud.addHe(lifeP1.get(i));
@@ -86,7 +87,7 @@ public class WorldController extends InputAdapter {
                 lifeP2.add(new HUDElement() {
                     @Override
                     public void render(SpriteBatch batch) {
-                        batch.draw(Assets.getInstance().livesTexRegions[1], Gdx.graphics.getWidth() / 2f - healthWidth, Gdx.graphics.getHeight() / 4 - (healthHeight * (finalI + 1)), healthWidth, healthHeight);
+                        if(canRender)batch.draw(Assets.getInstance().livesTexRegions[1], Gdx.graphics.getWidth() / 2f - healthWidth, Gdx.graphics.getHeight() / 4 + (healthHeight * (finalI + 1)), healthWidth, healthHeight);
                     }
                 });
                 hud.addHe(lifeP2.get(i));
@@ -99,11 +100,45 @@ public class WorldController extends InputAdapter {
 
     void updateHud()
     {
-        for(HUDElement he:lifeP1)
+
+        for(int i = 0; i< lifeP1.size(); i++)
         {
-            if(getCurrentLevel().getPlayer().lives<getCurrentLevel().getPlayer().lives)
+            int livesRendering = 0;
+            for(int j = 0; j < lifeP1.size(); j++)
+            {
+                if(lifeP1.get(j).canRender)
+                {
+                    livesRendering ++;
+                }
+
+            }
+
+            if(getCurrentLevel().getPlayer()!= null && livesRendering>getCurrentLevel().getPlayer().lives)
+            {
+                lifeP1.get(livesRendering-1).canRender = false;
+            }
         }
 
+        if(MAIN_GAME.instance.gameScreen.twoPlayers) //IF PLAYER TWO
+        {
+            for (int i = 0; i < lifeP2.size(); i++)
+            {
+                int livesRendering = 0;
+                for (int j = 0; j < lifeP2.size(); j++)
+                {
+                    if (lifeP2.get(j).canRender)
+                    {
+                        livesRendering++;
+                    }
+
+                }
+
+                if (getCurrentLevel().getPlayer2()!= null && livesRendering > getCurrentLevel().getPlayer2().lives)
+                {
+                    lifeP2.get(livesRendering - 1).canRender = false;
+                }
+            }
+        }
     }
 
 
@@ -114,9 +149,9 @@ public class WorldController extends InputAdapter {
             System.out.println("Oh shit you've lost!");
             restartTimer-=deltaTime;
 
-
         }
         levels.get(currentLevel).update(deltaTime);
+        updateHud();
         if(restartTimer <= 0)
         {
             MAIN_GAME.instance.setScreen(MAIN_GAME.instance.menuScreen);

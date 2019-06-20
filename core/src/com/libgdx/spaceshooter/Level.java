@@ -55,23 +55,23 @@ public class Level {
         {
             switch (WorldController.instance.currentLevel)
             {
-                case 1:
+                case 0:
                     waveM = new WaveManager(difficulty, 7);
                     break;
 
-                case 2:
+                case 1:
                     waveM = new WaveManager(difficulty, 15);
                     break;
 
-                case 3:
+                case 2:
                     waveM = new WaveManager(difficulty, 20);
                     break;
 
-                case 4:
+                case 3:
                     waveM = new WaveManager(difficulty, 30);
                     break;
 
-                case 5:
+                case 4:
                     waveM = new WaveManager(5, 1);//ovni
                     break;
 
@@ -205,6 +205,7 @@ public class Level {
         {
             if(L.name == Layer.LayerNames.PLAYER)
             {
+                if(L.list.size()!=0)
                 go = (Player)L.list.get(0);
             }
         }
@@ -219,6 +220,7 @@ public class Level {
         {
             if(L.name == Layer.LayerNames.PLAYER)
             {
+                if(L.list.size()!=0)
                 go = (Player)L.list.get(1);
             }
         }
@@ -235,6 +237,7 @@ public class Level {
         {
             if(L.name == Layer.LayerNames.BACKGROUND)
             {
+                if(L.list.size()!=0)
                 go = L.list.get(0);
             }
         }

@@ -7,6 +7,7 @@ public abstract class HUDElement {
 
     Vector2 position;
     Vector2 dimension;
+    public boolean canRender = true;
 
     public abstract void render(SpriteBatch batch);
 }

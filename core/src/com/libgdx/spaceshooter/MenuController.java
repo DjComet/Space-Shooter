@@ -21,7 +21,7 @@ public class MenuController extends InputAdapter {
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();//MENUS
     public int currentLevel = 0;
-    public InputManager inputMgr = new InputManager();
+    public InputManager inputMgr;
     public int difficulty = 0;
     public HUD hud;
     public Logo logo;
@@ -46,6 +46,7 @@ public class MenuController extends InputAdapter {
         {
             MenuController.instance = null;
         }
+        inputMgr = new InputManager();
         Gdx.input.setInputProcessor(inputMgr);
         ch = new CameraHelper();
         hud = new HUD();

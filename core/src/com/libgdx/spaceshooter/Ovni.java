@@ -2,6 +2,7 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 public class Ovni extends GameObject {
@@ -11,11 +12,19 @@ public class Ovni extends GameObject {
     int maxHealth = 100;
     boolean isOnPos = false;
 
+
     //Shooting
+    Vector2 ovniCenterPos;
     float innerRingRotation = 0f;
     float outerRingRotation = 0f;
+    Vector2 originNormalShootPos;
+    Vector2 originLaserShootPos;
     public Vector2[] normalShootPos;
     public Vector2[] laserShootPos;
+    float normalShotInterval = 0.5f;
+    float normalShotTimer = 0f;
+    float laserShotInterval = 0.1f;
+    float laserShotTimer = 0f;
 
     //Death
     boolean quarter3 = false;
@@ -30,6 +39,18 @@ public class Ovni extends GameObject {
     float explosionTimer =0f;
     int redFrameCounter = 0;
 
+    public enum OvniState {IDLE, NORMAL, LASER};
+    OvniState state;
+    boolean hasDoneNormal = false;
+
+    float st_normalTime = 20f;
+    float st_laserTime = 11f;
+    float st_idleTime = 3f;
+    float st_normalTimer = 0;
+    float st_laserTimer = 0;
+    float st_idleTimer = 0;
+
+
 
     public Ovni()
     {
@@ -38,15 +59,15 @@ public class Ovni extends GameObject {
         height = 199f;
         position.x = -width/2;
         position.y = 200;
-
-        normalShootPos = new Vector2[] {new Vector2(1,1)  /*.......*/   };//hacer aqui toa la mierda de poner las posiciones de los cañones
-
+        ovniCenterPos = new Vector2(position.x + width/2, position.y + height/2);
         layerTag = Layer.LayerNames.ENEMY;
         health = maxHealth;
+        state = OvniState.NORMAL;
 
 
 
     }
+
 
     void checkHit()
     {
@@ -127,6 +148,13 @@ public class Ovni extends GameObject {
         else if(explosionTimer >= 0.2f)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             explosionNumber--;
             scale = scale.scl(0.98f);
             explosionTimer=0;
@@ -149,6 +177,9 @@ public class Ovni extends GameObject {
         else if(explosionTimer >= 0.3f)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x+ 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             milestoneExplosionNumber--;
 
             explosionTimer=0;
@@ -166,21 +197,159 @@ public class Ovni extends GameObject {
         return position;
     }
 
+    void moveShootPositions()
+    {
+
+        /* = new Vector2[]{new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97),
+                                             new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97)};*/
+        originNormalShootPos = new Vector2(ovniCenterPos.x - 8, ovniCenterPos.y -8 -97);
+        originLaserShootPos = new Vector2(ovniCenterPos.x - 4, ovniCenterPos.y -4 -60);
+
+
+        normalShootPos = getPositionArray(originNormalShootPos,false);
+
+        laserShootPos = getPositionArray(originLaserShootPos,true);
+
+    }
+    Vector2[] getPositionArray(Vector2 originalPosition, boolean internal)//ONLY LENGTH 8 ARRAYS!
+    {
+        Vector2[] temp = new Vector2[8];
+        if(internal)
+        {
+            for(int i = 0; i<temp.length; i++)
+            {
+                temp[i] = getRotatedPos(angleToRads(innerRingRotation + (45 * i)), originalPosition);
+            }
+        }
+        else
+        {
+            for(int i = 0; i<temp.length; i++)
+            {
+                temp[i] = getRotatedPos(angleToRads(outerRingRotation + (45 * i)), originalPosition);
+            }
+        }
+
+        return  temp;
+    }
+
+    Vector2 getRotatedPos(float angle, Vector2 position)
+    {
+        float rotatedX = (float) (Math.cos(angle) * (position.x - ovniCenterPos.x) - Math.sin(angle) * (position.y - ovniCenterPos.y) + ovniCenterPos.x);
+        float rotatedY = (float) (Math.sin(angle) * (position.x - ovniCenterPos.x) + Math.cos(angle) * (position.y - ovniCenterPos.y) + ovniCenterPos.y);
+
+        return new Vector2(rotatedX, rotatedY);
+    }
+
+    void shoot()
+    {
+        //Add timed switch between lasers and normal shots
+        switch (state)
+        {
+            case NORMAL:
+                st_normalTimer += dt;
+                if(st_normalTimer < st_normalTime)
+                {
+                    normalShotTimer += dt;
+                    if (normalShotTimer >= normalShotInterval)
+                    {
+                        for (int i = 0; i < normalShootPos.length; i++)
+                        {
+                            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.OVNINORMAL, normalShootPos[i].x, normalShootPos[i].y, 50, 1, outerRingRotation + (45 * i)));
+                            normalShotTimer = 0;
+                        }
+
+
+                    }
+                    hasDoneNormal = true;
+                }
+                else
+                {
+                    state = OvniState.IDLE;
+                    st_normalTimer = 0;
+                }
+                break;
+
+            case LASER:
+                st_laserTimer += dt;
+                if(st_laserTimer < st_laserTime)
+                {
+                    laserShotTimer += dt;
+                    if (laserShotTimer >= laserShotInterval)
+                    {
+                        for (int i = 0; i < laserShootPos.length; i++)
+                        {
+                            WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.OVNILASER, laserShootPos[i].x, laserShootPos[i].y, 70, 1, innerRingRotation + (45 * i)));
+                            laserShotTimer = 0;
+                        }
+                    }
+                    hasDoneNormal = false;
+                }
+                else
+                {
+                    state = OvniState.IDLE;
+                    st_laserTimer = 0;
+                }
+                break;
+
+            case IDLE:
+                st_idleTimer+=dt;
+                if(st_idleTimer >= st_idleTime)
+                {
+                    if(hasDoneNormal)
+                    {
+                        state = OvniState.LASER;
+                    }
+                    else
+                    {
+                        state = OvniState.NORMAL;
+                    }
+                    st_idleTimer = 0;
+                }
+                break;
+        }
+
+
+
+
+
+
+        //Same for lasers
+    }
+
+    float angleToRads(float angle)
+    {
+        return (float) ((angle) * (Math.PI/180));
+    }
+
     @Override
     public void update(float delta) {
 
         dt = delta;
+        innerRingRotation += dt *10;
+        outerRingRotation -= dt * 20;
+        ovniCenterPos = new Vector2(position.x + width/2, position.y + height/2);
+        moveShootPositions();
         if(!isOnPos)
         {
             position.y -= 50*dt;
             if(position.y <= 20)
             {
                 isOnPos=true;
-                WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.OVNINORMAL,position.x+100-16,position.y+100-16,-50,1,0));
+
             }
         }
-        innerRingRotation += dt *10;
-        outerRingRotation -= dt * 20;
+        else
+        {
+            shoot();
+        }
+
+
         checkHit();
 
 

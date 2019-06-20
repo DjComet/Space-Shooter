@@ -73,8 +73,6 @@ public class SimpleEnemy extends GameObject {
         realTime += delta;
         realTime %= period;
 
-
-
         float sine = (float)Math.sin((realTime + delay) * 2 * MathUtils.PI/period) * amplitude;//Movimiento armónico simple
         System.out.println("Sine: "+ sine);
 
@@ -93,6 +91,7 @@ public class SimpleEnemy extends GameObject {
 
         roll = -speed.x/maxSpeed;
         timer += delta;
+
         if(timer > timeToShoot)
         {
             shoot();

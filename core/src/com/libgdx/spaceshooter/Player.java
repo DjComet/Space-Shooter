@@ -15,7 +15,7 @@ public class Player extends GameObject {
     public int maxHealth = 20;
     public int lives;
     public int maxLives = 3;
-    public float respawnTime = 5f;
+    public float respawnTime = 1.5f;
     float timerToRespawn = 0f;
     float invencibilityTimer = 0f;
     public float maxSpeed = 150f;
@@ -39,6 +39,8 @@ public class Player extends GameObject {
 
     InputManager InputMgr;
     float dt;
+    float renderStrobeTimer = 0;
+    boolean render = true;
 
 
     public Player(float posX, float posY) {
@@ -154,7 +156,7 @@ public class Player extends GameObject {
 
         boolean touchShootNormal = InputMgr.pointBut!=null && InputMgr.pointBut.x>100;
         boolean touchShootSpecial = InputMgr.pointBut!=null && InputMgr.pointBut.x<100;//arreglar
-        System.out.println("POINTBUT: "+InputMgr.pointBut);
+
 
 
 
@@ -219,11 +221,28 @@ public class Player extends GameObject {
 
     void checkHit()
     {
-        if(rotation==0)
-            rectangle.set(position.x, position.y, width*scale.x, height*scale.y);
-        else rectangle.set(position.x-width*scale.x, position.y-height*scale.y, width,height);
+
+        rectangle.set(position.x+9, position.y+9, width*scale.x -18, height*scale.y-18);
+
 
         invencibilityTimer -= dt;
+
+        if(!dead && invencibilityTimer> 0)
+        {
+            renderStrobeTimer += dt;
+            if(renderStrobeTimer>= 0.1f)
+            {
+                render = !render;
+                renderStrobeTimer = 0;
+            }
+
+        }
+        else if(!dead && invencibilityTimer<= 0)
+        {
+            render = true;
+            renderStrobeTimer = 0;
+        }
+
         for (GameObject shot: WorldController.instance.getCurrentLevel().getLayerList(Layer.LayerNames.ENEMYSHOT))
         {
             if(CollisionHelper.CheckCollision(this, shot))
@@ -245,22 +264,36 @@ public class Player extends GameObject {
     void die()
     {
         if(!dead)
-        WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2, false));
-        dead = true;
-        if(lives <= 0)
         {
-
-            WorldController.instance.getCurrentLevel().Despawn(this);
-            //insert replay pop up logic
+            WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2, false));
+            lives --;
+            System.out.println("Lives: "+lives);
         }
+        dead = true;
+
         timerToRespawn += dt;
+
+        if(timerToRespawn >= 0.5f)
+        {
+            render = false;
+            position = new Vector2(-16,-WorldController.instance.getCurrentLevel().getBg().height/4);
+        }
+
         if(timerToRespawn >= respawnTime)
         {
             health = maxHealth;
-            lives = maxLives;
+
             dead = false;
             timerToRespawn = 0;
             invencibilityTimer = 3f;
+            render = true;
+            if(lives <= 0)
+            {
+
+                WorldController.instance.getCurrentLevel().Despawn(this);
+                //insert replay pop up logic
+            }
+
         }
     }
 
@@ -302,7 +335,7 @@ public class Player extends GameObject {
         }
 
 
-
+        if(render)
         batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
         //batch.draw(Assets.getInstance().test,0,0,5,5);
         //batch.draw(texRegionToDraw(3),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);

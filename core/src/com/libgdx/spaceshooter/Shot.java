@@ -43,16 +43,37 @@ public class Shot extends GameObject{
             break;
         }
 
-        if(this.shotType == ShotType.PLSPECIAL || this.shotType == ShotType.OVNINORMAL)
+        if(this.shotType == ShotType.PLSPECIAL )
         {
             scale = new Vector2(1.5f,1.5f);
             damage = 5;
             lifeTime = 10f;
         }
+        else if(this.shotType == ShotType.OVNINORMAL)
+        {
+            scale = new Vector2(1,1);
+            damage = 4;
+            lifeTime = 10f;
+            speed.x = (float) (spd * Math.cos(angleToRads(-90 +rot)));
+            speed.y = (float) (spd * Math.sin(angleToRads(-90 +rot)));
+            rotation = 0;
+        }
+        else if(this.shotType == ShotType.OVNILASER)
+        {
+            damage = 2;
+            lifeTime = 10f;
+            speed.x = (float) (spd * Math.cos(angleToRads(-90 +rot)));
+            speed.y = (float) (spd * Math.sin(angleToRads(-90 +rot)));
+
+        }
 
 
     }
 
+    float angleToRads(float angle)
+    {
+        return (float) ((angle) * (Math.PI/180));
+    }
     @Override
     public void draw(SpriteBatch batch) {
         batch.draw(Assets.getInstance().shotTexRegions[shotType.getValue()],position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
