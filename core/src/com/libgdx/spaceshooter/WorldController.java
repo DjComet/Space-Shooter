@@ -21,7 +21,7 @@ public class WorldController extends InputAdapter {
     public int currentLevel = 4;
     public InputManager inputMgr = new InputManager();
     public int difficulty;
-    float restartTimer = 8.46f;
+    float restartTimer = 10.46f;
 
 
     public HUD hud;
@@ -231,6 +231,7 @@ public class WorldController extends InputAdapter {
         if(restartTimer <= 0)
         {
             SoundManager.playMenuMusic();
+            SoundManager.principalTheme.stop();
             MAIN_GAME.instance.setScreen(MAIN_GAME.instance.menuScreen);
             restartTimer = 8;
         }

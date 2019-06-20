@@ -78,6 +78,7 @@ public class MenuController extends InputAdapter {
             public void click() {
                 Controllers.clearListeners();
                 MAIN_GAME.instance.gameScreen.twoPlayers = false;
+                SoundManager.playSounds(18);
                 start = true;
             }
 
@@ -140,6 +141,7 @@ public class MenuController extends InputAdapter {
     {
         float[] markerPositions = new float[]{firstHeight,secondHeight,thirdHeight,100000000};
 
+        float markerTemp = markerHeight;
         if(inputMgr.keyDownBool)
         {
             if(markerHeight == markerPositions[3])
@@ -148,8 +150,6 @@ public class MenuController extends InputAdapter {
                 max = 2;
             }
             else i++;
-
-
         }
         else if(inputMgr.keyUpBool)
         {
@@ -160,18 +160,26 @@ public class MenuController extends InputAdapter {
             }
             else i--;
         }
+
         i = MathUtils.clamp(i, 0, max);
         markerHeight = markerPositions[i];
+
+        if(markerTemp!= markerHeight)
+        {
+            SoundManager.playSounds(17);
+        }
 
         if(markerHeight == markerPositions[0] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
             MAIN_GAME.instance.gameScreen.twoPlayers = false;
+            SoundManager.playSounds(18);
             start = true;
         }
         else if(markerHeight == markerPositions[1] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
+            SoundManager.playSounds(18);
             start = true;
             MAIN_GAME.instance.gameScreen.twoPlayers = true;
 
@@ -179,6 +187,7 @@ public class MenuController extends InputAdapter {
         else if(markerHeight == markerPositions[2] && inputMgr.keyShootNBool)
         {
             Controllers.clearListeners();
+            SoundManager.playSounds(18);
             MAIN_GAME.instance.dispose();
             Gdx.app.exit();
         }
@@ -204,7 +213,6 @@ public class MenuController extends InputAdapter {
         canyonL.speedY = MathUtils.lerp(-200,-100, t);
         canyonR.speedY = MathUtils.lerp(-200,-100, t);
         main.speedY = MathUtils.lerp(-400,-200, t);
-        System.out.println("Speed: "+canyonL.speedY);
 
     }
 

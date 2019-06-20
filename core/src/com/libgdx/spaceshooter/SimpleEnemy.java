@@ -133,6 +133,7 @@ public class SimpleEnemy extends GameObject {
                     WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32, false));
                     dead = true;
                     WorldController.instance.getCurrentLevel().Despawn(this);
+                    SoundManager.playSounds(7);
                 }
 
             }
@@ -144,6 +145,7 @@ public class SimpleEnemy extends GameObject {
 
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 +shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+            SoundManager.playSounds(6);
 
     }
 

@@ -80,7 +80,8 @@ public class AdvancedEnemy extends GameObject {
             if(CollisionHelper.CheckCollision(this, shot))
             {
                 WorldController.instance.getCurrentLevel().Despawn(shot);
-               health -= 1;//Make it so that the damage of the shot is subtracted here
+                health -= 1;//Make it so that the damage of the shot is subtracted here
+                SoundManager.playSounds(15);
 
             }
         }
@@ -110,6 +111,7 @@ public class AdvancedEnemy extends GameObject {
         WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2-32, position.y-height/2-32, false));
         dead = true;
         WorldController.instance.getCurrentLevel().Despawn(this);
+        SoundManager.playSounds(9);
     }
 
     public void move(float delta)
@@ -164,6 +166,7 @@ public class AdvancedEnemy extends GameObject {
 
         WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
         WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.AE,position.x-(width/2) + shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+        SoundManager.playSounds(8);
 
     }
 
