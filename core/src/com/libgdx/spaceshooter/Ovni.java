@@ -161,6 +161,8 @@ public class Ovni extends GameObject {
         }
         if(dead)
         {
+            WorldController.instance.getCurrentLevel().gameWon = true;
+            System.out.println("Game WON!!");
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
     }

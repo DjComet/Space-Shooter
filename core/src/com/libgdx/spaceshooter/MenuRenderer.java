@@ -54,11 +54,11 @@ public class MenuRenderer {
 
     void updateArrays()
     {
-        for(int i = 0; i<MenuController.instance.getCurrentLevel().Layers.size(); i++)
+        for(int i = 0; i<controller.getCurrentLevel().Layers.size(); i++)
         {
-            for(int j = 0; j<MenuController.instance.getCurrentLevel().Layers.get(i).list.size(); j++)
+            for(int j = 0; j<controller.getCurrentLevel().Layers.get(i).list.size(); j++)
             {
-                MenuController.instance.getCurrentLevel().Layers.get(i).list.get(j).draw(batch);
+                controller.getCurrentLevel().Layers.get(i).list.get(j).draw(batch);
             }
         }
     }

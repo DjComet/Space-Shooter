@@ -15,6 +15,7 @@ public class SpaceShooterMenu implements Screen {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Gdx.app.debug(TAG_LIFECYCLE, "Created");
         controller = new MenuController();
+        MenuController.instance = controller;
         renderer = new MenuRenderer(controller);
     }
 

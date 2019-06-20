@@ -125,6 +125,7 @@ public class MenuController extends InputAdapter {
 
     public void update(float deltaTime){
 
+        if(inputMgr == null) inputMgr = new InputManager();
 
         updateMarker();
         startGame(deltaTime);

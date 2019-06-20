@@ -20,7 +20,11 @@ public class WaveManager {
     {
         waves = new ArrayList<Wave>();
         difficulty = diff;
+
+
         totalWaves = totalW;
+        if(difficulty == 5)
+            totalWaves = 1;
 
         //create the waves here based on difficulty and totalWaves parameter
             generateLevelWaves();

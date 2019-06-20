@@ -16,7 +16,10 @@ public class SpaceShooterMainScene implements Screen {
 	public void show() {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		Gdx.app.debug(TAG_LIFECYCLE, "Created");
+		if(WorldController.instance!=null)
+		WorldController.instance = null;
 		controller = new WorldController();
+		WorldController.instance = controller;
 		renderer = new WorldRenderer(controller);
 	}
 

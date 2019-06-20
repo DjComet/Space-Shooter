@@ -14,6 +14,9 @@ public class Level {
     public ArrayList<GameObject> toRemove;
     public ArrayList<GameObject> toAdd;
     public float timeToNextLevel = 8f;
+    public boolean gameWon = false;
+    public boolean gameLost = false;
+
 
     public WaveManager waveM;
 
@@ -56,19 +59,19 @@ public class Level {
             switch (WorldController.instance.currentLevel)
             {
                 case 0:
-                    waveM = new WaveManager(difficulty, 7);
+                    waveM = new WaveManager(difficulty, 5);
                     break;
 
                 case 1:
-                    waveM = new WaveManager(difficulty, 15);
+                    waveM = new WaveManager(difficulty, 10);
                     break;
 
                 case 2:
-                    waveM = new WaveManager(difficulty, 20);
+                    waveM = new WaveManager(difficulty, 15);
                     break;
 
                 case 3:
-                    waveM = new WaveManager(difficulty, 30);
+                    waveM = new WaveManager(difficulty, 20);
                     break;
 
                 case 4:
@@ -101,12 +104,19 @@ public class Level {
 
         if(waveM!=null && waveM.waves.get((waveM.waves.size()-1)).timeToNextWave + timeToNextLevel < currentTime)
         {
+
             WorldController.instance.currentLevel++;
+            if(WorldController.instance.currentLevel == 5)
+            {
+                gameLost = true;
+                System.out.println("Game Lost! TIMEOUT!");
+            }
             System.out.println("Going to level " + WorldController.instance.currentLevel);
         }
+
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
         {
-            MenuController.instance.inputMgr.resetInputs();
+            MAIN_GAME.instance.menuScreen.controller.inputMgr.resetInputs();
         }
         else
         {

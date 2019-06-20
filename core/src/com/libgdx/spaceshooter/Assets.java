@@ -16,6 +16,7 @@ public class Assets {
     public Texture button;
     public Texture marker;
     public BitmapFont font;
+    public BitmapFont gameFont;
     public TextureAtlas player;
     public TextureRegion[] playerTexRegions;
     public Animation<TextureRegion> p_bankLeft;
@@ -63,7 +64,12 @@ public class Assets {
         parameter.spaceX = 10;
         parameter.color = new Color(0,0,0,1);
         font = generator.generateFont(parameter);
+
+        parameter.size = 40;
+        parameter.color = new Color(1,1,1,1);
+        gameFont = generator.generateFont(parameter);
         generator.dispose();
+
 
 
         //BACKGROUNDS---------------------------------------------------------------------------------------------------------------------

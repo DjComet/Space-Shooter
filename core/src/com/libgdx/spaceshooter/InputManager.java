@@ -151,8 +151,8 @@ public class InputManager implements InputProcessor {
         Vector3 temp = new Vector3(mousePos.x,mousePos.y,0);
         if(MAIN_GAME.instance.getScreen() == MAIN_GAME.instance.menuScreen)
         {
-            MenuController.instance.ch.hudCamera.unproject(temp);
-            if (!MenuController.instance.hud.onMouseOver(temp.x, temp.y))
+            MAIN_GAME.instance.menuScreen.controller.ch.hudCamera.unproject(temp);
+            if (!MAIN_GAME.instance.menuScreen.controller.hud.onMouseOver(temp.x, temp.y))
             {
                 System.out.println("Menu_MouseMoved");
             }
