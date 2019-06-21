@@ -26,6 +26,7 @@ public class SimpleEnemy extends GameObject {
     public float shotSpeed = 250f;
     float timer = 0f;
     float timeToShoot;
+    int value = 4;
 
     public SimpleEnemy(float posX, float posY) {
         position = new Vector2(posX, posY);
@@ -120,6 +121,7 @@ public class SimpleEnemy extends GameObject {
                 WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32, false));
                 WorldController.instance.getCurrentLevel().Despawn(shot);
                 dead = true;
+                WorldController.instance.score += value;
                 WorldController.instance.getCurrentLevel().Despawn(this);
             }
         }
@@ -132,7 +134,9 @@ public class SimpleEnemy extends GameObject {
                 {
                     WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2 -32, position.y-height/2-32, false));
                     dead = true;
+                    WorldController.instance.score += value;
                     WorldController.instance.getCurrentLevel().Despawn(this);
+                    SoundManager.playSounds(7);
                 }
 
             }
@@ -144,6 +148,7 @@ public class SimpleEnemy extends GameObject {
 
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 + shootingPosR.x,position.y-height/2-shootingPosR.y, -shotSpeed, 1, 180));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.SE,position.x-width/2 +shootingPosL.x,position.y-height/2-shootingPosL.y, -shotSpeed, 1,180));
+            SoundManager.playSounds(6);
 
     }
 

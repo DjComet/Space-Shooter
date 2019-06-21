@@ -97,6 +97,7 @@ public class Shot extends GameObject{
                 if(CollisionHelper.CheckCollision(this, enemy))
                 {
                     WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x+(width/2)-32, position.y + (height/2)-32, true));
+                    SoundManager.playSounds(4);
                     WorldController.instance.getCurrentLevel().Despawn(this);
                 }
             }
@@ -113,6 +114,11 @@ public class Shot extends GameObject{
            WorldController.instance.getCurrentLevel().Despawn(this);
 
 
+        }
+
+        if(position.y>= WorldController.instance.getCurrentLevel().getBg().height/2)
+        {
+            WorldController.instance.getCurrentLevel().Despawn(this);
         }
     }
 }

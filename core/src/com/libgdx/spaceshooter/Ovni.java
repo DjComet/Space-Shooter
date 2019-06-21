@@ -2,15 +2,16 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import sun.java2d.opengl.WGLSurfaceData;
 
 public class Ovni extends GameObject {
 
     float dt;
     int health;
-    int maxHealth = 10;
+    int maxHealth = 500;
     boolean isOnPos = false;
+    int value = 1000;
 
 
     //Shooting
@@ -25,6 +26,7 @@ public class Ovni extends GameObject {
     float normalShotTimer = 0f;
     float laserShotInterval = 0.1f;
     float laserShotTimer = 0f;
+    boolean reverse = false;
 
     //Death
     boolean quarter3 = false;
@@ -144,10 +146,10 @@ public class Ovni extends GameObject {
 
         explosionTimer+= dt;
         dying = true;
-        if(!SoundManager.victorySong.isPlaying())
+        SoundManager.principalTheme.stop();
+        if(!SoundManager.victorySong.isPlaying() && explosionNumber<=10 )
         {
             SoundManager.playVictoryMusic();
-            SoundManager.principalTheme.stop();
         }
 
         if(explosionNumber<=0)
@@ -164,13 +166,16 @@ public class Ovni extends GameObject {
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            SoundManager.playSounds(13);
             explosionNumber--;
             scale = scale.scl(0.98f);
             explosionTimer=0;
         }
         if(dead)
         {
+            SoundManager.playSounds(14);
             System.out.println("Game WON!!");
+            WorldController.instance.score += value;
             WorldController.instance.getCurrentLevel().gameWon = true;
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
@@ -191,6 +196,7 @@ public class Ovni extends GameObject {
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x + 100 + randomPos().x-32, position.y+ 100 + randomPos().y-32, false));
+            SoundManager.playSounds(12);
             milestoneExplosionNumber--;
 
             explosionTimer=0;
@@ -272,9 +278,10 @@ public class Ovni extends GameObject {
                         for (int i = 0; i < normalShootPos.length; i++)
                         {
                             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.OVNINORMAL, normalShootPos[i].x, normalShootPos[i].y, 50, 1, outerRingRotation + (45 * i)));
+
                             normalShotTimer = 0;
                         }
-
+                        SoundManager.playSounds(11);
 
                     }
                     hasDoneNormal = true;
@@ -287,9 +294,12 @@ public class Ovni extends GameObject {
                 break;
 
             case LASER:
+                if(st_laserTimer==0)
+                SoundManager.playSounds(10);
                 st_laserTimer += dt;
                 if(st_laserTimer < st_laserTime)
                 {
+
                     laserShotTimer += dt;
                     if (laserShotTimer >= laserShotInterval)
                     {
@@ -305,6 +315,8 @@ public class Ovni extends GameObject {
                 {
                     state = OvniState.IDLE;
                     st_laserTimer = 0;
+                    reverse = !reverse;
+                    SoundManager.stopLaser();
                 }
                 break;
 
@@ -325,12 +337,6 @@ public class Ovni extends GameObject {
                 break;
         }
 
-
-
-
-
-
-        //Same for lasers
     }
 
     float angleToRads(float angle)
@@ -342,8 +348,9 @@ public class Ovni extends GameObject {
     public void update(float delta) {
 
         dt = delta;
-        innerRingRotation += dt *10;
-        outerRingRotation -= dt * 20;
+
+        innerRingRotation += dt *10 *(reverse? -1 :1);
+        outerRingRotation -= dt * 20 * (reverse? -1 :1);
         ovniCenterPos = new Vector2(position.x + width/2, position.y + height/2);
         moveShootPositions();
         if(!isOnPos)
@@ -361,11 +368,7 @@ public class Ovni extends GameObject {
             shoot();
         }
 
-
         checkHit();
-
-
-
     }
 
     @Override

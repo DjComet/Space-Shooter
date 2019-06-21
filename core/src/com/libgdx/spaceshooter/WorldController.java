@@ -19,16 +19,16 @@ public class WorldController extends InputAdapter {
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
-    public int currentLevel = 4;
+    public int currentLevel = 0;
     public InputManager inputMgr = new InputManager();
     public int difficulty;
-    float restartTimer = 8.46f;
-
+    float restartTimer = 10.46f;
+    public int score = 0;
 
     public HUD hud;
     public BitmapFont font;
     public ArrayList<HUDElement> lifeP1, lifeP2;
-    public HUDElement healthP1, healthP2, gameEnd;
+    public HUDElement healthP1, healthP2, scoreUI, gameEnd;
 
 
 
@@ -105,6 +105,16 @@ public class WorldController extends InputAdapter {
             }
         };
         hud.addHe(healthP1);
+
+        scoreUI = new HUDElement() {
+            @Override
+            public void render(SpriteBatch batch) {
+                if(WorldController.instance.getCurrentLevel().getPlayer()!=null)
+                    font.draw(batch,"SC\n"+ WorldController.instance.score,-Gdx.graphics.getWidth()/2f + healthWidth/1.5f,-healthHeight*5,healthWidth/10f, Align.center,false);
+
+            }
+        };
+        hud.addHe(scoreUI);
 
         lifeP2 = new ArrayList<HUDElement>();
         if(MAIN_GAME.instance.gameScreen.twoPlayers)
@@ -238,6 +248,7 @@ public class WorldController extends InputAdapter {
         if(restartTimer <= 0)
         {
             SoundManager.playMenuMusic();
+            SoundManager.principalTheme.stop();
             MAIN_GAME.instance.setScreen(MAIN_GAME.instance.menuScreen);
             restartTimer = 8;
         }

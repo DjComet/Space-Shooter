@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends GameObject {
     public int health;
-    public int maxHealth = 20;
+    public int maxHealth = 10;
     public int lives;
     public int maxLives = 3;
     public float respawnTime = 1.5f;
@@ -211,6 +211,7 @@ public class Player extends GameObject {
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL, position.x + width / 2 + shootingPosR.x, position.y + height / 2 + shootingPosR.y, shotSpeed, 1, 0));
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLNORMAL, position.x + width / 2 + shootingPosL.x, position.y + height / 2 + shootingPosL.y, shotSpeed, 1, 0));
+            SoundManager.playSounds(1);
             shotTimer = 0f;
         }
 
@@ -220,6 +221,7 @@ public class Player extends GameObject {
         if(specialShotTimer >= specialShotInterval)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Shot(ShotType.PLSPECIAL, position.x + width / 2 + shootingPosL.x - 2, position.y + width / 2, shotSpeed / 4, 5, 0));
+            SoundManager.playSounds(2);
             specialShotTimer = 0f;
         }
     }
@@ -228,7 +230,6 @@ public class Player extends GameObject {
     {
 
         rectangle.set(position.x+9, position.y+9, width*scale.x -18, height*scale.y-18);
-
 
         invencibilityTimer -= dt;
 
@@ -258,6 +259,7 @@ public class Player extends GameObject {
                 {
                     health -= temp.damage;//Make it so that the damage of the shot is subtracted here
                     health = MathUtils.clamp(health, 0, maxHealth);
+                    SoundManager.playSounds(15);
                 }
             }
         }
@@ -273,8 +275,10 @@ public class Player extends GameObject {
         if(!dead)
         {
             WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2, position.y-height/2, false));
+            SoundManager.playSounds(3);
             lives --;
-            System.out.println("Lives: "+lives);
+            SoundManager.playSounds(16);
+            System.out.println("Lives: "+ lives);
         }
         dead = true;
 
@@ -289,14 +293,13 @@ public class Player extends GameObject {
         if(timerToRespawn >= respawnTime)
         {
             health = maxHealth;
-
+            SoundManager.playSounds(5);
             dead = false;
             timerToRespawn = 0;
             invencibilityTimer = 3f;
             render = true;
             if(lives <= 0)
             {
-
                 WorldController.instance.getCurrentLevel().Despawn(this);
                 //insert replay pop up logic
             }
@@ -343,9 +346,15 @@ public class Player extends GameObject {
 
 
         if(render)
-        batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
-        //batch.draw(Assets.getInstance().test,0,0,5,5);
-        //batch.draw(texRegionToDraw(3),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+        {
+            if(!secondPlayer)
+            batch.draw(texRegionToDraw(i),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+            else
+            batch.draw(texRegionToDraw(i+8),position.x,position.y,0,0,width,height,scale.x,scale.y,rotation);
+
+        }
+
+
     }
 
     TextureRegion texRegionToDraw(int i)
