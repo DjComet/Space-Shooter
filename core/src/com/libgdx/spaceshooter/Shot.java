@@ -115,5 +115,10 @@ public class Shot extends GameObject{
 
 
         }
+
+        if(position.y>= WorldController.instance.getCurrentLevel().getBg().height/2)
+        {
+            WorldController.instance.getCurrentLevel().Despawn(this);
+        }
     }
 }

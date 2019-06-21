@@ -27,6 +27,7 @@ public class AdvancedEnemy extends GameObject {
     public float shotSpeed = 300f;
     boolean startShooting = false;
     int counter = 0;
+    int value = 10;
 
     public AdvancedEnemy(float posX, float posY){
         position = new Vector2(posX, posY);
@@ -110,6 +111,7 @@ public class AdvancedEnemy extends GameObject {
     {
         WorldController.instance.getCurrentLevel().Instantiate(new Explosion(position.x - width/2-32, position.y-height/2-32, false));
         dead = true;
+        WorldController.instance.score += value;
         WorldController.instance.getCurrentLevel().Despawn(this);
         SoundManager.playSounds(9);
     }

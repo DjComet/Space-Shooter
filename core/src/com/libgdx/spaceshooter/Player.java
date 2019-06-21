@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends GameObject {
     public int health;
-    public int maxHealth = 20;
+    public int maxHealth = 10;
     public int lives;
     public int maxLives = 3;
     public float respawnTime = 1.5f;

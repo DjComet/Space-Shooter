@@ -2,15 +2,16 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
+import sun.java2d.opengl.WGLSurfaceData;
 
 public class Ovni extends GameObject {
 
     float dt;
     int health;
-    int maxHealth = 10;
+    int maxHealth = 500;
     boolean isOnPos = false;
+    int value = 1000;
 
 
     //Shooting
@@ -174,6 +175,7 @@ public class Ovni extends GameObject {
         {
             SoundManager.playSounds(14);
             System.out.println("Game WON!!");
+            WorldController.instance.score += value;
             WorldController.instance.getCurrentLevel().gameWon = true;
             WorldController.instance.getCurrentLevel().Despawn(this);
         }
@@ -335,12 +337,6 @@ public class Ovni extends GameObject {
                 break;
         }
 
-
-
-
-
-
-        //Same for lasers
     }
 
     float angleToRads(float angle)
@@ -372,11 +368,7 @@ public class Ovni extends GameObject {
             shoot();
         }
 
-
         checkHit();
-
-
-
     }
 
     @Override
