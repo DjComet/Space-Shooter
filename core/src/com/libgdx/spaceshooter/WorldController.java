@@ -2,6 +2,7 @@ package com.libgdx.spaceshooter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
@@ -47,6 +48,12 @@ public class WorldController extends InputAdapter {
         hud = new HUD();
         font = Assets.getInstance().gameFont;
         ch = new CameraHelper();
+
+        if(Controllers.getControllers().size > 0)
+        {
+            ArcadeHandler arcade = new ArcadeHandler();
+            Controllers.addListener(arcade);
+        }
         init();
     }
 

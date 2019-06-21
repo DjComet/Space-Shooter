@@ -51,6 +51,12 @@ public class MenuController extends InputAdapter {
         ch = new CameraHelper();
         hud = new HUD();
 
+        if(Controllers.getControllers().size > 0)
+        {
+            ArcadeHandler arcade = new ArcadeHandler();
+            Controllers.addListener(arcade);
+        }
+
         init();
     }
 
