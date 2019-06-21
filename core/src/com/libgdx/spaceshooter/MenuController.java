@@ -36,6 +36,8 @@ public class MenuController extends InputAdapter {
     int i = 3;
     boolean start = false;
     float t = 0;
+    boolean isArcade = false;
+    boolean keyPressControl = false;
 
     public MenuController(){
         if(MenuController.instance ==null)
@@ -53,8 +55,9 @@ public class MenuController extends InputAdapter {
 
         if(Controllers.getControllers().size > 0)
         {
-            ArcadeHandler arcade = new ArcadeHandler();
+            ArcadeHandler arcade = new ArcadeHandler(inputMgr);
             Controllers.addListener(arcade);
+            isArcade = true;
         }
 
         init();
@@ -82,10 +85,11 @@ public class MenuController extends InputAdapter {
         {
             @Override
             public void click() {
-                Controllers.clearListeners();
+
                 MAIN_GAME.instance.gameScreen.twoPlayers = false;
                 SoundManager.playSounds(18);
                 start = true;
+
             }
 
             @Override
@@ -97,10 +101,11 @@ public class MenuController extends InputAdapter {
         {
             @Override
             public void click() {
-                Controllers.clearListeners();
+
 
                 MAIN_GAME.instance.gameScreen.twoPlayers = true;
                 start = true;
+
             }
 
             @Override
@@ -110,9 +115,10 @@ public class MenuController extends InputAdapter {
         {
             @Override
             public void click() {
-                Controllers.clearListeners();
+
                 MAIN_GAME.instance.dispose();
                 Gdx.app.exit();
+
             }
             @Override
             public void onMouseOver() {
@@ -167,6 +173,35 @@ public class MenuController extends InputAdapter {
             else i--;
         }
 
+        if(isArcade)
+        {
+            if(inputMgr.keyDown && !keyPressControl)
+            {
+                if(markerHeight == markerPositions[3])
+                {
+                    i=0;
+                    max = 2;
+                }
+                else i++;
+                keyPressControl = true;
+            }
+            else if(inputMgr.keyUp && !keyPressControl)
+            {
+                if(markerHeight == markerPositions[3])
+                {
+                    i=0;
+                    max = 2;
+                }
+                else i--;
+                keyPressControl = true;
+            }
+
+            if(!inputMgr.keyDown && !inputMgr.keyUp)
+            {
+                keyPressControl = false;
+            }
+        }
+
         i = MathUtils.clamp(i, 0, max);
         markerHeight = markerPositions[i];
 
@@ -177,14 +212,14 @@ public class MenuController extends InputAdapter {
 
         if(markerHeight == markerPositions[0] && inputMgr.keyShootNBool)
         {
-            Controllers.clearListeners();
+
             MAIN_GAME.instance.gameScreen.twoPlayers = false;
             SoundManager.playSounds(18);
             start = true;
         }
         else if(markerHeight == markerPositions[1] && inputMgr.keyShootNBool)
         {
-            Controllers.clearListeners();
+
             SoundManager.playSounds(18);
             start = true;
             MAIN_GAME.instance.gameScreen.twoPlayers = true;
@@ -192,7 +227,7 @@ public class MenuController extends InputAdapter {
         }
         else if(markerHeight == markerPositions[2] && inputMgr.keyShootNBool)
         {
-            Controllers.clearListeners();
+
             SoundManager.playSounds(18);
             MAIN_GAME.instance.dispose();
             Gdx.app.exit();
@@ -214,6 +249,7 @@ public class MenuController extends InputAdapter {
                 SoundManager.menuTheme.stop();
                 start = false;
                 t =0;
+
             }
         }
         canyonL.speedY = MathUtils.lerp(-200,-100, t);

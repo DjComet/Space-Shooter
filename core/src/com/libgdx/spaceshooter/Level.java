@@ -71,7 +71,7 @@ public class Level {
                     break;
 
                 case 3:
-                    waveM = new WaveManager(difficulty, 20);
+                    waveM = new WaveManager(difficulty, 50);
                     break;
 
                 case 4:

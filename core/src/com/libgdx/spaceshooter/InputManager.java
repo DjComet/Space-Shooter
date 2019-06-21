@@ -3,6 +3,7 @@ package com.libgdx.spaceshooter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -35,6 +36,7 @@ public class InputManager implements InputProcessor {
 
     public void resetInputs()
     {
+        
         keyUpBool = false;
         keyDownBool = false;
         keyShootNBool = false;

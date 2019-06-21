@@ -174,6 +174,7 @@ public class Ovni extends GameObject {
         if(dead)
         {
             SoundManager.playSounds(14);
+            SoundManager.stopLaser();
             System.out.println("Game WON!!");
             WorldController.instance.score += value;
             WorldController.instance.getCurrentLevel().gameWon = true;

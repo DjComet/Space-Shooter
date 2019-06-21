@@ -19,7 +19,7 @@ public class WorldController extends InputAdapter {
     public static WorldController instance;
     public Assets assets = Assets.getInstance();
     public ArrayList<Level> levels = new ArrayList<Level>();
-    public int currentLevel = 0;
+    public int currentLevel = 3;
     public InputManager inputMgr = new InputManager();
     public int difficulty;
     float restartTimer = 10.46f;
@@ -51,7 +51,7 @@ public class WorldController extends InputAdapter {
 
         if(Controllers.getControllers().size > 0)
         {
-            ArcadeHandler arcade = new ArcadeHandler();
+            ArcadeHandler arcade = new ArcadeHandler(inputMgr);
             Controllers.addListener(arcade);
         }
         init();
@@ -249,7 +249,9 @@ public class WorldController extends InputAdapter {
         {
             SoundManager.playMenuMusic();
             SoundManager.principalTheme.stop();
+            SoundManager.stopLaser();
             MAIN_GAME.instance.setScreen(MAIN_GAME.instance.menuScreen);
+
             restartTimer = 8;
         }
 

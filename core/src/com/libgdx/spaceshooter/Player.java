@@ -116,10 +116,10 @@ public class Player extends GameObject {
 
         if(Gdx.app.getType() == Application.ApplicationType.Android)
         {
-            accelX = -Gdx.input.getAccelerometerX();
-            accelY = -Gdx.input.getAccelerometerY();
-            if(accelX > 0.7) horizontal = 1;
-            else if(accelX < -0.7) horizontal = -1;
+            accelX = -Gdx.input.getAccelerometerY();
+            accelY = -Gdx.input.getAccelerometerX();
+            if(accelX > 0.7) horizontal = -1;
+            else if(accelX < -0.7) horizontal = 1;
             else horizontal = 0;
 
             if(accelY < -6) vertical = -1;
